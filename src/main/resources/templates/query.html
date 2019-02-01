@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Getting Started: Handling Form Submission</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+  <h1>Query</h1>
+  <form action="#" th:action="@{/query}" th:object="${query}" method="post">
+    <p>Form name: <input type="text" th:field="*{formName}" /></p>
+    <p>InputFields: <input type="text" th:field="*{inputFieldsText}" /></p>
+    <p>Output Fields: <input type="text" th:field="*{outputFieldsText}" /></p>
+    <p>ControlButton: <input type="text" th:field="*{controlButtonsText}" /></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+  </form>
+</body>
+
+</html>
