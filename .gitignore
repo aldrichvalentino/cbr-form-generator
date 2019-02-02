@@ -23,3 +23,6 @@ org.eclipse.jdt.core.prefs
 *.iml
 *.ipr
 *.iws
+
+# spring config files
+application.properties

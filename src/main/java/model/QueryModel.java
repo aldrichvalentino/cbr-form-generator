@@ -41,20 +41,21 @@ public class QueryModel implements CaseComponent {
   }
 
   public String toString() {
-    // String s = "[ Form Name= ";
-    // s = s.concat(formName);
-    // s = s.concat(" Input Fields= ");
-    // for (InputFields iitr : inputFields)
-    // s = s.concat(iitr.getName()).concat(" ");
-    // s = s.concat(" Output Fields= ");
-    // for (OutputFields oitr : outputFields)
-    // s = s.concat(oitr.getName()).concat(" ");
-    // s = s.concat(" Control Buttons= ");
-    // for (ControlButtons citr : controlButtons)
-    // s = s.concat(citr.getName()).concat(" ");
-    // s = s.concat("]");
-    // return s;
-    return this.formName + this.inputFieldsText + this.outputFieldsText + this.controlButtonsText;
+    String s = "[ Form Name= ";
+    s = s.concat(formName);
+    s = s.concat(" Input Fields= ");
+    for (InputFields iitr : inputFields)
+      s = s.concat(iitr.getName()).concat(" ");
+    s = s.concat(" Output Fields= ");
+    for (OutputFields oitr : outputFields)
+      s = s.concat(oitr.getName()).concat(" ");
+    s = s.concat(" Control Buttons= ");
+    for (ControlButtons citr : controlButtons)
+      s = s.concat(citr.getName()).concat(" ");
+    s = s.concat("]");
+    return s;
+    // return this.formName + this.inputFieldsText + this.outputFieldsText +
+    // this.controlButtonsText;
   }
 
   /**
