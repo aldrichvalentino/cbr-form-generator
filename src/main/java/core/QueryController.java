@@ -1,4 +1,4 @@
-package formgenerator;
+package core;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,13 +24,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import model.QueryModel;
+import model.FormDescription;
+import model.SimilarityAttributes;
 import model.InputFields;
 import model.OutputFields;
 import model.ControlButtons;
 
 @Controller
 public class QueryController {
+
+    public static FormDescription formDescription = new FormDescription();
 
     @Value("${WORDNET_DIR}")
     private String WORDNET_DIR;
@@ -40,22 +43,28 @@ public class QueryController {
     @GetMapping("/query")
     public String handleGet(Model model) {
         logger.info("Query Page: Waiting for query...");
-        model.addAttribute("query", new QueryModel());
+        model.addAttribute("query", new FormDescription());
         return "query";
     }
 
     @PostMapping("/query")
-    public String handlePost(@ModelAttribute QueryModel queryModel) {
+    public String handlePost(@ModelAttribute FormDescription queryModel, Model model) {
         logger.info("Query Page: Normalizing Query");
         CBRQuery query = new CBRQuery();
         query.setDescription(queryModel);
         try {
             query = normalize(query);
-            queryModel = (QueryModel) query.getDescription();
+            queryModel = (FormDescription) query.getDescription();
         } catch (Exception e) {
             logger.error("Error in normalizing query.");
             e.printStackTrace();
         }
+        // return similarity form
+        model.addAttribute("similarityAttributes", new SimilarityAttributes());
+        model.addAttribute("query", queryModel);
+        // put state in a global variable
+        formDescription = queryModel;
+        logger.info("Normalized Query Page: Waiting for similarity configuration...");
         return "normalizedQuery";
     }
 
@@ -64,6 +73,7 @@ public class QueryController {
         final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
         final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
 
+        // TODO: save wordnet and ontobridge in global state
         OntoBridge ontoBridge = OntoBridgeSingleton.getOntoBridge();
         System.setProperty("wordnet.database.dir", WORDNET_DIR);
         WordNetDatabase database = WordNetDatabase.getFileInstance();
@@ -74,7 +84,7 @@ public class QueryController {
         ArrayList<OntologyDocument> subOntologies = new ArrayList<OntologyDocument>();
         ontoBridge.loadOntology(mainOnto, subOntologies, false);
 
-        QueryModel fd = (QueryModel) query.getDescription();
+        FormDescription fd = (FormDescription) query.getDescription();
 
         /* Step 1: Form Name normalization */
         logger.info("Normalization of Form Name");
@@ -98,7 +108,7 @@ public class QueryController {
             String oif = checkOntology(ifn, "InputFields", ontoBridge, database);
             String[] oifa = oif.split("\\s+"); // jika mengandung spasi, berarti kompon
             if (oifa.length > 1) {
-                System.out.println("ada komponen bro ");
+                // System.out.println("ada komponen bro ");
                 sInputFields.remove(if1);
                 for (int i = 0; i < oifa.length; i++) {
                     // Out.println("Komponen " + oifa[i]);
@@ -199,8 +209,7 @@ public class QueryController {
         return normalizedQuery;
     }
 
-    private String checkOntology(String ins, String cls, OntoBridge ob, WordNetDatabase database) { // ins=instansi
-                                                                                                    // cls=kelas
+    private String checkOntology(String ins, String cls, OntoBridge ob, WordNetDatabase database) {
         String ret = "";
 
         if (ob.existsInstance(ins, cls)) {

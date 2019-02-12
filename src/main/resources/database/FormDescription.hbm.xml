@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="false" package="model">
+<class name="FormDescription" table="formdes">
+	<id name="id" type="int" column="id">
+	  <generator class="native"/>
+	</id>
+	<property name="formName" column="FormName" type="string"/>
+	<set name="InputFields" table="InputFields" cascade="all">
+	 <key column="IFormId" not-null="true"/>
+	 <one-to-many class="InputFields"/>
+	</set>
+	<set name="OutputFields" table="OutputFields" cascade="all">
+	 <key column="OFormId" not-null="true"/>
+	 <one-to-many class="OutputFields"/>
+	</set>
+	<set name="ControlButtons" table="ControlButtons" cascade="all">
+	 <key column="CFormId" not-null="true"/>
+	 <one-to-many class="ControlButtons"/>
+	</set>
+</class>
+
+<class name="InputFields" table="inputfields">
+	<id name="id" type="int" column="iid">
+		<generator class="native"/>
+	</id>
+
+	<property name="Name" column="ifieldname" type="string"/>
+</class>
+
+<class name="OutputFields" table="outputfields">
+	<id name="id" type="int"  column="oid">
+		<generator class="native"/>
+	</id>
+
+	<property name="Name" column="ofieldname" type="string"/>
+</class>
+
+<class name="ControlButtons" table="controlbuttons">
+	<id name="id" type="int"  column="cid">
+		<generator class="native"/>
+	</id>
+
+	<property name="Name" column="controlname" type="string"/>
+</class>
+
+</hibernate-mapping>

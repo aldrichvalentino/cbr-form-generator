@@ -8,9 +8,41 @@
 
 <body>
   <h1>Normalized Query</h1>
-  <p th:text="'description: ' + ${queryModel}" />
+  <p th:text="'description: ' + ${query}"></p>
+  <p>Similarity function is using Jaccard Similarity</p>
+  <p>TODO: show the value of slider</p>
+
+  <form action="#" th:action="@{/retrieval}" th:object="${similarityAttributes}" method="post">
+    <!-- <input type="hidden" name="query" id="query" th:value="${query}" /> -->
+    <div>
+      <label>Form Name Weight</label>
+      <input type="range" th:field="*{formNameWeight}" min="0" max="1" step="0.1" />
+    </div>
+    <div>
+      <label>Input Fields Weight</label>
+      <input type="range" th:field="*{inputFieldsWeight}" min="0" max="1" step="0.1" />
+    </div>
+    <div>
+      <label>Output Fields Weight</label>
+      <input type="range" th:field="*{outputFieldsWeight}" min="0" max="1" step="0.1" />
+    </div>
+    <div>
+      <label>Control Buttons Weight</label>
+      <input type="range" th:field="*{controlButtonsWeight}" min="0" max="1" step="0.1" />
+    </div>
+    <div>
+      <label>Number of cases retrieved (K)</label>
+      <input type="number" th:field="*{kNumber}" />
+    </div>
+    <div>
+      <input type="submit" value="SET" />
+      <input type="reset" value="RESET" />
+    </div>
+  </form>
+
   <a href="/query">Back</a>
   <a href="/query">Retrieve case!</a>
+
 </body>
 
 </html>

@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" package="model">
+<class name="FormSolution" table="formsol">
+	<id name="id" type ="int" column="id">
+	  <generator class="native"/>
+	</id>
+	<map name="label" table="labels" cascade="all">
+		<key column="lFormId"/>
+		<index column="membername" type="string"/>
+		<one-to-many class="XLabel"/>
+	</map>
+	<list name="group" table="groups" cascade="all">
+		<key column="gFormId"/>
+		<list-index column="idx"/>
+		<one-to-many class="Groups"/>
+	</list>
+	<list name="order" table="orders" cascade="all">
+		<key column="oFormId"/>
+		<list-index column="idx"/>
+		<one-to-many class="Orders"/>
+	</list>
+
+	<list name="vlMember" cascade="all">
+		<key column="vlFormId"/>
+		<list-index column="idx"/>
+		<one-to-many class="VLMembers"/>
+	</list>
+	<list name="hlMember" cascade="all">
+		<key column="hlFormId"/>
+		<list-index column="idx"/>
+		<one-to-many class="HLMembers"/>
+	</list>
+</class>
+<!-- Induk sampe sini -->
+
+<class name="XLabel" table="labels">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<property name="label" column="label" type="string"/>
+</class>
+
+<class name="Groups" table="groups">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<set name="gMembers" cascade="all">
+		<key column="groupId"/>
+		<one-to-many class="GMembers"/>
+	</set>
+</class>
+
+<class name="GMembers" table="gmembers">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<property name="Name" column="membername" type="string"/>
+</class>
+
+<class name="Orders" table="orders">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<list name="oMembers" table="omember" cascade="all"> <!-- tanpa cascade="all" akan ada error object references an unsaved transient instance -->
+        <key column="mOrderId"/> <!-- nama field di kelas -->
+        <list-index column="idx"/>
+        <one-to-many class="OMembers"/>
+	</list>
+</class>
+
+<class name="OMembers" table="omembers">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<property name="memberName" column="membername" type="string"/>
+</class>
+
+<class name="VLMembers" table="vlmembers">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<property name="Name" column="membername" type="string"/>
+</class>
+<class name="HLMembers" table="hlmembers">
+	<id name="id" type="int" column="id">
+		<generator class="native"/>
+	</id>
+	<property name="memberName" column="membername" type="string"/>
+</class>
+
+</hibernate-mapping>
