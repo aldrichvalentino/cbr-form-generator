@@ -5,18 +5,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
-import es.ucm.fdi.gaia.jcolibri.util.OntoBridgeSingleton;
+import es.ucm.fdi.gaia.jcolibri.cbrcore.Connector;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
-import es.ucm.fdi.gaia.ontobridge.OntologyDocument;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -26,6 +25,9 @@ import org.slf4j.LoggerFactory;
 
 import model.FormDescription;
 import model.SimilarityAttributes;
+import utils.DatabaseConnector;
+import utils.OntologyConnector;
+import utils.WordNetConnector;
 import model.InputFields;
 import model.OutputFields;
 import model.ControlButtons;
@@ -35,14 +37,29 @@ public class QueryController {
 
     public static FormDescription formDescription = new FormDescription();
 
-    @Value("${WORDNET_DIR}")
-    private String WORDNET_DIR;
-
+    @Autowired
+    private Environment env;
+    final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
+    final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
     Logger logger = LoggerFactory.getLogger(QueryController.class);
 
     @GetMapping("/query")
     public String handleGet(Model model) {
-        logger.info("Query Page: Waiting for query...");
+        logger.info("Initiating environment: WordNet, OntoBridge, and Database connection.");
+        try {
+            WordNetDatabase database = WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
+            OntoBridge ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+            Connector connector = DatabaseConnector.getInstance(env.getProperty("HIBERNATE_DRIVER"),
+                    env.getProperty("HIBERNATE_CONNECTION"), env.getProperty("HIBERNATE_DIALECT"),
+                    env.getProperty("DB_USERNAME"), env.getProperty("DB_PASSWORD"));
+            if (database == null || ontoBridge == null || connector == null) {
+                throw new InstantiationException();
+            }
+        } catch (Exception e) {
+            logger.error("Error in initiating environment.");
+            e.printStackTrace();
+        }
+        logger.info("Query page loaded: Waiting for query...");
         model.addAttribute("query", new FormDescription());
         return "query";
     }
@@ -70,20 +87,8 @@ public class QueryController {
 
     private CBRQuery normalize(CBRQuery query) throws NoSuchMethodException, SecurityException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
-        final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-        final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
-
-        // TODO: save wordnet and ontobridge in global state
-        OntoBridge ontoBridge = OntoBridgeSingleton.getOntoBridge();
-        System.setProperty("wordnet.database.dir", WORDNET_DIR);
-        WordNetDatabase database = WordNetDatabase.getFileInstance();
-
-        ontoBridge.initWithPelletReasoner();
-        OntologyDocument mainOnto = new OntologyDocument(OWL_URL, OWL_PATH);
-        // There are not subontologies
-        ArrayList<OntologyDocument> subOntologies = new ArrayList<OntologyDocument>();
-        ontoBridge.loadOntology(mainOnto, subOntologies, false);
-
+        OntoBridge ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+        WordNetDatabase database = WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
         FormDescription fd = (FormDescription) query.getDescription();
 
         /* Step 1: Form Name normalization */

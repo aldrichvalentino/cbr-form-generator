@@ -23,7 +23,7 @@ import model.FormDescription;
 import model.FormSolution;
 
 public class DatabaseConnector implements Connector {
-    public static DatabaseConnector connector = null;
+    private static DatabaseConnector connector = null;
 
     Logger logger = LoggerFactory.getLogger(DatabaseConnector.class);
 
@@ -33,9 +33,8 @@ public class DatabaseConnector implements Connector {
     final String FORM_DESCRIPTION_PATH = getClass().getResource("/database/FormDescription.hbm.xml").toExternalForm();
     final String FORM_SOLUTION_PATH = getClass().getResource("/database/FormSolution.hbm.xml").toExternalForm();
 
-    public DatabaseConnector(String driver, String connection, String dialect, String username, String password) {
+    private DatabaseConnector(String driver, String connection, String dialect, String username, String password) {
         try {
-            System.out.println(driver);
             cfg = new Configuration().setProperty("hibernate.connection.driver_class", driver)
                     .setProperty("hibernate.connection.url", connection).setProperty("hibernate.dialect", dialect)
                     .setProperty("hibernate.connection.username", username)
@@ -46,6 +45,14 @@ public class DatabaseConnector implements Connector {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static DatabaseConnector getInstance(String driver, String conn, String dialect, String username,
+            String password) {
+        if (connector == null) {
+            connector = new DatabaseConnector(driver, conn, dialect, username, password);
+        }
+        return connector;
     }
 
     @Override

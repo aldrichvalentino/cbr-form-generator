@@ -4,7 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
@@ -33,21 +34,8 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class RetrieveController {
 
-    @Value("${HIBERNATE_DRIVER}")
-    private String HIBERNATE_DRIVER;
-
-    @Value("${HIBERNATE_DIALECT}")
-    private String HIBERNATE_DIALECT;
-
-    @Value("${HIBERNATE_CONNECTION}")
-    private String HIBERNATE_CONNECTION;
-
-    @Value("${DB_USERNAME}")
-    private String DB_USERNAME;
-
-    @Value("${DB_PASSWORD}")
-    private String DB_PASSWORD;
-
+    @Autowired
+    private Environment env;
     Logger logger = LoggerFactory.getLogger(QueryController.class);
 
     @PostMapping("/retrieval")
@@ -85,13 +73,9 @@ public class RetrieveController {
         logger.info("Retrieval Page: Executing NN retrieval");
         try {
             CBRCaseBase caseBase = new CaseBase();
-
-            Connector connector = DatabaseConnector.connector;
-            if (connector == null) {
-                connector = new DatabaseConnector(HIBERNATE_DRIVER, HIBERNATE_CONNECTION, HIBERNATE_DIALECT,
-                        DB_USERNAME, DB_PASSWORD);
-                DatabaseConnector.connector = (DatabaseConnector) connector;
-            }
+            Connector connector = DatabaseConnector.getInstance(env.getProperty("HIBERNATE_DRIVER"),
+                    env.getProperty("HIBERNATE_CONNECTION"), env.getProperty("HIBERNATE_DIALECT"),
+                    env.getProperty("DB_USERNAME"), env.getProperty("DB_PASSWORD"));
 
             caseBase.init(connector);
             CBRQuery query = new CBRQuery();
