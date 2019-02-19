@@ -7,6 +7,14 @@ public class OMembers {
     public OMembers() {
     }
 
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
     public OMembers(String mn) {
         this.memberName = mn;
     }
@@ -17,13 +25,5 @@ public class OMembers {
 
     public int getId() {
         return id;
-    }
-
-    public void setmemberName(String mn) {
-        this.memberName = mn;
-    }
-
-    public String getmemberName() {
-        return memberName;
     }
 }

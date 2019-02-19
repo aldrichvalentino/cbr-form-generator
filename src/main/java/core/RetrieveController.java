@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class RetrieveController {
 
+    public static Collection<CBRCase> retrievedCases = null;
+
     @Autowired
     private Environment env;
     Logger logger = LoggerFactory.getLogger(QueryController.class);
@@ -82,6 +84,7 @@ public class RetrieveController {
             query.setDescription(QueryController.formDescription);
 
             Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, nnConfig);
+            // TODO: getEval from retrieval result
             // for (Iterator<RetrievalResult> rri = eval.iterator(); rri.hasNext();) {
             // RetrievalResult item = rri.next();
             // System.out.format("Eval %f kasus %s %n", item.getEval(),
@@ -90,12 +93,11 @@ public class RetrieveController {
 
             // Select k cases
             Collection<CBRCase> selectedcases = SelectCases.selectTopK(eval, similarityAttributes.getkNumber());
-            // CBRCase[] selectedCasesArray = (CBRCase[]) selectedcases.toArray();
-            List<FormDescription> renderedCases = new ArrayList<FormDescription>();
-            for (CBRCase cases : selectedcases) {
-                renderedCases.add((FormDescription) cases.getDescription());
-            }
-            model.addAttribute("cases", renderedCases);
+
+            // store cases in global variable
+            retrievedCases = selectedcases;
+
+            model.addAttribute("cases", selectedcases.toArray());
         } catch (Exception e) {
             e.printStackTrace();
         }

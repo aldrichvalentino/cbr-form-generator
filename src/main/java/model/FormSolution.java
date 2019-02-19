@@ -65,7 +65,7 @@ public class FormSolution implements CaseComponent {
                     s = s.concat("\n");
                 s = s.concat("Order " + ido + ":");
                 for (OMembers om : ord.getoMembers()) {
-                    s = s.concat(" " + om.getmemberName());
+                    s = s.concat(" " + om.getMemberName());
                 }
             }
         }
@@ -120,7 +120,7 @@ public class FormSolution implements CaseComponent {
                     s = s.concat("\n");
                 s = s.concat("Order no " + ido + ": ");
                 for (int i = 0; i < ord.getoMembers().size(); i++) {
-                    s = s.concat(" " + ord.getoMembers().get(i).getmemberName());
+                    s = s.concat(" " + ord.getoMembers().get(i).getMemberName());
                 }
             }
         s = s.concat("\n");

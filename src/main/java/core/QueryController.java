@@ -36,6 +36,7 @@ import model.ControlButtons;
 public class QueryController {
 
     public static FormDescription formDescription = new FormDescription();
+    public static CBRQuery globalQuery = new CBRQuery();
 
     @Autowired
     private Environment env;
@@ -81,6 +82,7 @@ public class QueryController {
         model.addAttribute("query", queryModel);
         // put state in a global variable
         formDescription = queryModel;
+        globalQuery = query;
         logger.info("Normalized Query Page: Waiting for similarity configuration...");
         return "normalizedQuery";
     }
@@ -145,33 +147,38 @@ public class QueryController {
 
         /* Step 3: Output Fields normalization */
         logger.info("Normalization of Output Fields");
-        String[] outputFields = fd.getOutputFieldsText().split(",");
+        System.out.println("ini output fields" + fd.getOutputFieldsText());
         Set<OutputFields> sOutpuFields = new HashSet<OutputFields>();
-        for (String fields : outputFields) {
-            OutputFields ofds = new OutputFields(fields.trim().replaceAll("\\s+", "_").toLowerCase());
-            sOutpuFields.add(ofds);
-        }
+        if (!fd.getOutputFieldsText().equals("")) {
+            System.out.println("proses masuk");
 
-        for (OutputFields of1 : sOutpuFields) {
-            String ofn = of1.getName();
-            String oof = checkOntology(ofn, "OutputFields", ontoBridge, database);
-            String[] oofa = oof.split("\\s+");
-            if (oofa.length > 1) { // ada komponen
-                of1.setName(oofa[0]);
-                for (int i = 1; i < oofa.length; i++) {
-                    OutputFields ofi = new OutputFields(oofa[i]);
-                    sOutpuFields.add(ofi);
-                }
-            } else {
-                if (!ofn.equals(oofa[0]))
-                    of1.setName(oofa[0]);
+            String[] outputFields = fd.getOutputFieldsText().split(",");
+            for (String fields : outputFields) {
+                OutputFields ofds = new OutputFields(fields.trim().replaceAll("\\s+", "_").toLowerCase());
+                sOutpuFields.add(ofds);
             }
-        }
 
-        Set<String> nameOutputFields = removeDuplicate(sOutpuFields);
-        sOutpuFields.removeAll(sOutpuFields);
-        for (String namafld : nameOutputFields) {
-            sOutpuFields.add(new OutputFields(namafld));
+            for (OutputFields of1 : sOutpuFields) {
+                String ofn = of1.getName();
+                String oof = checkOntology(ofn, "OutputFields", ontoBridge, database);
+                String[] oofa = oof.split("\\s+");
+                if (oofa.length > 1) { // ada komponen
+                    of1.setName(oofa[0]);
+                    for (int i = 1; i < oofa.length; i++) {
+                        OutputFields ofi = new OutputFields(oofa[i]);
+                        sOutpuFields.add(ofi);
+                    }
+                } else {
+                    if (!ofn.equals(oofa[0]))
+                        of1.setName(oofa[0]);
+                }
+            }
+
+            Set<String> nameOutputFields = removeDuplicate(sOutpuFields);
+            sOutpuFields.removeAll(sOutpuFields);
+            for (String namafld : nameOutputFields) {
+                sOutpuFields.add(new OutputFields(namafld));
+            }
         }
         fd.setOutputFields(sOutpuFields);
         logger.info("Normalization of Output Fields finished");

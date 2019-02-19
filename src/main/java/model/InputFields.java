@@ -2,13 +2,13 @@ package model;
 
 public class InputFields {
   private int id;
-  private String Name;
+  private String name;
 
   public InputFields() {
   }
 
   public InputFields(String name) {
-    this.Name = name;
+    this.name = name;
   }
 
   public void setId(int id) {
@@ -20,10 +20,10 @@ public class InputFields {
   }
 
   public void setName(String name) {
-    this.Name = name;
+    this.name = name;
   }
 
   public String getName() {
-    return Name;
+    return name;
   }
 }

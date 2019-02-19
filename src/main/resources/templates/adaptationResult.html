@@ -1,0 +1,76 @@
+<!-- <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%> -->
+<!-- <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Proposed solution</title>
+</head>
+
+<body>
+    <!-- <form:form modelAttribute="result">
+        <spring:bind path="description">
+            <label class="col-sm-2 control-label">Test</label>
+            <div class="col-sm-10">
+                <form:input path="name" type="text" class="form-control" id="name" placeholder="Name" />
+                <form:errors path="name" class="control-label" />
+            </div>
+        </spring:bind>
+
+    </form:form> -->
+    <h2>Form Desc</h2>
+    <p th:text="${result.description.formName}"></p>
+    <h2>Input field</h2>
+    <div th:each="input : ${result.description.inputFields}">
+        <p th:text="${input.name}"></p>
+    </div>
+    <h2>Output field</h2>
+    <div th:each="input : ${result.description.outputFields}">
+        <p th:text="${input.name}"></p>
+    </div>
+    <h2>Control button</h2>
+    <div th:each="input : ${result.description.controlButtons}">
+        <p th:text="${input.name}"></p>
+    </div>
+    <h2>Label</h2>
+    <div th:each="label : ${result.solution.getlabel()}">
+        <p th:text="${label.key}"></p>
+        <p th:text="${label.value.label}"></p>
+    </div>
+    <h1>Design Solution</h1>
+    <h2>Group</h2>
+    <div th:each="grouping : ${result.solution.group}">
+        <div th:each="group : ${grouping}">
+            <div>Id group</div>
+            <!-- <div th:text="${group.id}"></div> -->
+            <div th:each="gMember : ${group.gMembers}">
+                <p th:text="${gMember.name}"></p>
+            </div>
+        </div>
+    </div>
+    <h2>Order</h2>
+    <div th:each="ordering : ${result.solution.order}">
+        <div th:each="order : ${ordering}">
+            <div>Id order</div>
+            <!-- <div th:text="${order.id}"></div> -->
+            <div th:each="oMember : ${order.oMembers}">
+                <p th:text="${oMember.memberName}"></p>
+            </div>
+        </div>
+    </div>
+    <h2>Layout</h2>
+    <div th:text="${result.solution.vltoString()}"></div>
+    <div th:text="${result.solution.hltoString()}"></div>
+    <!-- TODO: show preview of solution -->
+    <div>
+        <p>What do you want to do with proposed solution?</p>
+        <a href="/revise">Revise Solution</a>
+        <br>
+        <a href="/retain">No revision needed!</a>
+    </div>
+</body>
+
+</html>

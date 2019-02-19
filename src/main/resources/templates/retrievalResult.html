@@ -9,11 +9,16 @@
 </head>
 
 <body>
-    <ul>
-        <li th:each="case : ${cases}">
-            <span th:text="${case}"></span>
-        </li>
-    </ul>
+    <form action="#" th:action="@{/adapt}" th:object="${submitCaseId}" method="post">
+        <h1>Choose a case as solution base</h1>
+        <div th:each="case : ${cases}">
+            <input type="radio" name="caseId" th:value="${case.description.id}" />
+            <span th:text="${case.description.id}"></span>
+            <p th:text="${case.description}"></p>
+            <p th:text="${case.solution}"></p>
+        </div>
+        <input type="submit" value="Reuse selected case" />
+    </form>
 </body>
 
 </html>
