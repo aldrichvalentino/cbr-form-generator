@@ -26,6 +26,7 @@ import model.Groups;
 import model.HLMembers;
 import model.InputFields;
 import model.LOResult;
+import model.OMembers;
 import model.Orders;
 import model.OutputFields;
 import model.VLMembers;
@@ -52,22 +53,17 @@ public class Adaptation {
             NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, OntologyAccessException, InstantiationException {
 
-        // ArrayList<CBRCase> ncase = new ArrayList<CBRCase>();
-        // ncase.addAll(_case);
-
         CBRCase adaptedCase = new CBRCase();
-
-        // ncase.remove(icase);
         FormDescription fdq = (FormDescription) query.getDescription();
         FormDescription fdc = (FormDescription) icase.getDescription();
-        FormDescription fdn = new FormDescription(); // fdn = new form desc
+        FormDescription fdn = new FormDescription();
 
         // set new form name
         fdn.setId((int) icase.getID());
         Out.println("Mulai adaptasi ... no kasus " + fdn.getId());
         Out.println("Spek kasus " + fdc.toString());
         // set new form name
-        String fname = fdc.getFormName();
+        String fname = fdq.getFormName();
         // String pfname = fname.replaceAll("\\d", "");
         fdn.setFormName(fname);
 
@@ -101,14 +97,7 @@ public class Adaptation {
         List<VLMembers> nvlo = fsc.getvlMember();
         inrowelm = new HashMap<String, String>();
         buildInRowElement(nvlo);
-        /*
-         * for (Map.Entry<String, String> en: inrowelm.entrySet()){
-         * Out.println("Elemen "+en.getKey()+" Status "+en.getValue()); } Out.println();
-         * for(VLMembers vlm:nvlo) {
-         * Out.println(vlm.getName()+" status "+inrowelm.get(vlm.getName(). replace(op,
-         * "").replace(cp, ""))); }
-         */
-        //////
+
         // build spec del
         Out.println("\nMo build spec del IF");
         Set<InputFields> specdeli = buildSpecDel(fname, infldc, infldq);
@@ -133,7 +122,6 @@ public class Adaptation {
             Out.print(cb.getName() + " ");
         }
 
-        /////////
         // compose input field
         // Out.println("\nMo compose IF");
         fdn.setInputFields(Compose.compose(infldc, specaddi, specdeli));
@@ -158,28 +146,81 @@ public class Adaptation {
             lbl.put(specaddc1.getName(), new XLabel(makeLabel(specaddc1.getName())));
 
         // delete label del
-        // for (InputFields ifl : specdeli) {
-        // if (lbl.containsKey(ifl.getName())) {
-        // lbl.remove(ifl.getName());
-        // }
-        // }
+        for (InputFields ifl : specdeli) {
+            if (lbl.containsKey(ifl.getName())) {
+                lbl.remove(ifl.getName());
+            }
+        }
 
-        // for (OutputFields ofl : specdelo) {
-        // if (lbl.containsKey(ofl.getName())) {
-        // lbl.remove(ofl.getName());
-        // }
-        // }
+        for (OutputFields ofl : specdelo) {
+            if (lbl.containsKey(ofl.getName())) {
+                lbl.remove(ofl.getName());
+            }
+        }
 
-        // for (ControlButtons cb : specdelc) {
-        // if (lbl.containsKey(cb.getName())) {
-        // lbl.remove(cb.getName());
-        // }
-        // }
+        for (ControlButtons cb : specdelc) {
+            if (lbl.containsKey(cb.getName())) {
+                lbl.remove(cb.getName());
+            }
+        }
 
-        //////////////////
         // update group
         // ambil himp group
         List<Groups> nsgrp = fsc.getGroup();
+
+        // del unnec member/group
+        for (InputFields ifl : specdeli) {
+            for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
+                // Groups grp=itg.next();
+                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+                    if (itgm.next().getName().equals(ifl.getName())) {
+                        // Remove the current element from the iterator and the list.
+                        itgm.remove();
+                    }
+                }
+                // if (grp.getgMembers().isEmpty()) itg.remove(); //jika group sdh kosong, hapus
+            }
+        }
+
+        for (OutputFields ofl : specdelo) {
+            for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
+                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+                    if (itgm.next().getName().equals(ofl.getName())) {
+                        // Remove the current element from the iterator and the list.
+                        itgm.remove();
+                    }
+                }
+            }
+        }
+
+        for (ControlButtons cb : specdelc) {
+            for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
+                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+                    if (itgm.next().getName().equals(cb.getName())) {
+                        // Remove the current element from the iterator and the list.
+                        itgm.remove();
+                    }
+                }
+            }
+        }
+
+        Out.println(" Group lama ");
+        for (Groups grp : nsgrp) {
+            Out.println("Grp id " + grp.getId());
+            for (GMembers gmm : grp.getgMembers())
+                Out.println(" Member " + gmm.getName());
+        }
+
+        Out.println("Mo remove empty group");
+        // remove empty grouping
+        List<Groups> lgrp = new ArrayList<Groups>();
+        lgrp.addAll(nsgrp);
+        for (Groups grp : lgrp) {
+            if (grp.getgMembers().isEmpty()) {
+                nsgrp.remove(grp);
+            }
+        }
+
         Out.println("Mulai grouping ...");
         nsgrp = Grouping.grouping(specaddi, nsgrp, ob);
         nsgrp = Grouping.grouping(specaddo, nsgrp, ob);
@@ -198,6 +239,46 @@ public class Adaptation {
 
         // ordering; getOrder();
         List<Orders> nsord = fsc.getOrder();
+
+        Out.println("Mo delete order IF");
+        // del unnece ord
+        for (InputFields ifl : specdeli) {
+            for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
+                // Orders ord=ito.next();
+                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom.hasNext();) {
+                    if (itom.next().getMemberName().equals(ifl.getName())) {
+                        // Remove the current element from the iterator and the list.
+                        itom.remove();
+                    }
+                }
+                // if (ord.getoMembers().isEmpty()) ito.remove(); //jika order sdh kosong, hapus
+            }
+        }
+
+        Out.println("Mo delete order OF");
+        for (OutputFields ofl : specdelo) {
+            for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
+                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom.hasNext();) {
+                    if (itom.next().getMemberName().equals(ofl.getName())) {
+                        // Remove the current element from the iterator and the list.
+                        itom.remove();
+                    }
+                }
+            }
+        }
+
+        Out.println("Mo delete order CB");
+        for (ControlButtons cb : specdelc) {
+            for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
+                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom.hasNext();) {
+                    if (itom.next().getMemberName().equals(cb.getName())) {
+                        // Remove the current element from the iterator and the list.
+                        itom.remove();
+                    }
+                }
+            }
+        }
+
         // remove empty ordering
         List<Orders> lorder = new ArrayList<Orders>();
         lorder.addAll(nsord);
@@ -227,6 +308,34 @@ public class Adaptation {
         List<HLMembers> nhlo = fsc.gethlMember();
         LOResult nlor = new LOResult(nvlo, nhlo); // nlor= new layout result
 
+        // del unnecessary layout
+        for (InputFields ifl : specdeli) {
+            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
+                if (vlm.next().getName().equals(ifl.getName())) {
+                    // Remove the current element from the iterator and the list.
+                    vlm.remove();
+                }
+            }
+        }
+
+        for (OutputFields ofl : specdelo) {
+            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
+                if (vlm.next().getName().equals(ofl.getName())) {
+                    // Remove the current element from the iterator and the list.
+                    vlm.remove();
+                }
+            }
+        }
+
+        for (ControlButtons cb : specdelc) {
+            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
+                if (vlm.next().getName().equals(cb.getName())) {
+                    // Remove the current element from the iterator and the list.
+                    vlm.remove();
+                }
+            }
+        }
+
         Out.println("mo layout IF");
         nlor = Layouting.setLayouting(specaddi, nlor, nsord);
         Out.println("mo layout OF");
@@ -237,7 +346,6 @@ public class Adaptation {
         fsc.setvlMember(nlor.getVLMember());
         fsc.sethlMember(nlor.getHLMember());
         Out.println("Selesai setting layout\n");
-        /////////
 
         fsc.setId((int) icase.getID());
 
@@ -249,7 +357,8 @@ public class Adaptation {
         return adaptedCase;
     }
 
-    public String makeLabel(String st) { // capitalize a first letter of each word
+    // capitalize a first letter of each word
+    public String makeLabel(String st) {
         StringBuffer res = new StringBuffer();
         String[] strArr = st.split("_");
         for (String str : strArr) {
@@ -273,6 +382,7 @@ public class Adaptation {
         specadd.addAll(oq); // di combine pake oc
         specaddloop.addAll(specadd);
 
+        Out.println("Mo dikurangi specdel");
         // kurangi dengan spek di kasus
         for (T cm : oc) {
             for (T qm : oq) {
@@ -314,27 +424,28 @@ public class Adaptation {
     }
 
     // untuk menghapus elmen dari kasus
-    private <T> Set<T> deleteSpecDel(Set<T> del, Set<T> cqc) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    // private <T> Set<T> deleteSpecDel(Set<T> del, Set<T> cqc) throws
+    // NoSuchMethodException, SecurityException,
+    // IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-        Set<T> cqca = new HashSet<T>();
-        cqca.addAll(cqc);
+    // Set<T> cqca = new HashSet<T>();
+    // cqca.addAll(cqc);
 
-        for (T itd : del) {
-            // Out.println("Loop del kelas "+itd.getClass());
-            for (T ifk : cqca) {
-                Method mq = ifk.getClass().getDeclaredMethod("getName");
-                Method mc = itd.getClass().getDeclaredMethod("getName");
-                String nmq = (String) mq.invoke(ifk); // metode mq diinvoke dengan param qm
-                String nmc = (String) mc.invoke(itd);
-                if (nmq.equals(nmc)) {
-                    cqc.remove(ifk);
-                    // System.out.println("Spec del: "+nmq+ " sdh dihapus. ukuran: "+cqc.size());
-                }
-            }
-        }
-        return cqc;
-    }
+    // for (T itd : del) {
+    // // Out.println("Loop del kelas "+itd.getClass());
+    // for (T ifk : cqca) {
+    // Method mq = ifk.getClass().getDeclaredMethod("getName");
+    // Method mc = itd.getClass().getDeclaredMethod("getName");
+    // String nmq = (String) mq.invoke(ifk); // metode mq diinvoke dengan param qm
+    // String nmc = (String) mc.invoke(itd);
+    // if (nmq.equals(nmc)) {
+    // cqc.remove(ifk);
+    // // System.out.println("Spec del: "+nmq+ " sdh dihapus. ukuran: "+cqc.size());
+    // }
+    // }
+    // }
+    // return cqc;
+    // }
 
     private boolean isWeaker(String wk, String stg) {
         if (!ob.existsInstance(wk) || !ob.existsInstance(stg))
