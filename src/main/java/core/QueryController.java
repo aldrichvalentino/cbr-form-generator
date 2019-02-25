@@ -7,22 +7,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Connector;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import model.FormDescription;
 import model.SimilarityAttributes;
 import utils.DatabaseConnector;
@@ -48,8 +44,10 @@ public class QueryController {
     public String handleGet(Model model) {
         logger.info("Initiating environment: WordNet, OntoBridge, and Database connection.");
         try {
-            WordNetDatabase database = WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
-            OntoBridge ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+            WordNetDatabase database =
+                    WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
+            OntoBridge ontoBridge =
+                    OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
             Connector connector = DatabaseConnector.getInstance(env.getProperty("HIBERNATE_DRIVER"),
                     env.getProperty("HIBERNATE_CONNECTION"), env.getProperty("HIBERNATE_DIALECT"),
                     env.getProperty("DB_USERNAME"), env.getProperty("DB_PASSWORD"));
@@ -87,10 +85,11 @@ public class QueryController {
         return "normalizedQuery";
     }
 
-    private CBRQuery normalize(CBRQuery query) throws NoSuchMethodException, SecurityException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
+    private CBRQuery normalize(CBRQuery query) throws NoSuchMethodException, SecurityException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         OntoBridge ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
-        WordNetDatabase database = WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
+        WordNetDatabase database =
+                WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
         FormDescription fd = (FormDescription) query.getDescription();
 
         /* Step 1: Form Name normalization */
@@ -154,7 +153,8 @@ public class QueryController {
 
             String[] outputFields = fd.getOutputFieldsText().split(",");
             for (String fields : outputFields) {
-                OutputFields ofds = new OutputFields(fields.trim().replaceAll("\\s+", "_").toLowerCase());
+                OutputFields ofds =
+                        new OutputFields(fields.trim().replaceAll("\\s+", "_").toLowerCase());
                 sOutpuFields.add(ofds);
             }
 
@@ -188,7 +188,8 @@ public class QueryController {
         String[] controlButtons = fd.getControlButtonsText().split(",");
         Set<ControlButtons> sControlButSet = new HashSet<ControlButtons>();
         for (String fields : controlButtons) {
-            ControlButtons cbtns = new ControlButtons(fields.trim().replaceAll("\\s+", "_").toLowerCase());
+            ControlButtons cbtns =
+                    new ControlButtons(fields.trim().replaceAll("\\s+", "_").toLowerCase());
             sControlButSet.add(cbtns);
         }
 
@@ -230,7 +231,8 @@ public class QueryController {
             Iterator<String> it = ob.listPropertyValue(ins, "hasComponents");
             Iterator<String> ist = ob.listPropertyValue(ins, "hasNorName");
 
-            if (it.hasNext() && !cls.equals("FormName")) { // jika ins punya komponen dan bukan nama form
+            if (it.hasNext() && !cls.equals("FormName")) {
+                // jika ins punya komponen dan bukan nama form
                 while (it.hasNext())
                     // gabungkan komponen2 itu
                     ret = ret.concat(" " + ob.getShortName(it.next())).trim();
@@ -281,8 +283,9 @@ public class QueryController {
     // return false;
     // }
 
-    private <T> Set<String> removeDuplicate(Set<T> setfld) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private <T> Set<String> removeDuplicate(Set<T> setfld)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
         Set<String> setNama = new HashSet<String>();
         for (T elmc : setfld) {
             Method m = elmc.getClass().getDeclaredMethod("getName");

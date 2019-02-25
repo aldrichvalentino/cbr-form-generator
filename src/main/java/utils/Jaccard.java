@@ -2,13 +2,13 @@ package utils;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import es.ucm.fdi.gaia.jcolibri.exception.NoApplicableSimilarityFunctionException;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.LocalSimilarityFunction;
 
 public class Jaccard implements LocalSimilarityFunction {
     @Override
-    public double compute(Object caseObject, Object queryObject) throws NoApplicableSimilarityFunctionException {
+    public double compute(Object caseObject, Object queryObject)
+            throws NoApplicableSimilarityFunctionException {
         Set<String> caseSet = (Set<String>) caseObject;
         Set<String> querySet = (Set<String>) queryObject;
 

@@ -1,7 +1,6 @@
 package utils;
 
 import java.util.ArrayList;
-
 import es.ucm.fdi.gaia.jcolibri.util.OntoBridgeSingleton;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import es.ucm.fdi.gaia.ontobridge.OntologyDocument;

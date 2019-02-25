@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCaseBase;
@@ -23,11 +22,7 @@ import model.SimilarityAttributes;
 import utils.DatabaseConnector;
 import utils.Jaccard;
 import utils.StandardGlobalSimilarityFunction;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +36,8 @@ public class RetrieveController {
     Logger logger = LoggerFactory.getLogger(QueryController.class);
 
     @PostMapping("/retrieval")
-    public String handlePost(@ModelAttribute SimilarityAttributes similarityAttributes, Model model) {
+    public String handlePost(@ModelAttribute SimilarityAttributes similarityAttributes,
+            Model model) {
 
         // Set NNConfig
         logger.info("Retrieval Page: Setting the similarity attributes");
@@ -83,7 +79,8 @@ public class RetrieveController {
             CBRQuery query = new CBRQuery();
             query.setDescription(QueryController.formDescription);
 
-            Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, nnConfig);
+            Collection<RetrievalResult> eval =
+                    NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, nnConfig);
             // TODO: getEval from retrieval result
             // for (Iterator<RetrievalResult> rri = eval.iterator(); rri.hasNext();) {
             // RetrievalResult item = rri.next();
@@ -92,7 +89,8 @@ public class RetrieveController {
             // }
 
             // Select k cases
-            Collection<CBRCase> selectedcases = SelectCases.selectTopK(eval, similarityAttributes.getkNumber());
+            Collection<CBRCase> selectedcases =
+                    SelectCases.selectTopK(eval, similarityAttributes.getkNumber());
 
             // store cases in global variable
             retrievedCases = selectedcases;

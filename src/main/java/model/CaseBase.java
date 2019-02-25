@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Collection;
-
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCaseBase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseBaseFilter;

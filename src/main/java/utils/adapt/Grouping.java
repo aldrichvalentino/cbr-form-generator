@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import es.ucm.fdi.gaia.jcolibri.exception.NoApplicableSimilarityFunctionException;
 import es.ucm.fdi.gaia.jcolibri.exception.OntologyAccessException;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
@@ -21,8 +20,9 @@ public class Grouping {
     private static final String cp = ")";
 
     public static <T> List<Groups> grouping(Set<T> sadd, List<Groups> sgrp, OntoBridge ob)
-            throws NoApplicableSimilarityFunctionException, NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException, OntologyAccessException {
+            throws NoApplicableSimilarityFunctionException, NoSuchMethodException,
+            SecurityException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, OntologyAccessException {
         double oif;
         List<AdaptResult> ladr;
         // OntDeep onc= new OntDeep();
@@ -59,7 +59,8 @@ public class Grouping {
             if (!ladr.isEmpty()) {
                 System.out.println("Spek yg dikelompokan " + fln);
                 for (AdaptResult ar : ladr) {
-                    System.out.println("Nilai group " + ar.getGroup().getId() + " adalah: " + ar.getEval());
+                    System.out.println(
+                            "Nilai group " + ar.getGroup().getId() + " adalah: " + ar.getEval());
                 }
                 // Out.println("Panjang ladr stlah sort "+ladr.size());
                 Collections.sort(ladr);// , Collections.reverseOrder());
@@ -129,8 +130,9 @@ public class Grouping {
         return res;
     }
 
-    private static <T> boolean berisiset(Set<T> lvlm, T vlm) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private static <T> boolean berisiset(Set<T> lvlm, T vlm)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
         for (T lmem : lvlm) {
             Method m = lmem.getClass().getDeclaredMethod("getName");
             String fln = (String) m.invoke(lmem); // mengambil nama elemen

@@ -6,8 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Compose {
-    public static <T> Set<T> compose(Set<T> oc, Set<T> specadd, Set<T> specdel) throws NoSuchMethodException,
-            SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public static <T> Set<T> compose(Set<T> oc, Set<T> specadd, Set<T> specdel)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
         Set<T> speccom = new HashSet<T>(); // ada oq tdk ada di builtSpecAdd
         Set<T> speccomlup = new HashSet<T>(); // ada oq tdk ada di builtSpecAdd
         speccom.addAll(oc); // pake oc di builtSpecAdd pake oq
@@ -26,7 +27,8 @@ public class Compose {
                 for (T scmelm : speccomlup) {
                     Method mdel = sdelm.getClass().getDeclaredMethod("getName");
                     Method mcom = scmelm.getClass().getDeclaredMethod("getName");
-                    String necom = (String) mcom.invoke(scmelm); // metode mq diinvoke dengan param qm
+                    String necom = (String) mcom.invoke(scmelm); // metode mq diinvoke dengan param
+                                                                 // qm
                     String nedel = (String) mdel.invoke(sdelm);
                     if (necom.equalsIgnoreCase(nedel)) {
                         System.out.println("speccom Sama dgn nedel " + nedel);

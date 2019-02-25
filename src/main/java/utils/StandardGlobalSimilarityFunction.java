@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
-
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
@@ -16,12 +15,10 @@ import es.ucm.fdi.gaia.jcolibri.util.AttributeUtils;
 import model.FormDescription;
 
 /**
- * Utility class to compute global similarities. The implemented compute(...)
- * method computes the similarity of the sub-attributes of this compound
- * attribute and then calls the computeSimilarity() abstract method to obtain
- * the similarity value.<br>
- * That way, the computeSimilarity() method is a hook to easly compute global
- * similarities.
+ * Utility class to compute global similarities. The implemented compute(...) method computes the
+ * similarity of the sub-attributes of this compound attribute and then calls the
+ * computeSimilarity() abstract method to obtain the similarity value.<br>
+ * That way, the computeSimilarity() method is a hook to easly compute global similarities.
  *
  * @author Juan A. Recio-Garcia
  * @version 1.0
@@ -71,10 +68,12 @@ public class StandardGlobalSimilarityFunction implements GlobalSimilarityFunctio
                         // System.out.println(
                         // "Nama form kasus " + at1.getValue(cCase) + "Nama form kueri " +
                         // at2.getValue(cQuery));
-                        values[ivalue] = lsf.compute(at1.getValue(cCase).toString(), at2.getValue(cQuery).toString());
+                        values[ivalue] = lsf.compute(at1.getValue(cCase).toString(),
+                                at2.getValue(cQuery).toString());
                         weights[ivalue++] = numSimConfig.getWeight(at1);
                         // System.out.println(
-                        // "Nilai eval form name " + values[ivalue - 1] + " Bobot " + weights[ivalue -
+                        // "Nilai eval form name " + values[ivalue - 1] + " Bobot " + weights[ivalue
+                        // -
                         // 1]);
                     } else {
                         Set<String> qset = new HashSet<String>();
@@ -110,7 +109,8 @@ public class StandardGlobalSimilarityFunction implements GlobalSimilarityFunctio
 
                         values[ivalue] = lsf.compute(cset, qset);
                         weights[ivalue++] = numSimConfig.getWeight(at1);
-                        // System.out.println(thisCaseId + "Nilai eval form element " + values[ivalue -
+                        // System.out.println(thisCaseId + "Nilai eval form element " +
+                        // values[ivalue -
                         // 1] + " Bobot "
                         // + weights[ivalue - 1]);
 
@@ -122,7 +122,8 @@ public class StandardGlobalSimilarityFunction implements GlobalSimilarityFunctio
             }
         }
 
-        return computeSimilarity(values, weights, ivalue); // memanggil computeSimilarity yg ada di Average
+        // memanggil computeSimilarity yg ada di average
+        return computeSimilarity(values, weights, ivalue);
 
     }
 
@@ -140,13 +141,12 @@ public class StandardGlobalSimilarityFunction implements GlobalSimilarityFunctio
     }
 
     /**
-     * Hook method that must be implemented by subclasses returned the global
-     * similarity value.
+     * Hook method that must be implemented by subclasses returned the global similarity value.
      *
      * @param values         of the similarity of the sub-attributes
      * @param weigths        of the sub-attributes
-     * @param numberOfvalues (or sub-attributes) that were obtained (some
-     *                       subattributes may not compute for the similarity).
+     * @param numberOfvalues (or sub-attributes) that were obtained (some subattributes may not
+     *                       compute for the similarity).
      * @return a value between [0..1]
      */
     public double computeSimilarity(double[] values, double[] weigths, int numberOfvalues) {

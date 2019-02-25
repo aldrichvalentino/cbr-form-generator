@@ -9,14 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import edu.smu.tspell.wordnet.WordNetDatabase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.gaia.jcolibri.exception.NoApplicableSimilarityFunctionException;
 import es.ucm.fdi.gaia.jcolibri.exception.OntologyAccessException;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
-
 import gate.util.Out;
 import model.ControlButtons;
 import model.FormDescription;
@@ -49,8 +47,9 @@ public class Adaptation {
         ob = ontoBridge;
     }
 
-    public CBRCase adapt(CBRQuery query, CBRCase icase) throws NoApplicableSimilarityFunctionException,
-            NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+    public CBRCase adapt(CBRQuery query, CBRCase icase)
+            throws NoApplicableSimilarityFunctionException, NoSuchMethodException,
+            SecurityException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, OntologyAccessException, InstantiationException {
 
         CBRCase adaptedCase = new CBRCase();
@@ -172,7 +171,8 @@ public class Adaptation {
         for (InputFields ifl : specdeli) {
             for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
                 // Groups grp=itg.next();
-                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm
+                        .hasNext();) {
                     if (itgm.next().getName().equals(ifl.getName())) {
                         // Remove the current element from the iterator and the list.
                         itgm.remove();
@@ -184,7 +184,8 @@ public class Adaptation {
 
         for (OutputFields ofl : specdelo) {
             for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
-                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm
+                        .hasNext();) {
                     if (itgm.next().getName().equals(ofl.getName())) {
                         // Remove the current element from the iterator and the list.
                         itgm.remove();
@@ -195,7 +196,8 @@ public class Adaptation {
 
         for (ControlButtons cb : specdelc) {
             for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
-                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm
+                        .hasNext();) {
                     if (itgm.next().getName().equals(cb.getName())) {
                         // Remove the current element from the iterator and the list.
                         itgm.remove();
@@ -245,7 +247,8 @@ public class Adaptation {
         for (InputFields ifl : specdeli) {
             for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
                 // Orders ord=ito.next();
-                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom.hasNext();) {
+                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom
+                        .hasNext();) {
                     if (itom.next().getMemberName().equals(ifl.getName())) {
                         // Remove the current element from the iterator and the list.
                         itom.remove();
@@ -258,7 +261,8 @@ public class Adaptation {
         Out.println("Mo delete order OF");
         for (OutputFields ofl : specdelo) {
             for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
-                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom.hasNext();) {
+                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom
+                        .hasNext();) {
                     if (itom.next().getMemberName().equals(ofl.getName())) {
                         // Remove the current element from the iterator and the list.
                         itom.remove();
@@ -270,7 +274,8 @@ public class Adaptation {
         Out.println("Mo delete order CB");
         for (ControlButtons cb : specdelc) {
             for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
-                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom.hasNext();) {
+                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom
+                        .hasNext();) {
                     if (itom.next().getMemberName().equals(cb.getName())) {
                         // Remove the current element from the iterator and the list.
                         itom.remove();
@@ -374,8 +379,9 @@ public class Adaptation {
     // membuat spec yang ditambahkan - specadd
     // sprcadd = spec di kueri dikurangi spec di kasus, ditambah spec wajib,
     // dikurangi yng aneh
-    private <T> Set<T> buildSpecAdd(String fname, Set<T> oq, Set<T> oc) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private <T> Set<T> buildSpecAdd(String fname, Set<T> oq, Set<T> oc)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
         Set<T> specadd = new HashSet<T>(); // tdk ada oq
         Set<T> specaddloop = new HashSet<T>(); // tdk ada oq
         // tambahkan spek di kueri
@@ -464,8 +470,9 @@ public class Adaptation {
 
     // membuat spec yang dihapus - specdel
     // specdel: spek di kasus, dikurangi spek di kueri, ditambah spek terlarang
-    private <T> Set<T> buildSpecDel(String fname, Set<T> oc, Set<T> oq) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private <T> Set<T> buildSpecDel(String fname, Set<T> oc, Set<T> oq)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
         Set<T> specdel = new HashSet<T>();
 
         // tambahkan spek kasus
@@ -478,23 +485,19 @@ public class Adaptation {
                 Method metd = delel.getClass().getDeclaredMethod("getName");
                 String nmq = (String) metq.invoke(qelm); // metode mq diinvoke dengan param qm
                 String nmd = (String) metd.invoke(delel);
-                // Out.println("Build Specdel Qry "+nmq+" Cs "+nmd);
-                // if (nmq.equalsIgnoreCase(nmd)) {
+                // Out.println("Build Specdel Qry " + nmq + " Cs " + nmd);
                 if (nmq.equalsIgnoreCase(nmd)) {
-                    // isInRow menyebabkan elemen di dlm row tidak dihapus
                     // Out.println("Sama, hrs dihapus ");
-                    specdel.remove(delel); // remove yang tdk boleh dihapus
+                    specdel.remove(delel);
                     // Out.println("Stlh remove");
                 }
+                // isInRow menyebabkan elemen di dlm row tidak dihapus
                 if (isInRow(nmd)) {
-                    // isInRow menyebabkan elemen di dlm row tidak dihapus
                     // Out.println("In row, hrs dihapus ");
-                    specdel.remove(delel); // remove yang tdk boleh dihapus
+                    specdel.remove(delel);
                     // Out.println("Stlh remove");
                 }
-                /*
-                 * if (isOdd(fname, nmd)) { specdel.add(qelm); }
-                 */ }
+            }
         }
 
         return specdel;
@@ -511,7 +514,8 @@ public class Adaptation {
         if (!ob.existsInstance(fldname) || !ob.existsInstance(fname))
             return false;
         // Out.println("isRequired "+fname+" or "+fldname+" exist");
-        Iterator<String> it = ob.listPropertyValue(fname, "hasMandatoryElements"); // it suksesor fln
+        Iterator<String> it = ob.listPropertyValue(fname, "hasMandatoryElements"); // it suksesor
+                                                                                   // fln
         while (it.hasNext()) {
             String elm = ob.getShortName(it.next());
             // Out.println(elm+" Required by "+" "+fname);
@@ -535,8 +539,9 @@ public class Adaptation {
         return setOdd;
     }
 
-    private <T> boolean berisiset(Set<T> lvlm, T vlm) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private <T> boolean berisiset(Set<T> lvlm, T vlm)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
         for (T lmem : lvlm) {
             Method m = lmem.getClass().getDeclaredMethod("getName");
             String fln = (String) m.invoke(lmem); // mengambil nama elemen

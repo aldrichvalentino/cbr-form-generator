@@ -20,24 +20,24 @@ public class FormDescription implements CaseComponent {
         String s = "";
         Iterator<InputFields> iitr = inputFields.iterator();
         while (iitr.hasNext())
-            s = s.concat(iitr.next().getName()).concat(",");
-        return s.concat(";");
+            s = s.concat(iitr.next().getName()).concat(" ");
+        return s;
     }
 
     public String otoString() {
         String s = "";
         Iterator<OutputFields> oitr = outputFields.iterator();
         while (oitr.hasNext())
-            s = s.concat(oitr.next().getName()).concat(",");
-        return s.concat(";");
+            s = s.concat(oitr.next().getName()).concat(" ");
+        return s;
     }
 
     public String ctoString() {
         String s = "";
         Iterator<ControlButtons> citr = controlButtons.iterator();
         while (citr.hasNext())
-            s = s.concat(citr.next().getName()).concat(",");
-        return s.concat(";");
+            s = s.concat(citr.next().getName()).concat(" ");
+        return s;
     }
 
     public String toString() {

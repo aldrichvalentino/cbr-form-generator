@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import model.GMembers;
 import model.Groups;
@@ -13,9 +12,9 @@ import model.OMembers;
 import model.Orders;
 
 public class Ordering {
-    public static <T> List<Orders> ordering(Set<T> sadd, List<Groups> grps, List<Orders> sord, OntoBridge ob)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
-            InvocationTargetException {
+    public static <T> List<Orders> ordering(Set<T> sadd, List<Groups> grps, List<Orders> sord,
+            OntoBridge ob) throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
 
         if (sadd.isEmpty())
             return sord;

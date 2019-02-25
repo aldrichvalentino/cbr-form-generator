@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import model.LOResult;
 import model.OMembers;
 import model.Orders;
@@ -15,8 +14,8 @@ public class Layouting {
     private static final String cp = ")";
 
     public static <T> LOResult setLayouting(Set<T> sadd, LOResult lor, List<Orders> lsord)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
-            InvocationTargetException, InstantiationException { // Okt 16
+            throws NoSuchMethodException, SecurityException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, InstantiationException { // Okt 16
 
         if (sadd.isEmpty())
             return lor; // sadd adalah spec yang ditambahkan
