@@ -33,6 +33,12 @@ configurations {
     }
 }
 
+// task to run a specific class
+task execute(type:JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = project.hasProperty("mainClass") ? project.getProperty("mainClass") : "package.MyDefaultMain"
+}
+
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -51,4 +57,7 @@ dependencies {
     // jCOLIBRI Case-based Reasoning Package
     // https://mvnrepository.com/artifact/es.ucm.fdi.gaia/jCOLIBRI
     compile group: 'es.ucm.fdi.gaia', name: 'jCOLIBRI', version: '3.2'
+
+    // HTML builder
+    compile group: 'com.j2html', name: 'j2html', version: '1.3.0'
 }

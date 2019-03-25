@@ -43,13 +43,17 @@ public class DatabaseConnector implements Connector {
     SessionFactory sessionFactory;
 
     final String FORMS_PATH = getClass().getResource("/database/Form.hbm.xml").toExternalForm();
-    final String FORM_DESCRIPTION_PATH = getClass().getResource("/database/FormDescription.hbm.xml").toExternalForm();
-    final String FORM_SOLUTION_PATH = getClass().getResource("/database/FormSolution.hbm.xml").toExternalForm();
+    final String FORM_DESCRIPTION_PATH =
+            getClass().getResource("/database/FormDescription.hbm.xml").toExternalForm();
+    final String FORM_SOLUTION_PATH =
+            getClass().getResource("/database/FormSolution.hbm.xml").toExternalForm();
 
-    private DatabaseConnector(String driver, String connection, String dialect, String username, String password) {
+    private DatabaseConnector(String driver, String connection, String dialect, String username,
+            String password) {
         try {
             cfg = new Configuration().setProperty("hibernate.connection.driver_class", driver)
-                    .setProperty("hibernate.connection.url", connection).setProperty("hibernate.dialect", dialect)
+                    .setProperty("hibernate.connection.url", connection)
+                    .setProperty("hibernate.dialect", dialect)
                     .setProperty("hibernate.connection.username", username)
                     .setProperty("hibernate.connection.password", password);
             cfg.addResource(FORM_DESCRIPTION_PATH);
@@ -61,8 +65,8 @@ public class DatabaseConnector implements Connector {
         }
     }
 
-    public static DatabaseConnector getInstance(String driver, String conn, String dialect, String username,
-            String password) {
+    public static DatabaseConnector getInstance(String driver, String conn, String dialect,
+            String username, String password) {
         if (connector == null) {
             connector = new DatabaseConnector(driver, conn, dialect, username, password);
         }
@@ -119,7 +123,8 @@ public class DatabaseConnector implements Connector {
             transaction = session.beginTransaction();
 
             solList = new HashMap<Object, CaseComponent>();
-            List list = session.createQuery(String.format("from %s", FormSolution.class.getName())).list();
+            List list = session.createQuery(String.format("from %s", FormSolution.class.getName()))
+                    .list();
 
             transaction.commit();
             session.close();
@@ -131,7 +136,8 @@ public class DatabaseConnector implements Connector {
 
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            descList = session.createQuery(String.format("from %s", FormDescription.class.getName())).list();
+            descList = session
+                    .createQuery(String.format("from %s", FormDescription.class.getName())).list();
             transaction.commit();
             session.close();
 

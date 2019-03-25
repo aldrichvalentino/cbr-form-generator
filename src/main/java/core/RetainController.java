@@ -55,10 +55,14 @@ public class RetainController {
         FormSolution solution = new FormSolution();
         RevisedModel revisedModel = new RevisedModel();
         try {
-            revisedModel.setFormName(((FormDescription) revisedCase.getDescription()).getFormName());
-            revisedModel.setInputFields(((FormDescription) revisedCase.getDescription()).itoString());
-            revisedModel.setOutputFields(((FormDescription) revisedCase.getDescription()).otoString());
-            revisedModel.setControlButtons(((FormDescription) revisedCase.getDescription()).ctoString());
+            revisedModel
+                    .setFormName(((FormDescription) revisedCase.getDescription()).getFormName());
+            revisedModel
+                    .setInputFields(((FormDescription) revisedCase.getDescription()).itoString());
+            revisedModel
+                    .setOutputFields(((FormDescription) revisedCase.getDescription()).otoString());
+            revisedModel.setControlButtons(
+                    ((FormDescription) revisedCase.getDescription()).ctoString());
             revisedModel.setLabels(((FormSolution) revisedCase.getSolution()).ltoString());
             revisedModel.setGroups(((FormSolution) revisedCase.getSolution()).gtoString());
             revisedModel.setOrders(((FormSolution) revisedCase.getSolution()).otoString());
@@ -67,9 +71,12 @@ public class RetainController {
 
             description.setId((int) revisedCase.getID());
             description.setFormName(revisedModel.getFormName());
-            description.setInputFields(revisedModel.addDesc(InputFields.class, revisedModel.getInputFields()));
-            description.setOutputFields(revisedModel.addDesc(OutputFields.class, revisedModel.getOutputFields()));
-            description.setControlButtons(revisedModel.addDesc(ControlButtons.class, revisedModel.getControlButtons()));
+            description.setInputFields(
+                    revisedModel.addDesc(InputFields.class, revisedModel.getInputFields()));
+            description.setOutputFields(
+                    revisedModel.addDesc(OutputFields.class, revisedModel.getOutputFields()));
+            description.setControlButtons(
+                    revisedModel.addDesc(ControlButtons.class, revisedModel.getControlButtons()));
 
             solution.setId((int) revisedCase.getID());
             solution.setlabel(revisedModel.addLabel(revisedModel.getLabels()));
