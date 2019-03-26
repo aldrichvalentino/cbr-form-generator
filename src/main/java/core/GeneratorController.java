@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import model.FormDescription;
-import utils.builder.Builder;
+import utils.builder.HTMLBuilder;
 
 @Controller
 public class GeneratorController {
@@ -22,7 +22,7 @@ public class GeneratorController {
             @RequestParam("caseId") String caseId, HttpServletResponse response) {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        Builder builder = new Builder();
+        HTMLBuilder builder = new HTMLBuilder();
         if (isRetrievedCase) {
             String result = null;
             Iterator<CBRCase> caseIterator = RetrieveController.retrievedCases.iterator();

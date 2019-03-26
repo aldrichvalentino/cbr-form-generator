@@ -30,15 +30,15 @@ import org.slf4j.LoggerFactory;
 // How to run with gradle
 // sh: ./gradlew -PmainClass=utils.builder.Builder execute
 
-public class Builder {
+public class HTMLBuilder {
     private FormDescription formDescription;
     private FormSolution formSolution;
     private OntoBridge ontoBridge;
     final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
     final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
-    Logger logger = LoggerFactory.getLogger(Builder.class);
+    Logger logger = LoggerFactory.getLogger(HTMLBuilder.class);
 
-    public Builder() {
+    public HTMLBuilder() {
         // for DEV only
         formDescription = new FormDescription();
         formSolution = new FormSolution();
@@ -263,7 +263,7 @@ public class Builder {
     }
 
     public static void main(String args[]) {
-        Builder builder = new Builder();
+        HTMLBuilder builder = new HTMLBuilder();
         System.out.println(builder.buildHTML(null));
 
         System.out.println("mantap");

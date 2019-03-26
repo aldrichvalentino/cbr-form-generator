@@ -7,6 +7,7 @@ import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.LocalSimi
 
 public class Jaccard implements LocalSimilarityFunction {
     @Override
+    @SuppressWarnings("unchecked")
     public double compute(Object caseObject, Object queryObject)
             throws NoApplicableSimilarityFunctionException {
         Set<String> caseSet = (Set<String>) caseObject;
