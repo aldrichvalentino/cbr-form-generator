@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>All Data</h1>
+        </div>
+        <div class="col-sm-4 pt-sm-2">
+            <form class="form-inline my-2 my-lg-0 text-right" method="GET" action="/entity">
+                {{#if queryString}}
+                <input name="s" class="form-control mr-sm-2" type="search" placeholder="Search" value="{{queryString}}">
+                {{else}}
+                <input name="s" class="form-control mr-sm-2" type="search" placeholder="Search">
+                {{/if}}
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="col-sm-2 text-right pt-sm-2">
+            <a href="/entity/insert" class="btn btn-success">Create New</a>
+        </div>
+    </div>
+    <hr>
+    {{#if searchMessage}}
+    <div class="alert alert-light" role="alert">{{searchMessage}}</div>
+    {{/if}}
+    <div class="row">
+        <div class="col-12">
+            {{#if entity.length}}
+            <table class="table table-responsive table-hover table-bordered">
+                <thead class="thead-light text-center">
+                    <tr>
+                        {{#each keys}}
+                        <th scope="col">{{this}}</th>
+                        {{/each}}
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each entity}}
+                    <tr>
+                        <td><a href="/entity/{{this.id}}">{{this.id}}</a></td>
+                        <#list fields as field>
+                        <#if field.type=="checkbox">
+                            <td>{{#list this.${field.name}}} {{this}} {{/list}}</td>
+                        <#else>
+                            <td>{{ this.${field.name} }}</td>
+                        </#if>
+                        </#list>
+                        <td><button class="btn btn-danger" type="button" id="{{this.id}}">Delete</button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            {{else}}
+            <p class="lead text-center">No data.</p>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('button[type="button"]').click(e => {
+            const confirmResult = confirm("Are you sure to delete Id " + e.target.id + "?");
+            if (confirmResult) {
+                $.ajax({
+                    url: `/entity/${'$\{e.target.id}'}`,
+                    type: 'DELETE',
+                    success: result => {
+                        window.location = '/entity'
+                    }
+                });
+            }
+        });
+    });
+</script>

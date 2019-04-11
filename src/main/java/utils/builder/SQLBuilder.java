@@ -17,9 +17,9 @@ public class SQLBuilder {
 
     // SQL in this project is using the MySQL dialect
     public String buildSQL(Set<InputFields> inputFields) {
-        String ddlDropTable = "DROP TABLE IF EXISTS myTable;";
+        String ddlDropTable = "DROP TABLE IF EXISTS entity;";
         String ddlCreateTable =
-                "CREATE TABLE myTable (id INTEGER(3) AUTO_INCREMENT %s, PRIMARY KEY(id));";
+                "CREATE TABLE entity (id INTEGER(3) AUTO_INCREMENT %s, PRIMARY KEY(id));";
         String fields = "";
         for (InputFields inputField : inputFields) {
             fields += ", " + inputField.getName() + " " + getType(inputField.getName());
