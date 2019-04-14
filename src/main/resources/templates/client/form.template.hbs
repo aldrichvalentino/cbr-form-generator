@@ -13,127 +13,132 @@
         <input type="hidden" name="type" value="CREATE">
         {{/if}}
 
-        <#list fields as field>
-            <#if field.type=="text">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="text" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
+        <#list fields as group>
+        <hr />
+        <#list group.formFieldTemplates as field>
 
-            <#elseif field.type=="email">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="email" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="email" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
 
-            <#elseif field.type=="password">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="password" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="password" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
+        <#if field.type=="text">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="text" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
 
-            <#elseif field.type=="checkbox">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#each ${field.name}}}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="${field.name}" id="${field.name}-{{@key}}" value="{{@key}}"
-                            {{#if this}} checked {{/if}}>
-                        <label for="${field.name}-{{@key}}" class="form-check-label">{{@key}}</label>
-                    </div>
-                    {{/each}}
-                </div>
+        <#elseif field.type=="email">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="email" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="email" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
 
-            <#elseif field.type=="radio">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#each ${field.name}}}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="${field.name}" id="${field.name}-{{@key}}" value="{{@key}}"
-                            {{#if this}}checked{{/if}}>
-                        <label for="${field.name}-{{@key}}" class="form-check-label">{{@key}}</label>
-                    </div>
-                    {{/each}}
-                </div>
+        <#elseif field.type=="password">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="password" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="password" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
 
-            <#elseif field.type=="select">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    <select class="form-control" name="${field.name}" id="${field.name}">
-                        {{#each countries}}
-                        <option value="{{@key}}" {{#if this}} selected {{/if}}>{{@key}}</option>
-                        {{/each}}
-                    </select>
-                </div>
+        <#elseif field.type=="checkbox">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#each ${field.name}}}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="${field.name}" id="${field.name}-{{@key}}" value="{{@key}}"
+                    {{#if this}} checked {{/if}}>
+                <label for="${field.name}-{{@key}}" class="form-check-label">{{@key}}</label>
+            </div>
+            {{/each}}
+        </div>
 
-            <#elseif field.type=="file">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="file" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="file" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
+        <#elseif field.type=="radio">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#each ${field.name}}}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="${field.name}" id="${field.name}-{{@key}}" value="{{@key}}"
+                    {{#if this}}checked{{/if}}>
+                <label for="${field.name}-{{@key}}" class="form-check-label">{{@key}}</label>
+            </div>
+            {{/each}}
+        </div>
 
-            <#elseif field.type=="number">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="number" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="number" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
+        <#elseif field.type=="select">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            <select class="form-control" name="${field.name}" id="${field.name}">
+                {{#each countries}}
+                <option value="{{@key}}" {{#if this}} selected {{/if}}>{{@key}}</option>
+                {{/each}}
+            </select>
+        </div>
 
-            <#elseif field.type=="date">
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="date" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="date" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
+        <#elseif field.type=="file">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="file" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="file" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
 
-            <#elseif field.type=="button">
-                <div class="form-group">
-                    <input class="btn" type="button" value="${field.label}">
-                </div>
+        <#elseif field.type=="number">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="number" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="number" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
 
-            <#elseif field.type=="button-submit">
-                <div class="form-group">
-                    <input class="btn btn-primary" type="submit" value="${field.label}">
-                </div>
+        <#elseif field.type=="date">
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="date" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="date" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
 
-            <#elseif field.type=="button-reset">
-                <div class="form-group">
-                    <input class="btn btn-primary" type="reset" value="${field.label}">
-                </div>
+        <#elseif field.type=="button">
+        <div class="form-group">
+            <input class="btn" type="button" value="${field.label}">
+        </div>
 
-            <#else>
-                <div class="form-group">
-                    <label for="${field.name}">${field.label}</label>
-                    {{#if ${field.name}}}
-                    <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
-                    {{else}}
-                    <input class="form-control" type="text" name="${field.name}" id="${field.name}">
-                    {{/if}}
-                </div>
+        <#elseif field.type=="button-submit">
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="${field.label}">
+        </div>
 
-            </#if>
+        <#elseif field.type=="button-reset">
+        <div class="form-group">
+            <input class="btn btn-danger" type="reset" value="${field.label}">
+        </div>
+
+        <#else>
+        <div class="form-group">
+            <label for="${field.name}">${field.label}</label>
+            {{#if ${field.name}}}
+            <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            {{else}}
+            <input class="form-control" type="text" name="${field.name}" id="${field.name}">
+            {{/if}}
+        </div>
+
+        </#if>
+        </#list>
         </#list>
 
         {{!-- TODO: Image --}}
