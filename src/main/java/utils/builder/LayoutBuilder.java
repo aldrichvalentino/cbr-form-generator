@@ -49,8 +49,6 @@ public class LayoutBuilder {
     private static boolean startWith(ArrayList<VLMembers> formLayouts,
             List<OMembers> orderMembers) {
         int consecutiveLength = 0, index = 0;
-        System.out.println("Panjang order " + orderMembers.size());
-        System.out.println("Panjang form layouts " + formLayouts.size());
         for (OMembers currentOrder : orderMembers) {
             String sanitizedName =
                     formLayouts.get(index).getName().replace("(", "").replace(")", "");

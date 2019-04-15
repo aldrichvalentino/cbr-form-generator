@@ -118,11 +118,12 @@ public class GeneratorController {
                 serverData.add(new ServerTemplate(field, formLabels.get(field.getName())));
             }
             serverContent.put("content", serverData);
-            templateBuilder.generateTemplate(serverContent, false, "entity.template.js",
+            templateBuilder.generateTemplate(serverContent, false, "entity.js.tpl",
                     System.getProperty("user.dir") + "/src/main/resources/templates/web/routes",
                     "entity.js");
 
             // Step 4 Zip form and SQL with the rest of the web files and return the zip file
+            // TODO: include Docker files for faster deployment
             logger.info("Step 4: Zipping Files");
             String sourceFile =
                     System.getProperty("user.dir") + "\\src\\main\\resources\\templates\\web";
