@@ -5,11 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Retain</title>
+
+    <head th:replace="fragments/header :: common-header" />
 </head>
 
 <body>
-    <h1>Successfully retain (?)</h1>
+    <div class="container my-4">
+        <h1>Thank you for using CBR Form Generator.</h1>
+        <p class="lead">
+            Your solution is stored in our Case Database so
+            other people can reuse your form layout.
+        </p>
+        <div class="col text-center">
+            <a class="btn btn-info" href="/zip" role="button">Download coba</a>
+            <a class="btn btn-secondary" href="/query" role="button">Query again</a>
+        </div>
+    </div>
+
+    <body th:replace="fragments/script :: common-script" />
 </body>
 
 </html>

@@ -4,42 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import model.OMembers;
+import model.VLMembers;
 import model.XLabel;
 
 public class FieldGroupTemplate {
     private ArrayList<FormFieldTemplate> formFieldTemplates;
-    private String layout;
 
     public FieldGroupTemplate(ArrayList<FormFieldTemplate> formFieldTemplates, String layout) {
         setFormFieldTemplates(formFieldTemplates);
-        setLayout(layout);
     }
 
-    public FieldGroupTemplate(List<OMembers> orderMembers, String orientation,
+    public FieldGroupTemplate(ArrayList<VLMembers> formLayouts, List<OMembers> orderMembers,
             Map<String, XLabel> labels) {
 
         ArrayList<FormFieldTemplate> formFieldTemplates = new ArrayList<>();
-        for (OMembers orders : orderMembers) {
-            formFieldTemplates.add(new FormFieldTemplate(orders.getMemberName(),
-                    labels.get(orders.getMemberName())));
+        for (int currentElement = 0; currentElement < orderMembers.size(); currentElement++) {
+            formFieldTemplates.add(new FormFieldTemplate(formLayouts.get(currentElement).getName(),
+                    labels.get(orderMembers.get(currentElement).getMemberName())));
         }
 
         setFormFieldTemplates(formFieldTemplates);
-        setLayout(orientation);
-    }
-
-    /**
-     * @return the layout
-     */
-    public String getLayout() {
-        return layout;
-    }
-
-    /**
-     * @param layout the layout to set
-     */
-    public void setLayout(String layout) {
-        this.layout = layout;
     }
 
     /**

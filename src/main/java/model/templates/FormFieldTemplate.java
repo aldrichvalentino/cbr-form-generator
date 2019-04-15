@@ -12,6 +12,7 @@ public class FormFieldTemplate {
     private String type;
     private ArrayList<String> options;
     private String label;
+    private String horizontalLayout;
 
     final String owlPath = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
     final String owlUrl = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
@@ -22,6 +23,7 @@ public class FormFieldTemplate {
         this.setType(type);
         this.setOptions(options);
         this.setLabel(label);
+        this.setHorizontalLayout("none");
     }
 
     public FormFieldTemplate(InputFields inputFields) {
@@ -30,11 +32,21 @@ public class FormFieldTemplate {
         // TODO: create options if possible
         options = new ArrayList<String>();
         label = name;
+        this.setHorizontalLayout("none");
     }
 
     public FormFieldTemplate(String elementName, XLabel elementLabel) {
-        name = elementName;
-        type = getType(elementName);
+        // Find the horizontal layout based on '(' or ')'
+        if (elementName.charAt(0) == '(') {
+            this.setHorizontalLayout("start");
+        } else if (elementName.charAt(elementName.length() - 1) == ')') {
+            this.setHorizontalLayout("end");
+        } else {
+            this.setHorizontalLayout("none");
+        }
+        // Clean the name from unwanted tokens
+        name = elementName.replace("(", "").replace(")", "");
+        type = getType(name);
         // TODO: create options
         options = new ArrayList<String>();
         label = elementLabel.getLabel();
@@ -149,6 +161,20 @@ public class FormFieldTemplate {
      */
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    /**
+     * @return the horizontalLayout
+     */
+    public String getHorizontalLayout() {
+        return horizontalLayout;
+    }
+
+    /**
+     * @param horizontalLayout the horizontalLayout to set
+     */
+    public void setHorizontalLayout(String horizontalLayout) {
+        this.horizontalLayout = horizontalLayout;
     }
 
 }

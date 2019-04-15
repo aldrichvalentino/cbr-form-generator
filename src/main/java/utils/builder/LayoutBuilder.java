@@ -30,9 +30,10 @@ public class LayoutBuilder {
                     List<OMembers> orderMembers = formOrders.get(currentOrder).getoMembers();
                     if (startWith(formLayouts, orderMembers)) {
                         found = true;
-                        fieldGroupTemplates.add(new FieldGroupTemplate(orderMembers,
-                                getOrientation(formLayouts), labels));
+                        fieldGroupTemplates
+                                .add(new FieldGroupTemplate(formLayouts, orderMembers, labels));
                         formLayouts = removeElements(formLayouts, orderMembers);
+                        formOrders.remove(currentOrder);
                     } else {
                         currentOrder++;
                     }
@@ -48,6 +49,8 @@ public class LayoutBuilder {
     private static boolean startWith(ArrayList<VLMembers> formLayouts,
             List<OMembers> orderMembers) {
         int consecutiveLength = 0, index = 0;
+        System.out.println("Panjang order " + orderMembers.size());
+        System.out.println("Panjang form layouts " + formLayouts.size());
         for (OMembers currentOrder : orderMembers) {
             String sanitizedName =
                     formLayouts.get(index).getName().replace("(", "").replace(")", "");
@@ -111,7 +114,6 @@ public class LayoutBuilder {
 
         for (FieldGroupTemplate group : finalTemplate) {
             System.out.println("Ini grup");
-            System.out.println(group.getLayout());
             for (FormFieldTemplate field : group.getFormFieldTemplates()) {
                 System.out.println(field.getName());
                 System.out.println(field.getLabel());
