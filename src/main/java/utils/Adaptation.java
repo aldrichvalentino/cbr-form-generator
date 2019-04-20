@@ -40,6 +40,10 @@ public class Adaptation {
     WordNetDatabase database;
     String op = "(";
     String cp = ")";
+    String openCol = "{";
+    String closeCol = "}";
+    String openGroup = "[";
+    String closeGroup = "]";
     HashMap<String, String> inrowelm;
 
     public Adaptation(WordNetDatabase wNetDatabase, OntoBridge ontoBridge) {
@@ -93,18 +97,18 @@ public class Adaptation {
         }
 
         FormSolution fsc = (FormSolution) icase.getSolution();
-        List<VLMembers> nvlo = fsc.getvlMember();
-        inrowelm = new HashMap<String, String>();
-        buildInRowElement(nvlo);
+        // List<VLMembers> nvlo = fsc.getvlMember();
+        // inrowelm = new HashMap<String, String>();
+        // buildInRowElement(nvlo);
 
         // build spec del
         Out.println("\nMo build spec del IF");
         Set<InputFields> specdeli = buildSpecDel(fname, infldc, infldq);
         // Out.println("Selesai build spec del IF");
 
-        // Out.println("Mo build spec del OF");
+        Out.println("Mo build spec del OF");
         Set<OutputFields> specdelo = buildSpecDel(fname, outfldc, outfldq);
-        // Out.println("Mo build spec del CB");
+        Out.println("Mo build spec del CB");
         Set<ControlButtons> specdelc = buildSpecDel(fname, cc, cq);
         // end build spec del
 
@@ -311,35 +315,72 @@ public class Adaptation {
 
         // layouting
         List<HLMembers> nhlo = fsc.gethlMember();
+        List<VLMembers> nvlo = fsc.getvlMember();
         LOResult nlor = new LOResult(nvlo, nhlo); // nlor= new layout result
 
         // del unnecessary layout
-        for (InputFields ifl : specdeli) {
-            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
-                if (vlm.next().getName().equals(ifl.getName())) {
-                    // Remove the current element from the iterator and the list.
-                    vlm.remove();
-                }
-            }
-        }
+        nlor = Layouting.deleteLayouting(specdeli, nlor);
+        nlor = Layouting.deleteLayouting(specdelo, nlor);
+        nlor = Layouting.deleteLayouting(specdelc, nlor);
 
-        for (OutputFields ofl : specdelo) {
-            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
-                if (vlm.next().getName().equals(ofl.getName())) {
-                    // Remove the current element from the iterator and the list.
-                    vlm.remove();
-                }
-            }
-        }
+        // for (InputFields inputField : specdeli) {
+        // for (int currentLayout = 0; currentLayout < nvlo.size(); currentLayout++) {
+        // String layoutName = nvlo.get(currentLayout).getName();
+        // // System.out.println("Ini nama layout = " + layoutName);
+        // String pureName =
+        // layoutName.replace(op, "").replace(openCol, "").replace(openGroup, "")
+        // .replace(cp, "").replace(closeCol, "").replace(closeGroup, "");
+        // // System.out.println("Ini yg udh dibersihin = " + pureName);
+        // // System.out.println("Ini yg mau dihapus = " + inputField.getName());
+        // if (pureName.equals(inputField.getName())) {
+        // // System.out.println("Sama nih");
+        // int startIndex = layoutName.indexOf(pureName);
+        // int endIndex = startIndex + inputField.getName().length();
+        // int startTokenLength = startIndex;
+        // int endTokenLength = layoutName.length() - endIndex;
+        // if (startTokenLength > endTokenLength) {
+        // // System.out.println("Dikirim layoutnya ke next word");
+        // String startToken =
+        // layoutName.substring(0, startTokenLength - endTokenLength);
+        // nvlo.get(currentLayout + 1)
+        // .setName(startToken + nvlo.get(currentLayout + 1).getName());
+        // // System.out.println("Jadi: " + nvlo.get(currentLayout + 1).getName());
+        // break;
+        // } else if (endTokenLength > startTokenLength) {
+        // // System.out.println("Dikirim layoutnya ke previous word");
+        // String endToken = layoutName.substring(
+        // layoutName.length() - (startTokenLength - endTokenLength),
+        // layoutName.length());
+        // nvlo.get(currentLayout - 1)
+        // .setName(nvlo.get(currentLayout - 1).getName() + endToken);
+        // // System.out.println("Jadi: " + nvlo.get(currentLayout - 1).getName());
+        // break;
+        // } else {
+        // // System.out.println("Hapus elemen");
+        // nvlo.remove(currentLayout);
+        // break;
+        // }
+        // }
+        // }
+        // }
 
-        for (ControlButtons cb : specdelc) {
-            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
-                if (vlm.next().getName().equals(cb.getName())) {
-                    // Remove the current element from the iterator and the list.
-                    vlm.remove();
-                }
-            }
-        }
+        // for (OutputFields ofl : specdelo) {
+        // for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
+        // if (vlm.next().getName().equals(ofl.getName())) {
+        // // Remove the current element from the iterator and the list.
+        // vlm.remove();
+        // }
+        // }
+        // }
+
+        // for (ControlButtons cb : specdelc) {
+        // for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
+        // if (vlm.next().getName().equals(cb.getName())) {
+        // // Remove the current element from the iterator and the list.
+        // vlm.remove();
+        // }
+        // }
+        // }
 
         Out.println("mo layout IF");
         nlor = Layouting.setLayouting(specaddi, nlor, nsord);
@@ -491,12 +532,12 @@ public class Adaptation {
                     specdel.remove(delel);
                     // Out.println("Stlh remove");
                 }
-                // isInRow menyebabkan elemen di dlm row tidak dihapus
-                if (isInRow(nmd)) {
-                    // Out.println("In row, hrs dihapus ");
-                    specdel.remove(delel);
-                    // Out.println("Stlh remove");
-                }
+                // // isInRow menyebabkan elemen di dlm row tidak dihapus
+                // if (isInRow(nmd)) {
+                // // Out.println("In row, hrs dihapus ");
+                // specdel.remove(delel);
+                // // Out.println("Stlh remove");
+                // }
             }
         }
 
@@ -549,9 +590,9 @@ public class Adaptation {
             String flne = (String) me.invoke(vlm); // mengambil nama elemen
 
             if (fln.startsWith(op))
-                fln = fln.replace(op, "");
+                fln = fln.replace(op, "").replace("{", "").replace("[", "");
             if (fln.endsWith(cp))
-                fln = fln.replace(cp, "");
+                fln = fln.replace(cp, "").replace("}", "").replace("]", "");
             if (fln.equals(flne))
                 return true;
         }

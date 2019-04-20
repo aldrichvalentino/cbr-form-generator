@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .group {
+            padding: 0.5rem;
+            margin: 1rem;
+            border: 1px solid blue;
+        }
+
+        .content {
+            padding: 1rem;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{[{(first_name last_name email) country coba (lagi oke)}] [({first_name last_name (email country)} mantap submit
+        {cancel reset finish})]}</h1>
+    <div class='col'>
+        <div class='group'>
+            <div class='col'>
+                <div class='row'>
+                    <div class='content'>first_name</div>
+                    <div class='content'>last_name</div>
+                    <div class='content'>email</div>
+                </div>
+                <div class='content'>country</div>
+                <div class='content'>coba</div>
+                <div class='row'>
+                    <div class='content'>lagi</div>
+                    <div class='content'>oke</div>
+                </div>
+            </div>
+        </div>
+        <div class='group'>
+            <div class='row'>
+                <div class='col'>
+                    <div class='content'>first_name</div>
+                    <div class='content'>last_name</div>
+                    <div class='row'>
+                        <div class='content'>email</div>
+                        <div class='content'>country</div>
+                    </div>
+                </div>
+                <div class='content'>mantap</div>
+                <div class='content'>submit</div>
+                <div class='col'>
+                    <div class='content'>cancel</div>
+                    <div class='content'>reset</div>
+                    <div class='content'>finish</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

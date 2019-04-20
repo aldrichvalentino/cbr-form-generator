@@ -31,123 +31,15 @@ import org.slf4j.LoggerFactory;
 // sh: ./gradlew -PmainClass=utils.builder.Builder execute
 
 public class HTMLBuilder {
-    private FormDescription formDescription;
-    private FormSolution formSolution;
+    // private FormDescription formDescription;
+    // private FormSolution formSolution;
     private OntoBridge ontoBridge;
     final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
     final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
     Logger logger = LoggerFactory.getLogger(HTMLBuilder.class);
 
     public HTMLBuilder() {
-        // for DEV only
-        formDescription = new FormDescription();
-        formSolution = new FormSolution();
         ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
-
-        // for testing only
-        formDescription.setFormName("testing");
-        Set<InputFields> inputFields = new HashSet<InputFields>();
-        inputFields.add(new InputFields("first_name"));
-        inputFields.add(new InputFields("last_name"));
-        inputFields.add(new InputFields("country"));
-        inputFields.add(new InputFields("birth_date"));
-
-        Set<OutputFields> outputFields = new HashSet<OutputFields>();
-        outputFields.add(new OutputFields("greeting"));
-
-        Set<ControlButtons> controlButtons = new HashSet<ControlButtons>();
-        controlButtons.add(new ControlButtons("submit"));
-        controlButtons.add(new ControlButtons("rcaptcha"));
-
-        formDescription.setInputFields(inputFields);
-        formDescription.setOutputFields(outputFields);
-        formDescription.setControlButtons(controlButtons);
-
-        // desc
-        Map<String, XLabel> labels = new HashMap<String, XLabel>();
-        labels.put("first_name", new XLabel("Nama Depan"));
-        labels.put("last_name", new XLabel("Nama Belakang"));
-        labels.put("country", new XLabel("Negara Asal"));
-        labels.put("birth_date", new XLabel("Ulang tahun"));
-        labels.put("greeting", new XLabel("Salam"));
-        labels.put("submit", new XLabel("Kumpul"));
-        labels.put("rcaptcha", new XLabel("Batal"));
-
-        List<Groups> groups = new ArrayList<Groups>();
-        Groups g = new Groups();
-        Set<GMembers> gMembers = new HashSet<GMembers>();
-        gMembers.add(new GMembers("last_name"));
-        gMembers.add(new GMembers("first_name"));
-        g.setgMembers(gMembers);
-        groups.add(g);
-
-        Groups g1 = new Groups();
-        Set<GMembers> gMembers1 = new HashSet<GMembers>();
-        gMembers1.add(new GMembers("country"));
-        gMembers1.add(new GMembers("birth_date"));
-        g1.setgMembers(gMembers1);
-        groups.add(g1);
-
-        Groups g2 = new Groups();
-        Set<GMembers> gMembers2 = new HashSet<GMembers>();
-        gMembers2.add(new GMembers("greeting"));
-        g2.setgMembers(gMembers2);
-        groups.add(g2);
-
-        Groups g3 = new Groups();
-        Set<GMembers> gMembers3 = new HashSet<GMembers>();
-        gMembers3.add(new GMembers("submit"));
-        gMembers3.add(new GMembers("rcaptcha"));
-        g3.setgMembers(gMembers3);
-        groups.add(g3);
-
-        List<Orders> orders = new ArrayList<Orders>();
-        Orders o = new Orders();
-        List<OMembers> oMembers = new ArrayList<OMembers>();
-        oMembers.add(new OMembers("first_name"));
-        oMembers.add(new OMembers("last_name"));
-        o.setoMembers(oMembers);
-        orders.add(o);
-
-        Orders o1 = new Orders();
-        List<OMembers> oMembers1 = new ArrayList<OMembers>();
-        oMembers1.add(new OMembers("birth_date"));
-        oMembers1.add(new OMembers("country"));
-        o1.setoMembers(oMembers1);
-        orders.add(o1);
-
-        Orders o2 = new Orders();
-        List<OMembers> oMembers2 = new ArrayList<OMembers>();
-        oMembers2.add(new OMembers("greeting"));
-        o2.setoMembers(oMembers2);
-        orders.add(o2);
-
-        Orders o3 = new Orders();
-        List<OMembers> oMembers3 = new ArrayList<OMembers>();
-        oMembers3.add(new OMembers("rcaptcha"));
-        oMembers3.add(new OMembers("submit"));
-        o3.setoMembers(oMembers3);
-        orders.add(o3);
-
-        List<HLMembers> hLMembers = new ArrayList<HLMembers>();
-
-        List<VLMembers> vLMembers = new ArrayList<VLMembers>();
-        vLMembers.add(new VLMembers("birth_date"));
-        vLMembers.add(new VLMembers("country"));
-        vLMembers.add(new VLMembers("first_name"));
-        vLMembers.add(new VLMembers("last_name"));
-        vLMembers.add(new VLMembers("rcaptcha"));
-        vLMembers.add(new VLMembers("submit"));
-        vLMembers.add(new VLMembers("greeting"));
-
-        formSolution.setlabel(labels);
-        formSolution.setGroup(groups);
-        formSolution.setOrder(orders);
-        formSolution.sethlMember(hLMembers);
-        formSolution.setvlMember(vLMembers);
-
-        System.out.println(formDescription);
-        System.out.println(formSolution);
     }
 
     public String buildHTML(CBRCase _case) {
@@ -164,7 +56,8 @@ public class HTMLBuilder {
                 meta().withName("viewport")
                         .withContent("width=device-width, initial-scale=1, shrink-to-fit=no"),
                 link().withRel("stylesheet").withHref(
-                        "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"));
+                        "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"),
+                link().withRel("stylesheet").withHref("/css/custom.css"));
     }
 
     private ContainerTag buildBody(FormDescription formDescription, FormSolution formSolution) {
@@ -173,9 +66,12 @@ public class HTMLBuilder {
             elements.add(buildGroup(order.getoMembers(), formSolution.getlabel()));
         }
 
-        return body(div(h1(formDescription.getFormName()),
-                form().withMethod("post").with(elements).withClass("col-xs-12"))
-                        .withClass("container"));
+        // TODO: call build HTML with layouting (genCoba)
+        return body(div(genCoba(formSolution.getvlMember(), formSolution.getlabel())));
+
+        // return body(div(h1(formDescription.getFormName()),
+        // form().withMethod("post").with(elements).withClass("col-xs-12"))
+        // .withClass("container"));
     }
 
     private ContainerTag buildGroup(List<OMembers> orders, Map<String, XLabel> labels) {
@@ -201,8 +97,6 @@ public class HTMLBuilder {
             type = ontoBridge.getShortName(it.next());
             // Out.println(elm+" is a type of "+" "+type);
         }
-
-        logger.debug("ini loh tipenya : " + type);
 
         switch (type) {
             case "ttext":
@@ -262,11 +156,104 @@ public class HTMLBuilder {
         return type;
     }
 
-    public static void main(String args[]) {
-        HTMLBuilder builder = new HTMLBuilder();
-        System.out.println(builder.buildHTML(null));
+    public String genCoba(List<VLMembers> group, Map<String, XLabel> labels) {
+        String res = "";
+        for (VLMembers element : group) {
+            String elementName = element.getName();
+            System.out.println(elementName);
+            for (int i = 0; i < elementName.length(); i++) {
+                switch (elementName.charAt(i)) {
+                    case '[':
+                        res += "<div class='custom-group'>";
+                        break;
+                    case '(':
+                        res += "<div class='custom-row'>";
+                        break;
+                    case '{':
+                        res += "<div class='custom-col'>";
+                        break;
+                    case ']':
+                    case ')':
+                    case '}':
+                        res += "</div>";
+                        break;
+                    case ' ':
+                        break;
+                    default:
+                        int nextSpace = elementName.indexOf(' ', i + 1);
+                        int nextClosingGroup = elementName.indexOf(']', i + 1);
+                        int nextClosingRow = elementName.indexOf(')', i + 1);
+                        int nextClosingCol = elementName.indexOf('}', i + 1);
+                        int nextChar = elementName.length();
+                        if (nextClosingGroup == -1 && nextClosingCol == -1
+                                && nextClosingRow == -1) {
+                            nextChar = elementName.length();
+                        } else {
+                            nextClosingGroup = nextClosingGroup == -1 ? 9999 : nextClosingGroup;
+                            nextClosingCol = nextClosingCol == -1 ? 9999 : nextClosingCol;
+                            nextClosingRow = nextClosingRow == -1 ? 9999 : nextClosingRow;
+                            nextChar = Math.min(nextClosingGroup,
+                                    Math.min(nextClosingCol, nextClosingRow));
+                        }
+                        String word = elementName.substring(i, nextChar);
+                        String HTMLelement =
+                                buildFormElement(word, labels.get(word).getLabel()).render();
+                        res += "<div class='custom-content'>" + HTMLelement + "</div>";
+                        i = nextChar - 1;
+                }
+            }
+        }
+        return res;
+    }
 
-        System.out.println("mantap");
+    public String genCoba(String group, Map<String, XLabel> labels) {
+        String res = "";
+        for (int i = 0; i < group.length(); i++) {
+            switch (group.charAt(i)) {
+                case '[':
+                    res += "<div class='custom-group'>";
+                    break;
+                case '(':
+                    res += "<div class='custom-row'>";
+                    break;
+                case '{':
+                    res += "<div class='custom-col'>";
+                    break;
+                case ']':
+                case ')':
+                case '}':
+                    res += "</div>";
+                    break;
+                case ' ':
+                    break;
+                default:
+                    int nextSpace = group.indexOf(' ', i + 1);
+                    int nextClosingGroup = group.indexOf(']', i + 1);
+                    int nextClosingRow = group.indexOf(')', i + 1);
+                    int nextClosingCol = group.indexOf('}', i + 1);
+                    int nextChar = -1;
+                    if (nextSpace == -1) { // last element
+                        nextChar = Math.min(nextClosingGroup,
+                                Math.min(nextClosingRow, nextClosingCol));
+                    } else {
+                        nextChar = Math.min(Math.min(nextSpace, nextClosingGroup),
+                                Math.min(nextClosingCol, nextClosingRow));
+                    }
+                    String word = group.substring(i, nextChar);
+                    String element = buildFormElement(word, labels.get(word).getLabel()).render();
+                    res += "<div class='custom-content'>" + element + "</div>";
+                    i = nextChar - 1;
+            }
+        }
+        return "<h1>" + group + "</h1>" + res;
+    }
+
+    public static void main(String args[]) {
+        String group =
+                "{[{(first_name last_name email) country coba (lagi oke)}] [({first_name last_name (email country)} mantap submit {cancel reset finish})]}";
+        // String group = "{[{first_name last_name}] [(submit cancel)]}";
+        HTMLBuilder htmlBuilder = new HTMLBuilder();
+        // System.out.println(htmlBuilder.genCoba(group));
 
         System.exit(0);
     }

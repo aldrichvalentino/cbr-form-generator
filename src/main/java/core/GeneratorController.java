@@ -53,7 +53,8 @@ public class GeneratorController {
                 CBRCase _case = (CBRCase) caseIterator.next();
                 if (((FormDescription) _case.getDescription()).getId() == Integer
                         .parseInt(caseId)) {
-                    result = builder.buildHTML(_case);
+                    FormSolution solution = (FormSolution) _case.getSolution();
+                    result = builder.genCoba(solution.getvlMember(), solution.getlabel());
                     // result = "woy ini ketemu";
                 }
             }
@@ -61,7 +62,8 @@ public class GeneratorController {
             return result;
         } else {
             // build HTML from adaptedCase
-            return builder.buildHTML(AdaptationController.adaptedCase);
+            FormSolution solution = (FormSolution) AdaptationController.adaptedCase.getSolution();
+            return builder.genCoba(solution.getvlMember(), solution.getlabel());
         }
     }
 

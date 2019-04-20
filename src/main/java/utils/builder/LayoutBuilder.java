@@ -59,11 +59,6 @@ public class LayoutBuilder {
         return consecutiveLength == orderMembers.size();
     }
 
-    private static String getOrientation(ArrayList<VLMembers> formLayouts) {
-        // check for horizontal orientation, ex: (elm1 elm2 etc.)
-        return formLayouts.get(0).getName().contains("(") ? "HORIZONTAL" : "VERTICAL";
-    }
-
     private static ArrayList<VLMembers> removeElements(ArrayList<VLMembers> formLayouts,
             List<OMembers> orderMembers) {
         ArrayList<VLMembers> formLayoutResult = new ArrayList<>(formLayouts);
