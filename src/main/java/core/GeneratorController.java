@@ -87,8 +87,8 @@ public class GeneratorController {
             // Step 1 Generate Form
             logger.info("Step 1: Generate Form");
             Map<Object, Object> formContent = new HashMap<Object, Object>();
-            ArrayList<FieldGroupTemplate> fieldGroupTemplates =
-                    LayoutBuilder.buildLayout(formOrders, formLayouts, formLabels);
+            ArrayList<FormFieldTemplate> fieldGroupTemplates =
+                    LayoutBuilder.buildLayout(formLayouts, formLabels);
             formContent.put("fields", fieldGroupTemplates);
             templateBuilder.generateTemplate(formContent, true, "form.template.hbs",
                     System.getProperty("user.dir") + "/src/main/resources/templates/web/views",

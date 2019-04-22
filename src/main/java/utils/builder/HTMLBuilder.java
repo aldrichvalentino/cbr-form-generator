@@ -160,7 +160,6 @@ public class HTMLBuilder {
         String res = "";
         for (VLMembers element : group) {
             String elementName = element.getName();
-            System.out.println(elementName);
             for (int i = 0; i < elementName.length(); i++) {
                 switch (elementName.charAt(i)) {
                     case '[':
@@ -180,7 +179,6 @@ public class HTMLBuilder {
                     case ' ':
                         break;
                     default:
-                        int nextSpace = elementName.indexOf(' ', i + 1);
                         int nextClosingGroup = elementName.indexOf(']', i + 1);
                         int nextClosingRow = elementName.indexOf(')', i + 1);
                         int nextClosingCol = elementName.indexOf('}', i + 1);
