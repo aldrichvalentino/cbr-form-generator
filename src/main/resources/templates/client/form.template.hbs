@@ -75,7 +75,7 @@
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             <select class="form-control" name="${field.name}" id="${field.name}">
-                {{#each countries}}
+                {{#each ${field.name}}}
                 <option value="{{@key}}" {{#if this}} selected {{/if}}>{{@key}}</option>
                 {{/each}}
             </select>

@@ -111,12 +111,12 @@ public class HTMLBuilder {
             case "tradio":
                 type = "radio";
                 break;
-            // case "toption":
-            // type = buildDropDown(xLabels.get(elm).getLabel();
-            // break;
-            // case "tdropdown":
-            // type = buildDropDown(xLabels.get(elm).getLabel();
-            // break;
+            case "toption":
+                type = "select";
+                break;
+            case "tdropdown":
+                type = "select";
+                break;
             case "tpassword":
                 type = "password";
                 break;
