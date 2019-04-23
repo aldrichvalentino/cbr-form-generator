@@ -3,27 +3,18 @@ package utils.builder;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import j2html.tags.ContainerTag;
-import model.ControlButtons;
 import model.FormDescription;
 import model.FormSolution;
-import model.GMembers;
-import model.Groups;
-import model.HLMembers;
-import model.InputFields;
 import model.OMembers;
 import model.Orders;
-import model.OutputFields;
 import model.VLMembers;
 import model.XLabel;
 import utils.OntologyConnector;
 import static j2html.TagCreator.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,8 +57,7 @@ public class HTMLBuilder {
             elements.add(buildGroup(order.getoMembers(), formSolution.getlabel()));
         }
 
-        // TODO: call build HTML with layouting (genCoba)
-        return body(div(genCoba(formSolution.getvlMember(), formSolution.getlabel())));
+        return body(div(generateHTML(formSolution.getvlMember(), formSolution.getlabel())));
 
         // return body(div(h1(formDescription.getFormName()),
         // form().withMethod("post").with(elements).withClass("col-xs-12"))
@@ -85,6 +75,7 @@ public class HTMLBuilder {
 
     private ContainerTag buildFormElement(String elementName, String labelName) {
         String type = getType(elementName);
+        // TODO: generate by type -> radio, select, checkbox, etc.
         return div(label(labelName),
                 input().withType(type).withName(elementName).withClass("form-control"))
                         .withClass("form-group");
@@ -156,7 +147,7 @@ public class HTMLBuilder {
         return type;
     }
 
-    public String genCoba(List<VLMembers> group, Map<String, XLabel> labels) {
+    public String generateHTML(List<VLMembers> group, Map<String, XLabel> labels) {
         String res = "";
         for (VLMembers element : group) {
             String elementName = element.getName();
@@ -202,57 +193,5 @@ public class HTMLBuilder {
             }
         }
         return res;
-    }
-
-    public String genCoba(String group, Map<String, XLabel> labels) {
-        String res = "";
-        for (int i = 0; i < group.length(); i++) {
-            switch (group.charAt(i)) {
-                case '[':
-                    res += "<div class='custom-group'>";
-                    break;
-                case '(':
-                    res += "<div class='custom-row'>";
-                    break;
-                case '{':
-                    res += "<div class='custom-col'>";
-                    break;
-                case ']':
-                case ')':
-                case '}':
-                    res += "</div>";
-                    break;
-                case ' ':
-                    break;
-                default:
-                    int nextSpace = group.indexOf(' ', i + 1);
-                    int nextClosingGroup = group.indexOf(']', i + 1);
-                    int nextClosingRow = group.indexOf(')', i + 1);
-                    int nextClosingCol = group.indexOf('}', i + 1);
-                    int nextChar = -1;
-                    if (nextSpace == -1) { // last element
-                        nextChar = Math.min(nextClosingGroup,
-                                Math.min(nextClosingRow, nextClosingCol));
-                    } else {
-                        nextChar = Math.min(Math.min(nextSpace, nextClosingGroup),
-                                Math.min(nextClosingCol, nextClosingRow));
-                    }
-                    String word = group.substring(i, nextChar);
-                    String element = buildFormElement(word, labels.get(word).getLabel()).render();
-                    res += "<div class='custom-content'>" + element + "</div>";
-                    i = nextChar - 1;
-            }
-        }
-        return "<h1>" + group + "</h1>" + res;
-    }
-
-    public static void main(String args[]) {
-        String group =
-                "{[{(first_name last_name email) country coba (lagi oke)}] [({first_name last_name (email country)} mantap submit {cancel reset finish})]}";
-        // String group = "{[{first_name last_name}] [(submit cancel)]}";
-        HTMLBuilder htmlBuilder = new HTMLBuilder();
-        // System.out.println(htmlBuilder.genCoba(group));
-
-        System.exit(0);
     }
 }

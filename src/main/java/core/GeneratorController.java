@@ -52,14 +52,14 @@ public class GeneratorController {
                 if (((FormDescription) _case.getDescription()).getId() == Integer
                         .parseInt(caseId)) {
                     FormSolution solution = (FormSolution) _case.getSolution();
-                    result = builder.genCoba(solution.getvlMember(), solution.getlabel());
+                    result = builder.generateHTML(solution.getvlMember(), solution.getlabel());
                 }
             }
             return result;
         } else {
             // build HTML from adaptedCase
             FormSolution solution = (FormSolution) AdaptationController.adaptedCase.getSolution();
-            return builder.genCoba(solution.getvlMember(), solution.getlabel());
+            return builder.generateHTML(solution.getvlMember(), solution.getlabel());
         }
     }
 
