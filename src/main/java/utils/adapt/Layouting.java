@@ -102,21 +102,12 @@ public class Layouting {
         String returnValue = "";
         for (VLMembers singleLayout : layouts) {
             String layoutName = singleLayout.getName().trim();
-            if (layoutName.startsWith(startRow) || layoutName.startsWith(startCol)
-                    || layoutName.startsWith(startGroup)) {
-                if (layoutName.replace(startRow, "").replace(startCol, "").replace(startGroup, "")
-                        .equals(elementName)) {
-                    returnValue = singleLayout.getName().trim();
-                    break;
-                }
-            }
-            if (layoutName.endsWith(endRow) || layoutName.endsWith(endCol)
-                    || layoutName.endsWith(endGroup)) {
-                if (layoutName.replace(endRow, "").replace(endCol, "").replace(endGroup, "")
-                        .equals(elementName)) {
-                    returnValue = singleLayout.getName().trim();
-                    break;
-                }
+            String pureName =
+                    layoutName.replace(startRow, "").replace(startCol, "").replace(startGroup, "")
+                            .replace(endRow, "").replace(endCol, "").replace(endGroup, "");
+            if (pureName.equals(elementName)) {
+                returnValue = layoutName;
+                break;
             }
         }
         return returnValue;

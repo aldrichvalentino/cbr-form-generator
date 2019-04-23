@@ -22,10 +22,8 @@ import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import model.FormDescription;
 import model.FormSolution;
 import model.InputFields;
-import model.Orders;
 import model.VLMembers;
 import model.XLabel;
-import model.templates.FieldGroupTemplate;
 import model.templates.FormFieldTemplate;
 import model.templates.ServerTemplate;
 import utils.Zipper;
@@ -55,10 +53,8 @@ public class GeneratorController {
                         .parseInt(caseId)) {
                     FormSolution solution = (FormSolution) _case.getSolution();
                     result = builder.genCoba(solution.getvlMember(), solution.getlabel());
-                    // result = "woy ini ketemu";
                 }
             }
-            // return Builder.buildHTML(RetrieveController.retrievedCases);
             return result;
         } else {
             // build HTML from adaptedCase
@@ -81,7 +77,6 @@ public class GeneratorController {
                     (FormSolution) AdaptationController.adaptedCase.getSolution();
             Set<InputFields> inputFields = formDescription.getInputFields();
             Map<String, XLabel> formLabels = formSolution.getlabel();
-            List<Orders> formOrders = formSolution.getOrder();
             List<VLMembers> formLayouts = formSolution.getvlMember();
 
             // Step 1 Generate Form
@@ -125,7 +120,6 @@ public class GeneratorController {
                     "entity.js");
 
             // Step 4 Zip form and SQL with the rest of the web files and return the zip file
-            // TODO: include Docker files for faster deployment
             logger.info("Step 4: Zipping Files");
             String sourceFile =
                     System.getProperty("user.dir") + "\\src\\main\\resources\\templates\\web";

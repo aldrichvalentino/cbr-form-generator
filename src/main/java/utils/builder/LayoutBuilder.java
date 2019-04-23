@@ -31,18 +31,18 @@ public class LayoutBuilder {
             for (int i = 0; i < layoutName.length(); i++) {
                 switch (layoutName.substring(i, i + 1)) {
                     case startRow:
-                        formFieldTemplates.add(new FormFieldTemplate("", "startRow", null, ""));
+                        formFieldTemplates.add(new FormFieldTemplate("", "startRow", ""));
                         break;
                     case startCol:
-                        formFieldTemplates.add(new FormFieldTemplate("", "startCol", null, ""));
+                        formFieldTemplates.add(new FormFieldTemplate("", "startCol", ""));
                         break;
                     case startGroup:
-                        formFieldTemplates.add(new FormFieldTemplate("", "startGroup", null, ""));
+                        formFieldTemplates.add(new FormFieldTemplate("", "startGroup", ""));
                         break;
                     case endRow:
                     case endCol:
                     case endGroup:
-                        formFieldTemplates.add(new FormFieldTemplate("", "end", null, ""));
+                        formFieldTemplates.add(new FormFieldTemplate("", "end", ""));
                         break;
                     default:
                         if (!isFieldGenerated) {

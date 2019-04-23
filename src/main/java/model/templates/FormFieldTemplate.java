@@ -1,6 +1,5 @@
 package model.templates;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import model.InputFields;
@@ -10,7 +9,6 @@ import utils.OntologyConnector;
 public class FormFieldTemplate {
     private String name;
     private String type;
-    private ArrayList<String> options;
     private String label;
     private String horizontalLayout;
 
@@ -18,10 +16,9 @@ public class FormFieldTemplate {
     final String owlUrl = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
     // TODO: change owlPath and owlUrl to env or put in a conf file
 
-    public FormFieldTemplate(String name, String type, ArrayList<String> options, String label) {
+    public FormFieldTemplate(String name, String type, String label) {
         this.setName(name);
         this.setType(type);
-        this.setOptions(options);
         this.setLabel(label);
         this.setHorizontalLayout("none");
     }
@@ -29,8 +26,6 @@ public class FormFieldTemplate {
     public FormFieldTemplate(InputFields inputFields) {
         name = inputFields.getName();
         type = getType(name);
-        // TODO: create options if possible
-        options = new ArrayList<String>();
         label = name;
         this.setHorizontalLayout("none");
     }
@@ -47,9 +42,14 @@ public class FormFieldTemplate {
         // Clean the name from unwanted tokens
         name = elementName.replace("(", "").replace(")", "");
         type = getType(name);
-        // TODO: create options
-        options = new ArrayList<String>();
-        label = elementLabel.getLabel();
+        String originalLabel = elementLabel.getLabel();
+        if (originalLabel.startsWith("xn")) {
+            // Label has options
+            String[] parts = originalLabel.split(",");
+            label = parts[0].replace("xn", "");
+        } else {
+            label = originalLabel;
+        }
     }
 
     private String getType(String elm) {
@@ -133,20 +133,6 @@ public class FormFieldTemplate {
      */
     public void setType(String type) {
         this.type = type;
-    }
-
-    /**
-     * @return the options
-     */
-    public ArrayList<String> getOptions() {
-        return options;
-    }
-
-    /**
-     * @param options the options to set
-     */
-    public void setOptions(ArrayList<String> options) {
-        this.options = options;
     }
 
     /**

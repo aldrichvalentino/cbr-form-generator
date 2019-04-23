@@ -60,8 +60,14 @@ router.get('/:id', (req, res, next) => {
         if (err) next(createError(500, err.message));
         if (rows.length === 0) return next(createError(404, "Entity id " + entityId + " is not found."));
         <#list content as entity>
-        <#if entity.hasOptions>
+        <#if entity.isCheckbox==1>
         const ${entity.name} = createDataFromArray(default${entity.name}, rows[0].${entity.name});
+        </#if>
+        <#if entity.type=="radio">
+        const ${entity.name} = createDataFromString(default${entity.name}, rows[0].${entity.name});
+        </#if>
+        <#if entity.type=="select">
+        const ${entity.name} = createDataFromString(default${entity.name}, rows[0].${entity.name});
         </#if>
         </#list>
         return res.render('form', {
