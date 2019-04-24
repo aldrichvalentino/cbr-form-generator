@@ -75,10 +75,27 @@ public class HTMLBuilder {
 
     private ContainerTag buildFormElement(String elementName, String labelName) {
         String type = getType(elementName);
-        // TODO: generate by type -> radio, select, checkbox, etc.
-        return div(label(labelName),
-                input().withType(type).withName(elementName).withClass("form-control"))
-                        .withClass("form-group");
+        switch (type) {
+            case "select":
+                return div(label(labelName),
+                        select(option("default 1"), option("default 2"), option("default 3"))
+                                .withClass("form-control").withName(elementName))
+                                        .withClass("form-group");
+            // Other types like Radio and Checkbox will be sent to custom case
+            case "checkbox":
+            case "radio":
+                return div(label(elementName),
+                        input().withType(type).withName(elementName).withClass("form-control"),
+                        span("option 1"), br(),
+                        input().withType(type).withName(elementName).withClass("form-control"),
+                        span("option 2"), br(),
+                        input().withType(type).withName(elementName).withClass("form-control"),
+                        span("option 3"), br()).withClass("form-group");
+            default:
+                return div(label(labelName),
+                        input().withType(type).withName(elementName).withClass("form-control"))
+                                .withClass("form-group");
+        }
     }
 
     private String getType(String elm) {
