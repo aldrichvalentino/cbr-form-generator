@@ -10,7 +10,7 @@ import utils.OntologyConnector;
 public class ServerTemplate {
     private String name;
     private boolean hasOptions;
-    private int isCheckbox; // TODO: change to hasCheckbox to avoid conflict in FreeMarker
+    private int isCheckbox;
     private ArrayList<String> values;
     private String type;
 

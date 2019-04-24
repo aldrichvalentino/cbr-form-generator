@@ -3,6 +3,11 @@ Stack:
 - Spring Boot Application for serving web forms and displaying results
 - jCOLIBRI for Case-based Reasoning
 
+# Requirements
+1. Java (v8 or more)
+2. MySQL DB
+3. WordNet Lexical DB
+
 # How to build
 For `vscode` users first:
 1. Clone the repo
@@ -19,14 +24,10 @@ DB_PASSWORD=password
 4. Run `./gradlew bootRun` to run the application.
 
 # Bugs
-1. Cannot hot reload with spring-boot-devtools. Use traditional `ctrl+c` to stop and rebuild the application to reload.
+- Cannot hot reload with spring-boot-devtools. Use traditional `ctrl+c` to stop and rebuild the application to reload.
 
 # TODO
-1. Finish CBR cycle without any generation process.
-2. Generate form + sql + backend + docker container
-3. HTML Form preview window
-4. Styling the whole app
-5. Add new data + improve owl
+- Add new data + improve owl
 
 # Wishlist
-1. Refactor database schema
+- Refactor database schema
