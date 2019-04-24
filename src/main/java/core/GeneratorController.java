@@ -22,10 +22,8 @@ import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import model.FormDescription;
 import model.FormSolution;
 import model.InputFields;
-import model.Orders;
 import model.VLMembers;
 import model.XLabel;
-import model.templates.FieldGroupTemplate;
 import model.templates.FormFieldTemplate;
 import model.templates.ServerTemplate;
 import utils.Zipper;
@@ -53,15 +51,15 @@ public class GeneratorController {
                 CBRCase _case = (CBRCase) caseIterator.next();
                 if (((FormDescription) _case.getDescription()).getId() == Integer
                         .parseInt(caseId)) {
-                    result = builder.buildHTML(_case);
-                    // result = "woy ini ketemu";
+                    FormSolution solution = (FormSolution) _case.getSolution();
+                    result = builder.generateHTML(solution.getvlMember(), solution.getlabel());
                 }
             }
-            // return Builder.buildHTML(RetrieveController.retrievedCases);
             return result;
         } else {
             // build HTML from adaptedCase
-            return builder.buildHTML(AdaptationController.adaptedCase);
+            FormSolution solution = (FormSolution) AdaptationController.adaptedCase.getSolution();
+            return builder.generateHTML(solution.getvlMember(), solution.getlabel());
         }
     }
 
@@ -79,14 +77,13 @@ public class GeneratorController {
                     (FormSolution) AdaptationController.adaptedCase.getSolution();
             Set<InputFields> inputFields = formDescription.getInputFields();
             Map<String, XLabel> formLabels = formSolution.getlabel();
-            List<Orders> formOrders = formSolution.getOrder();
             List<VLMembers> formLayouts = formSolution.getvlMember();
 
             // Step 1 Generate Form
             logger.info("Step 1: Generate Form");
             Map<Object, Object> formContent = new HashMap<Object, Object>();
-            ArrayList<FieldGroupTemplate> fieldGroupTemplates =
-                    LayoutBuilder.buildLayout(formOrders, formLayouts, formLabels);
+            ArrayList<FormFieldTemplate> fieldGroupTemplates =
+                    LayoutBuilder.buildLayout(formLayouts, formLabels);
             formContent.put("fields", fieldGroupTemplates);
             templateBuilder.generateTemplate(formContent, true, "form.template.hbs",
                     System.getProperty("user.dir") + "/src/main/resources/templates/web/views",
@@ -123,7 +120,6 @@ public class GeneratorController {
                     "entity.js");
 
             // Step 4 Zip form and SQL with the rest of the web files and return the zip file
-            // TODO: include Docker files for faster deployment
             logger.info("Step 4: Zipping Files");
             String sourceFile =
                     System.getProperty("user.dir") + "\\src\\main\\resources\\templates\\web";

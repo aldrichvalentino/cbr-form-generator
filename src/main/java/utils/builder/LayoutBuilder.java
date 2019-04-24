@@ -12,6 +12,51 @@ import model.templates.FieldGroupTemplate;
 import model.templates.FormFieldTemplate;
 
 public class LayoutBuilder {
+    private static final String startRow = "(";
+    private static final String endRow = ")";
+    private static final String startCol = "{";
+    private static final String endCol = "}";
+    private static final String startGroup = "[";
+    private static final String endGroup = "]";
+
+    public static ArrayList<FormFieldTemplate> buildLayout(List<VLMembers> formLayouts,
+            Map<String, XLabel> formLabels) {
+        ArrayList<FormFieldTemplate> formFieldTemplates = new ArrayList<>();
+        for (VLMembers layoutMembers : formLayouts) {
+            String layoutName = layoutMembers.getName();
+            String pureName =
+                    layoutName.replace(startRow, "").replace(startCol, "").replace(startGroup, "")
+                            .replace(endRow, "").replace(endCol, "").replace(endGroup, "");
+            boolean isFieldGenerated = false;
+            for (int i = 0; i < layoutName.length(); i++) {
+                switch (layoutName.substring(i, i + 1)) {
+                    case startRow:
+                        formFieldTemplates.add(new FormFieldTemplate("", "startRow", ""));
+                        break;
+                    case startCol:
+                        formFieldTemplates.add(new FormFieldTemplate("", "startCol", ""));
+                        break;
+                    case startGroup:
+                        formFieldTemplates.add(new FormFieldTemplate("", "startGroup", ""));
+                        break;
+                    case endRow:
+                    case endCol:
+                    case endGroup:
+                        formFieldTemplates.add(new FormFieldTemplate("", "end", ""));
+                        break;
+                    default:
+                        if (!isFieldGenerated) {
+                            formFieldTemplates
+                                    .add(new FormFieldTemplate(pureName, formLabels.get(pureName)));
+                            isFieldGenerated = true;
+                        }
+                        break;
+                }
+            }
+        }
+        return formFieldTemplates;
+    }
+
     public static ArrayList<FieldGroupTemplate> buildLayout(List<Orders> orders,
             List<VLMembers> layouts, Map<String, XLabel> labels) {
         ArrayList<FieldGroupTemplate> fieldGroupTemplates = new ArrayList<>();
@@ -57,11 +102,6 @@ public class LayoutBuilder {
             index++;
         }
         return consecutiveLength == orderMembers.size();
-    }
-
-    private static String getOrientation(ArrayList<VLMembers> formLayouts) {
-        // check for horizontal orientation, ex: (elm1 elm2 etc.)
-        return formLayouts.get(0).getName().contains("(") ? "HORIZONTAL" : "VERTICAL";
     }
 
     private static ArrayList<VLMembers> removeElements(ArrayList<VLMembers> formLayouts,

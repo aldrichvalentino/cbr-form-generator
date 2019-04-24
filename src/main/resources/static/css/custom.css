@@ -1,0 +1,20 @@
+.custom-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.custom-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-group {
+    padding: 0.5rem;
+    margin: 1rem;
+    border: 1px solid blue;
+}
+
+.custom-content {
+    padding: 1rem;
+    border: 1px solid red;
+}

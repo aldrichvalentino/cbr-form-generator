@@ -12,32 +12,34 @@ public class ServerTemplate {
     private boolean hasOptions;
     private int isCheckbox; // TODO: change to hasCheckbox to avoid conflict in FreeMarker
     private ArrayList<String> values;
+    private String type;
 
     final String owlPath = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
     final String owlUrl = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
 
-    public ServerTemplate(String name, boolean hasOptions, int isCheckbox,
-            ArrayList<String> values) {
+    public ServerTemplate(String name, boolean hasOptions, int isCheckbox, ArrayList<String> values,
+            String type) {
         this.setName(name);
         this.setHasOptions(hasOptions);
         this.setValues(values);
         this.setIsCheckbox(isCheckbox);
+        this.setType(type);
     }
 
     public ServerTemplate(InputFields singleField, XLabel labelForOptions) {
         this.setName(singleField.getName());
-        this.BuildOptionValues(labelForOptions);
-        this.setIsCheckbox(getType(singleField.getName()) == "checkbox" ? 1 : 0);
+        this.buildOptionValues(labelForOptions);
+        String type = getType(singleField.getName());
+        this.setType(type);
+        this.setIsCheckbox(type == "checkbox" ? 1 : 0);
     }
 
-    private void BuildOptionValues(XLabel label) {
-        System.out.println("Label total: " + label);
+    private void buildOptionValues(XLabel label) {
         String[] labels = label.getLabel().split(",");
         if (labels[0].startsWith("xn")) {
             labels[0] = labels[0].replace("xn", "");
-            System.out.println("Ada Nama");
+            // System.out.println("Ada Nama");
             this.setHasOptions(true);
-
             ArrayList<String> optionValues = new ArrayList<String>();
             for (int i = 1; i < labels.length; i++) {
                 optionValues.add(labels[i]);
@@ -101,6 +103,20 @@ public class ServerTemplate {
             e.printStackTrace();
         }
         return type;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**

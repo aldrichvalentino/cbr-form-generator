@@ -13,18 +13,17 @@
         <input type="hidden" name="type" value="CREATE">
         {{/if}}
 
-<#-- Iterate through the groups -->
-<#list fields as group>
-        <hr />
-<#-- Every group has field elements -->
-<#list group.formFieldTemplates as field>
-<#-- Check for horizontal layout -->
-<#if field.horizontalLayout=="start">
-        <div class="form-row">
-<#global isHorizontal=1 <#-- Set a global variable when entering horizontal mode -->>
-</#if>
-<#if field.type=="text">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+<#list fields as field>
+<#if field.type=="startRow">
+        <div class="custom-row">
+<#elseif field.type=="startCol">
+        <div class="custom-col">
+<#elseif field.type=="startGroup">
+        <div class="custom-group">
+<#elseif field.type=="end">
+        </div>
+<#elseif field.type=="text">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -33,7 +32,7 @@
             {{/if}}
         </div>
 <#elseif field.type=="email">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="email" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -42,7 +41,7 @@
             {{/if}}
         </div>
 <#elseif field.type=="password">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="password" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -51,7 +50,7 @@
             {{/if}}
         </div>
 <#elseif field.type=="checkbox">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#each ${field.name}}}
             <div class="form-check">
@@ -62,7 +61,7 @@
             {{/each}}
         </div>
 <#elseif field.type=="radio">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#each ${field.name}}}
             <div class="form-check">
@@ -73,16 +72,16 @@
             {{/each}}
         </div>
 <#elseif field.type=="select">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             <select class="form-control" name="${field.name}" id="${field.name}">
-                {{#each countries}}
+                {{#each ${field.name}}}
                 <option value="{{@key}}" {{#if this}} selected {{/if}}>{{@key}}</option>
                 {{/each}}
             </select>
         </div>
 <#elseif field.type=="file">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="file" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -91,7 +90,7 @@
             {{/if}}
         </div>
 <#elseif field.type=="number">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="number" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -100,7 +99,7 @@
             {{/if}}
         </div>
 <#elseif field.type=="date">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="date" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -109,19 +108,19 @@
             {{/if}}
         </div>
 <#elseif field.type=="button">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <input class="btn" type="button" value="${field.label}">
         </div>
 <#elseif field.type=="button-submit">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <input class="btn btn-primary" type="submit" value="${field.label}">
         </div>
 <#elseif field.type=="button-reset">
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <input class="btn btn-danger" type="reset" value="${field.label}">
         </div>
 <#else>
-        <div class="form-group <#if isHorizontal==1>col</#if>">
+        <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
             <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
@@ -130,11 +129,6 @@
             {{/if}}
         </div>
 </#if>
-<#if field.horizontalLayout=="end">
-        </div>
-<#global isHorizontal=0 <#-- Unset the variable to remove the 'col' class -->>
-</#if>
-</#list>
 </#list>
 
     </form>

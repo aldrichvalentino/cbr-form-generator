@@ -40,6 +40,10 @@ public class Adaptation {
     WordNetDatabase database;
     String op = "(";
     String cp = ")";
+    String openCol = "{";
+    String closeCol = "}";
+    String openGroup = "[";
+    String closeGroup = "]";
     HashMap<String, String> inrowelm;
 
     public Adaptation(WordNetDatabase wNetDatabase, OntoBridge ontoBridge) {
@@ -93,18 +97,18 @@ public class Adaptation {
         }
 
         FormSolution fsc = (FormSolution) icase.getSolution();
-        List<VLMembers> nvlo = fsc.getvlMember();
-        inrowelm = new HashMap<String, String>();
-        buildInRowElement(nvlo);
+        // List<VLMembers> nvlo = fsc.getvlMember();
+        // inrowelm = new HashMap<String, String>();
+        // buildInRowElement(nvlo);
 
         // build spec del
         Out.println("\nMo build spec del IF");
         Set<InputFields> specdeli = buildSpecDel(fname, infldc, infldq);
         // Out.println("Selesai build spec del IF");
 
-        // Out.println("Mo build spec del OF");
+        Out.println("Mo build spec del OF");
         Set<OutputFields> specdelo = buildSpecDel(fname, outfldc, outfldq);
-        // Out.println("Mo build spec del CB");
+        Out.println("Mo build spec del CB");
         Set<ControlButtons> specdelc = buildSpecDel(fname, cc, cq);
         // end build spec del
 
@@ -311,35 +315,13 @@ public class Adaptation {
 
         // layouting
         List<HLMembers> nhlo = fsc.gethlMember();
+        List<VLMembers> nvlo = fsc.getvlMember();
         LOResult nlor = new LOResult(nvlo, nhlo); // nlor= new layout result
 
         // del unnecessary layout
-        for (InputFields ifl : specdeli) {
-            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
-                if (vlm.next().getName().equals(ifl.getName())) {
-                    // Remove the current element from the iterator and the list.
-                    vlm.remove();
-                }
-            }
-        }
-
-        for (OutputFields ofl : specdelo) {
-            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
-                if (vlm.next().getName().equals(ofl.getName())) {
-                    // Remove the current element from the iterator and the list.
-                    vlm.remove();
-                }
-            }
-        }
-
-        for (ControlButtons cb : specdelc) {
-            for (Iterator<VLMembers> vlm = nvlo.iterator(); vlm.hasNext();) {
-                if (vlm.next().getName().equals(cb.getName())) {
-                    // Remove the current element from the iterator and the list.
-                    vlm.remove();
-                }
-            }
-        }
+        nlor = Layouting.deleteLayouting(specdeli, nlor);
+        nlor = Layouting.deleteLayouting(specdelo, nlor);
+        nlor = Layouting.deleteLayouting(specdelc, nlor);
 
         Out.println("mo layout IF");
         nlor = Layouting.setLayouting(specaddi, nlor, nsord);
@@ -429,30 +411,6 @@ public class Adaptation {
         return specadd;
     }
 
-    // untuk menghapus elmen dari kasus
-    // private <T> Set<T> deleteSpecDel(Set<T> del, Set<T> cqc) throws
-    // NoSuchMethodException, SecurityException,
-    // IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-    // Set<T> cqca = new HashSet<T>();
-    // cqca.addAll(cqc);
-
-    // for (T itd : del) {
-    // // Out.println("Loop del kelas "+itd.getClass());
-    // for (T ifk : cqca) {
-    // Method mq = ifk.getClass().getDeclaredMethod("getName");
-    // Method mc = itd.getClass().getDeclaredMethod("getName");
-    // String nmq = (String) mq.invoke(ifk); // metode mq diinvoke dengan param qm
-    // String nmc = (String) mc.invoke(itd);
-    // if (nmq.equals(nmc)) {
-    // cqc.remove(ifk);
-    // // System.out.println("Spec del: "+nmq+ " sdh dihapus. ukuran: "+cqc.size());
-    // }
-    // }
-    // }
-    // return cqc;
-    // }
-
     private boolean isWeaker(String wk, String stg) {
         if (!ob.existsInstance(wk) || !ob.existsInstance(stg))
             return false;
@@ -491,22 +449,10 @@ public class Adaptation {
                     specdel.remove(delel);
                     // Out.println("Stlh remove");
                 }
-                // isInRow menyebabkan elemen di dlm row tidak dihapus
-                if (isInRow(nmd)) {
-                    // Out.println("In row, hrs dihapus ");
-                    specdel.remove(delel);
-                    // Out.println("Stlh remove");
-                }
             }
         }
 
         return specdel;
-    }
-
-    private boolean isInRow(String nm) {
-        if (inrowelm.containsKey(nm))
-            return true;
-        return false;
     }
 
     // memeriksa apakah mandatory atau tdk
@@ -514,8 +460,8 @@ public class Adaptation {
         if (!ob.existsInstance(fldname) || !ob.existsInstance(fname))
             return false;
         // Out.println("isRequired "+fname+" or "+fldname+" exist");
-        Iterator<String> it = ob.listPropertyValue(fname, "hasMandatoryElements"); // it suksesor
-                                                                                   // fln
+        // it suksesor fln
+        Iterator<String> it = ob.listPropertyValue(fname, "hasMandatoryElements");
         while (it.hasNext()) {
             String elm = ob.getShortName(it.next());
             // Out.println(elm+" Required by "+" "+fname);
@@ -549,30 +495,12 @@ public class Adaptation {
             String flne = (String) me.invoke(vlm); // mengambil nama elemen
 
             if (fln.startsWith(op))
-                fln = fln.replace(op, "");
+                fln = fln.replace(op, "").replace("{", "").replace("[", "");
             if (fln.endsWith(cp))
-                fln = fln.replace(cp, "");
+                fln = fln.replace(cp, "").replace("}", "").replace("]", "");
             if (fln.equals(flne))
                 return true;
         }
         return false;
-    }
-
-    private void buildInRowElement(List<VLMembers> lvlm) {
-        boolean inrow = false;
-        // Out.println("Build yng in row ");
-        for (VLMembers vlm : lvlm) {
-            String namamem = vlm.getName();
-            // Out.println("loop. Member: "+namamem.trim());
-            if (namamem.startsWith(op)) {
-                inrow = true;
-                inrowelm.put(namamem.replace(op, ""), "start");
-            } else if (namamem.endsWith(cp)) {
-                inrowelm.put(namamem.replace(cp, ""), "end");
-                inrow = false;
-            } else if (inrow)
-                inrowelm.put(namamem, "in");
-        }
-        // Out.println("akhir Build in row ");
     }
 }
