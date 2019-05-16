@@ -25,12 +25,10 @@ public class HTMLBuilder {
     // private FormDescription formDescription;
     // private FormSolution formSolution;
     private OntoBridge ontoBridge;
-    final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-    final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
     Logger logger = LoggerFactory.getLogger(HTMLBuilder.class);
 
-    public HTMLBuilder() {
-        ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+    public HTMLBuilder(String owlPath, String owlUrl) {
+        ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
     }
 
     public String buildHTML(CBRCase _case) {
@@ -91,6 +89,10 @@ public class HTMLBuilder {
                         span("option 2"), br(),
                         input().withType(type).withName(elementName).withClass("form-control"),
                         span("option 3"), br()).withClass("form-group");
+            case "submit":
+                return div(button(labelName).withClass("btn btn-primary"));
+            case "reset":
+                return div(button(labelName).withClass("btn btn-danger"));
             default:
                 return div(label(labelName),
                         input().withType(type).withName(elementName).withClass("form-control"))

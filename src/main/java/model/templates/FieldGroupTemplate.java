@@ -15,12 +15,12 @@ public class FieldGroupTemplate {
     }
 
     public FieldGroupTemplate(ArrayList<VLMembers> formLayouts, List<OMembers> orderMembers,
-            Map<String, XLabel> labels) {
+            Map<String, XLabel> labels, String owlPath, String owlUrl) {
 
         ArrayList<FormFieldTemplate> formFieldTemplates = new ArrayList<>();
         for (int currentElement = 0; currentElement < orderMembers.size(); currentElement++) {
             formFieldTemplates.add(new FormFieldTemplate(formLayouts.get(currentElement).getName(),
-                    labels.get(orderMembers.get(currentElement).getMemberName())));
+                    labels.get(orderMembers.get(currentElement).getMemberName()), owlPath, owlUrl));
         }
 
         setFormFieldTemplates(formFieldTemplates);

@@ -8,11 +8,10 @@ import model.InputFields;
 import utils.OntologyConnector;
 
 public class SQLBuilder {
-    final String owlPath = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-    final String owlUrl = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
+    private OntoBridge ontoBridge;
 
-    public SQLBuilder() {
-
+    public SQLBuilder(String owlPath, String owlUrl) {
+        this.ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
     }
 
     // SQL in this project is using the MySQL dialect
@@ -29,7 +28,6 @@ public class SQLBuilder {
 
     private String getType(String elm) {
         String type = "";
-        OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         Iterator<String> it = ontoBridge.listPropertyValue(elm, "isATypeOf");
         while (it.hasNext()) {
             type = ontoBridge.getShortName(it.next());
@@ -46,17 +44,17 @@ public class SQLBuilder {
         return type;
     }
 
-    public static void main(String args[]) {
-        SQLBuilder sqlBuilder = new SQLBuilder();
+    // public static void main(String args[]) {
+    // SQLBuilder sqlBuilder = new SQLBuilder();
 
-        // for DEV only
-        Set<InputFields> inputFields = new HashSet<InputFields>();
-        inputFields.add(new InputFields("first_name"));
-        inputFields.add(new InputFields("email"));
-        inputFields.add(new InputFields("password"));
-        inputFields.add(new InputFields("birth_date"));
+    // // for DEV only
+    // Set<InputFields> inputFields = new HashSet<InputFields>();
+    // inputFields.add(new InputFields("first_name"));
+    // inputFields.add(new InputFields("email"));
+    // inputFields.add(new InputFields("password"));
+    // inputFields.add(new InputFields("birth_date"));
 
-        System.out.println(sqlBuilder.buildSQL(inputFields));
-        System.exit(0);
-    }
+    // System.out.println(sqlBuilder.buildSQL(inputFields));
+    // System.exit(0);
+    // }
 }

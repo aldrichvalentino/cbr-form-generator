@@ -9,7 +9,7 @@ var router = express.Router();
 <#if entity.hasOptions>
 const default${entity.name} = {
     <#list entity.values as options>
-    ${options}: false,
+    "${options}": false,
     </#list>
 }
 </#if>

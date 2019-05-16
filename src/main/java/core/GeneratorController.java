@@ -12,6 +12,8 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,10 @@ import utils.builder.TemplateBuilder;
 
 @Controller
 public class GeneratorController {
+    @Autowired
+    private Environment env;
+    private String owlPath;
+    private String owlUrl;
     private Logger logger = LoggerFactory.getLogger(GeneratorController.class);
 
     @RequestMapping(value = "/generate", method = RequestMethod.GET,
@@ -41,9 +47,12 @@ public class GeneratorController {
     @ResponseBody
     public String handleGet(@RequestParam("isRetrievedCase") boolean isRetrievedCase,
             @RequestParam("caseId") String caseId, HttpServletResponse response) {
+        owlPath =
+                getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
+        owlUrl = env.getProperty("OWL_URL");
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        HTMLBuilder builder = new HTMLBuilder();
+        HTMLBuilder builder = new HTMLBuilder(owlPath, owlUrl);
         if (isRetrievedCase) {
             String result = null;
             Iterator<CBRCase> caseIterator = RetrieveController.retrievedCases.iterator();
@@ -66,6 +75,10 @@ public class GeneratorController {
     @RequestMapping(value = "/zip", produces = "application/zip")
     public void zipFiles(HttpServletResponse response) throws IOException {
         try {
+            owlPath = getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME"))
+                    .toExternalForm();
+            owlUrl = env.getProperty("OWL_URL");
+
             response.setStatus(HttpServletResponse.SC_OK);
             response.addHeader("Content-Disposition",
                     "attachment; filename=\"form_application.zip\"");
@@ -83,7 +96,7 @@ public class GeneratorController {
             logger.info("Step 1: Generate Form");
             Map<Object, Object> formContent = new HashMap<Object, Object>();
             ArrayList<FormFieldTemplate> fieldGroupTemplates =
-                    LayoutBuilder.buildLayout(formLayouts, formLabels);
+                    LayoutBuilder.buildLayout(formLayouts, formLabels, owlPath, owlUrl);
             formContent.put("fields", fieldGroupTemplates);
             templateBuilder.generateTemplate(formContent, true, "form.template.hbs",
                     System.getProperty("user.dir") + "/src/main/resources/templates/web/views",
@@ -91,7 +104,7 @@ public class GeneratorController {
 
             ArrayList<FormFieldTemplate> getAllTemplates = new ArrayList<FormFieldTemplate>();
             for (InputFields field : inputFields) {
-                getAllTemplates.add(new FormFieldTemplate(field));
+                getAllTemplates.add(new FormFieldTemplate(field, owlPath, owlUrl));
             }
             formContent.put("fields", getAllTemplates);
             templateBuilder.generateTemplate(formContent, true, "getAll.template.hbs",
@@ -101,7 +114,7 @@ public class GeneratorController {
             // Step 2 Generate SQL
             logger.info("Step 2: Generate SQL");
             Map<String, String> sqlContent = new HashMap<String, String>();
-            SQLBuilder sqlBuilder = new SQLBuilder();
+            SQLBuilder sqlBuilder = new SQLBuilder(owlPath, owlUrl);
             sqlContent.put("content", sqlBuilder.buildSQL(inputFields));
             templateBuilder.generateTemplate(sqlContent, false, "database.template.sql",
                     System.getProperty("user.dir") + "/src/main/resources/templates/web",
@@ -112,7 +125,8 @@ public class GeneratorController {
             Map<String, Object> serverContent = new HashMap<String, Object>();
             ArrayList<ServerTemplate> serverData = new ArrayList<ServerTemplate>();
             for (InputFields field : inputFields) {
-                serverData.add(new ServerTemplate(field, formLabels.get(field.getName())));
+                serverData.add(new ServerTemplate(field, formLabels.get(field.getName()), owlPath,
+                        owlUrl));
             }
             serverContent.put("content", serverData);
             templateBuilder.generateTemplate(serverContent, false, "entity.js.tpl",

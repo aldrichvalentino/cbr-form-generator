@@ -45,7 +45,6 @@ public class Layouting {
                             nvlo.get(currentLayout + 1)
                                     .setName(startToken + nvlo.get(currentLayout + 1).getName());
                             // System.out.println("Jadi: " + nvlo.get(currentLayout + 1).getName());
-                            break;
                         } else if (endTokenLength > startTokenLength) {
                             // System.out.println("Dikirim layoutnya ke previous word");
                             String endToken = layoutName.substring(
@@ -54,12 +53,10 @@ public class Layouting {
                             nvlo.get(currentLayout - 1)
                                     .setName(nvlo.get(currentLayout - 1).getName() + endToken);
                             // System.out.println("Jadi: " + nvlo.get(currentLayout - 1).getName());
-                            break;
-                        } else {
-                            // System.out.println("Hapus elemen");
-                            nvlo.remove(currentLayout);
-                            break;
                         }
+                        // System.out.println("Hapus elemen");
+                        nvlo.remove(currentLayout);
+                        break;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

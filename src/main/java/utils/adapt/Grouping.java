@@ -69,6 +69,7 @@ public class Grouping {
                 // " group Id "+ar.getGroup().getId());
                 // }
                 ngrp = ladr.get(0).getGroup();
+                int indexOfGroup = nsgrp.indexOf(ngrp);
                 nsgrp.remove(ngrp);
                 // create new group member
                 GMembers ngm = new GMembers(fln);
@@ -79,7 +80,7 @@ public class Grouping {
                     sgm.add(ngm);
                 }
                 ngrp.setgMembers(sgm);
-                nsgrp.add(ngrp);
+                nsgrp.add(indexOfGroup, ngrp);
                 // break;
             } else {
                 System.out.println("ladr Kosong");

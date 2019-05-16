@@ -20,6 +20,8 @@ HIBERNATE_CONNECTION=jdbc:mysql://localhost/travel
 HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
 DB_USERNAME=admin
 DB_PASSWORD=password
+OWL_FILENAME=OntologyTesting.owl
+OWL_URL=http://www.semanticweb.org/hp/ontologies/2015/2/OntologyTesting.owl
 ```
 4. Run `./gradlew bootRun` to run the application.
 

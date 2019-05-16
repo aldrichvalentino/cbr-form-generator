@@ -40,6 +40,8 @@
                         <#list fields as field>
                         <#if field.type=="checkbox">
                             <td>{{#list this.${field.name}}} {{this}} {{/list}}</td>
+                        <#elseif field.type=="password">
+                            <td>*****</td>
                         <#else>
                             <td>{{ this.${field.name} }}</td>
                         </#if>

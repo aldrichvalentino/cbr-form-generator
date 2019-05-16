@@ -12,25 +12,29 @@ public class FormFieldTemplate {
     private String label;
     private String horizontalLayout;
 
-    final String owlPath = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-    final String owlUrl = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
-    // TODO: change owlPath and owlUrl to env or put in a conf file
+    private OntoBridge ontoBridge;
 
-    public FormFieldTemplate(String name, String type, String label) {
+    public FormFieldTemplate(String name, String type, String label, String owlPath,
+            String owlUrl) {
+        this.ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         this.setName(name);
         this.setType(type);
         this.setLabel(label);
         this.setHorizontalLayout("none");
     }
 
-    public FormFieldTemplate(InputFields inputFields) {
+    public FormFieldTemplate(InputFields inputFields, String owlPath, String owlUrl) {
+        this.ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         name = inputFields.getName();
         type = getType(name);
         label = name;
         this.setHorizontalLayout("none");
     }
 
-    public FormFieldTemplate(String elementName, XLabel elementLabel) {
+    public FormFieldTemplate(String elementName, XLabel elementLabel, String owlPath,
+            String owlUrl) {
+        this.ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
+
         // Find the horizontal layout based on '(' or ')'
         if (elementName.charAt(0) == '(') {
             this.setHorizontalLayout("start");
@@ -54,7 +58,6 @@ public class FormFieldTemplate {
 
     private String getType(String elm) {
         String type = "text"; // default value
-        OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         try {
             Iterator<String> it = ontoBridge.listPropertyValue(elm, "isATypeOf");
             while (it.hasNext()) {

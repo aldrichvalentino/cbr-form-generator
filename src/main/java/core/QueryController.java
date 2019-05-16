@@ -36,18 +36,20 @@ public class QueryController {
 
     @Autowired
     private Environment env;
-    final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-    final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
+    private String owlPath;
+    private String owlUrl;
     Logger logger = LoggerFactory.getLogger(QueryController.class);
 
     @GetMapping("/query")
     public String handleGet(Model model) {
         logger.info("Initiating environment: WordNet, OntoBridge, and Database connection.");
+        owlPath =
+                getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
+        owlUrl = env.getProperty("OWL_URL");
         try {
             WordNetDatabase database =
                     WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
-            OntoBridge ontoBridge =
-                    OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+            OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
             Connector connector = DatabaseConnector.getInstance(env.getProperty("HIBERNATE_DRIVER"),
                     env.getProperty("HIBERNATE_CONNECTION"), env.getProperty("HIBERNATE_DIALECT"),
                     env.getProperty("DB_USERNAME"), env.getProperty("DB_PASSWORD"));
@@ -87,7 +89,7 @@ public class QueryController {
 
     private CBRQuery normalize(CBRQuery query) throws NoSuchMethodException, SecurityException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        OntoBridge ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+        OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         WordNetDatabase database =
                 WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
         FormDescription fd = (FormDescription) query.getDescription();

@@ -14,11 +14,11 @@ public class ServerTemplate {
     private ArrayList<String> values;
     private String type;
 
-    final String owlPath = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-    final String owlUrl = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
+    private OntoBridge ontoBridge;
 
     public ServerTemplate(String name, boolean hasOptions, int isCheckbox, ArrayList<String> values,
-            String type) {
+            String type, String owlPath, String owlUrl) {
+        this.ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         this.setName(name);
         this.setHasOptions(hasOptions);
         this.setValues(values);
@@ -26,7 +26,9 @@ public class ServerTemplate {
         this.setType(type);
     }
 
-    public ServerTemplate(InputFields singleField, XLabel labelForOptions) {
+    public ServerTemplate(InputFields singleField, XLabel labelForOptions, String owlPath,
+            String owlUrl) {
+        this.ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         this.setName(singleField.getName());
         this.buildOptionValues(labelForOptions);
         String type = getType(singleField.getName());
@@ -52,7 +54,6 @@ public class ServerTemplate {
 
     private String getType(String elm) {
         String type = "text"; // default value
-        OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
         try {
             Iterator<String> it = ontoBridge.listPropertyValue(elm, "isATypeOf");
             while (it.hasNext()) {

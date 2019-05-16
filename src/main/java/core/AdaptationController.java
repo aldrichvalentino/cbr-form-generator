@@ -20,8 +20,8 @@ public class AdaptationController {
 
     @Autowired
     private Environment env;
-    final String OWL_PATH = getClass().getResource("/owl/FormOnto2.owl").toExternalForm();
-    final String OWL_URL = "http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto2.owl";
+    private String owlPath;
+    private String owlUrl;
     public static CBRCase adaptedCase = null;
 
     @PostMapping("/adapt")
@@ -32,7 +32,10 @@ public class AdaptationController {
         CBRCase selectedCase = null;
         WordNetDatabase database =
                 WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
-        OntoBridge ontoBridge = OntologyConnector.getInstance(OWL_URL, OWL_PATH).getOntoBridge();
+        owlPath =
+                getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
+        owlUrl = env.getProperty("OWL_URL");
+        OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
 
         // TODO: change this searching algo
         for (CBRCase c : cases) {

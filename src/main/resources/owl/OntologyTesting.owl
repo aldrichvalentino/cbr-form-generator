@@ -1,0 +1,1144 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#"
+     xml:base="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasAttribute -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasAttribute"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents">
+        <owl:propertyDisjointWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#notHasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasNorName -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasNorName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasOddElements -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasOddElements">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isAnOddElementOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isATypeOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isATypeOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isAboveOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isAboveOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isBelowOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isAnOddElementOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isAnOddElementOf"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isBelowOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isBelowOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isInAGroupWith -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isInAGroupWith">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isLeftOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isLeftOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isRightOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPreferredOver -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPreferredOver"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isRightOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isRightOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#notHasComponent -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#notHasComponent"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#placeholder -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#placeholder"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Accomodation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Accomodation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Activity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Activity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Address -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Address">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Identity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isSuccessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#City"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Street"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Country"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Province"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Regency"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Sub_District"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Adults -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Adults">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ages"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ages -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ages">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Booking -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Booking">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#CancelButton -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#CancelButton">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Children -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Children">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ages"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#City -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#City">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ClearButton -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ClearButton">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Contact -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Contact">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Country -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Country">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Date -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Date">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Day"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Month"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasComponents"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Year"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Day -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Day">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Date"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Degree -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Degree">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Study"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Email -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Email">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Contact"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ExitButton -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ExitButton">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Field -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Field">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Study"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldAttributes -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldAttributes"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#First_Name -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#First_Name">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Middle_Name"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#User_Name"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Forms -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Forms"/>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Full_Name -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Full_Name">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Hotel -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Hotel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Accomodation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#House -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#House">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Identity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Identity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Labels -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Labels">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Last_Name -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Last_Name">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Login -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Login">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Logins -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Logins">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Login"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Message -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Message">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Middle_Name -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Middle_Name">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Month -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Month">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Date"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Motel -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Motel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Accomodation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Address"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Nationality -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Nationality">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Nick_Name -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Nick_Name">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Number -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Number">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OKButton -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OKButton">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Office -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Office">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Option -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Option">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Out_Security -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Out_Security">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormElements"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Phone -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Phone">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Price -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Price">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Process -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Process">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Province -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Province">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Purchasing -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Purchasing">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Recreation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Recreation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Activity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Regency -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Regency">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Registration -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Registration">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Email"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hasMandatoryElements"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#SubmitButton"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Rooms -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Rooms">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Accomodation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Salutation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Salutation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Search -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Search">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Security -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Security">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Service -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Service">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Sex -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Sex">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Statement -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Statement">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Street -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Street">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Study -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Study">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Sub_District -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Sub_District">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#SubmitButton -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#SubmitButton">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Telecom -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Telecom">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ticket -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ticket">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Time -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Time">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#InputFields"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Transportation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Transportation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Travel -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Travel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Activity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#UserInformation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#UserInformation">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#User_Name -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#User_Name">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Names"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#isPredecessorOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#First_Name"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Villa -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Villa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Accomodation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Work -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Work">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Activity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Year -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Year">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Date"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Zip_Code -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Zip_Code">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Place"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ccaptcha -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ccaptcha">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ControlButtons"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Address"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#CancelButton"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#treset"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#First_Name"/>
+        <owl:sameAs rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#firstname"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name"/>
+        <placeholder rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Your first name</placeholder>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#firstname -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#firstname">
+        <hasNorName rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formA -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formA">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formB -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formB">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formC -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formC">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Last_Name"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tpassword"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Phone"/>
+        <owl:sameAs rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phonenumber"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phonenumber -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phonenumber">
+        <hasNorName rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#submit -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#submit">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#SubmitButton"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tsubmit"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tpassword -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tpassword">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#treset -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#treset">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tsubmit -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tsubmit">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#user_name -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#user_name">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#User_Name"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password"/>
+        <isLeftOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.7.2018-12-02T02:23:35Z) https://github.com/owlcs/owlapi -->
+
