@@ -14,8 +14,10 @@ import es.ucm.fdi.gaia.jcolibri.cbrcore.Connector;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ public class QueryController {
     private String owlPath;
     private String owlUrl;
     Logger logger = LoggerFactory.getLogger(QueryController.class);
+    private List<String> errorFields = new ArrayList<String>();
 
     @GetMapping("/query")
     public String handleGet(Model model) {
@@ -70,6 +73,7 @@ public class QueryController {
         logger.info("Query Page: Normalizing Query");
         CBRQuery query = new CBRQuery();
         query.setDescription(queryModel);
+        errorFields.clear();
         try {
             query = normalize(query);
             queryModel = (FormDescription) query.getDescription();
@@ -80,6 +84,7 @@ public class QueryController {
         // return similarity form
         model.addAttribute("similarityAttributes", new SimilarityAttributes());
         model.addAttribute("query", queryModel);
+        model.addAttribute("errorFields", errorFields);
         // put state in a global variable
         formDescription = queryModel;
         globalQuery = query;
@@ -264,6 +269,7 @@ public class QueryController {
                 }
             } else { // jika tidak ada di Ontologi form dan tdk ada di WN
                 logger.error(ins + " is not found in ontology and wordnet.");
+                errorFields.add(ins);
                 ret = ins;
             }
         }

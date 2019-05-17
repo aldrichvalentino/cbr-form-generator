@@ -10,6 +10,10 @@
 </head>
 
 <body>
+  <div class="alert alert-danger" role="alert" th:unless="${errorFields.size() == 0}">
+    <span class="font-weight-bold" th:each="element : ${errorFields}" th:text="${element} + ' '"></span>
+    is not found in our field dictionary.
+  </div>
   <div class="container my-4">
     <div class="col-xs-12">
       <h1>Normalized Query</h1>
@@ -17,7 +21,6 @@
       <p th:text="'Input Fields: ' + ${query.itoString()}"></p>
       <p th:text="'Output Fields: ' + ${query.otoString()}"></p>
       <p th:text="'Control Buttons: ' + ${query.ctoString()}"></p>
-      <!-- TODO: show error when normalization fails -->
     </div>
 
     <div class="col-xs-12">
