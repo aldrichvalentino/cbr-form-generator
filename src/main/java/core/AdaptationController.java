@@ -37,10 +37,10 @@ public class AdaptationController {
         owlUrl = env.getProperty("OWL_URL");
         OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
 
-        // TODO: change this searching algo
         for (CBRCase c : cases) {
             if (id == (int) c.getID()) {
                 selectedCase = c;
+                break;
             }
         }
 

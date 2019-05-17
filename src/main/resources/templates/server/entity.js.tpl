@@ -141,8 +141,4 @@ router.delete('/:id', (req, res, next) => {
     });
 });
 
-// TODO: password, image
-// TODO: login form
-// TODO: change password
-
 module.exports = router;

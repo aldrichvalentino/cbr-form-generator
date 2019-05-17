@@ -38,12 +38,13 @@
                 <h3>Retrieved Solution</h3>
                 <p class="lead">Select a case as a solution base.</p>
                 <form action="#" th:action="@{/adapt}" th:object="${submitCaseId}" method="post">
-                    <div class="form-check" th:each="case : ${cases}">
+                    <div class="form-check" th:each="case,iter : ${cases}">
                         <input class="form-check-input" type="radio" name="caseId" th:id="${case.description.id}"
                             th:value="${case.description.id}" />
                         <label class="form-check-label" th:for="${case.description.id}">
-                            <span th:text="${case.description.id}"></span>
-                            <p class="lead" th:text="${case.description.getFormName()}"></p>
+                            <span th:text="'(' + ${case.description.id} + ') '"></span>
+                            <span th:text="${case.description.getFormName()}"></span>
+                            <p class="lead" th:text="'Score: ' + ${evalScores[iter.index]}"></p>
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Reuse case</button>

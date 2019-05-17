@@ -22,7 +22,11 @@ import model.SimilarityAttributes;
 import utils.DatabaseConnector;
 import utils.Jaccard;
 import utils.StandardGlobalSimilarityFunction;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,12 +85,13 @@ public class RetrieveController {
 
             Collection<RetrievalResult> eval =
                     NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, nnConfig);
-            // TODO: getEval from retrieval result
-            // for (Iterator<RetrievalResult> rri = eval.iterator(); rri.hasNext();) {
-            // RetrievalResult item = rri.next();
-            // System.out.format("Eval %f kasus %s %n", item.getEval(),
-            // item.get_case().getID());
-            // }
+
+            List<Double> evalScores = new ArrayList<Double>();
+            for (Iterator<RetrievalResult> it = eval.iterator(); it.hasNext();) {
+                evalScores.add(it.next().getEval());
+            }
+            evalScores.sort(Collections.reverseOrder());
+            evalScores = evalScores.subList(0, similarityAttributes.getkNumber());
 
             // Select k cases
             Collection<CBRCase> selectedcases =
@@ -96,6 +101,7 @@ public class RetrieveController {
             retrievedCases = selectedcases;
 
             model.addAttribute("cases", selectedcases.toArray());
+            model.addAttribute("evalScores", evalScores);
         } catch (Exception e) {
             e.printStackTrace();
         }
