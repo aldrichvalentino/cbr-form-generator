@@ -101,6 +101,9 @@ public class FormFieldTemplate {
                 case "temail":
                     type = "email";
                     break;
+                case "toutput":
+                    type = "output";
+                    break;
                 default:
                     type = "text";
             }

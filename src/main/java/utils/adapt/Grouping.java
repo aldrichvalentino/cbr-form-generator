@@ -32,15 +32,14 @@ public class Grouping {
         List<Groups> nsgrp = new ArrayList<Groups>(sgrp); // new group set
 
         for (T fl1 : sadd) {
+            Method m = fl1.getClass().getDeclaredMethod("getName");
+            String fln = (String) m.invoke(fl1);
             Groups ngrp = new Groups(); // new group
-            String fln = "";
             ladr = new ArrayList<AdaptResult>();
             for (Groups grpi : sgrp) {
                 oif = 0;
                 int i = 0;
                 for (GMembers gm : grpi.getgMembers()) {
-                    Method m = fl1.getClass().getDeclaredMethod("getName");
-                    fln = (String) m.invoke(fl1);
                     // System.out.println("fl name: "+fln+" Group mem "+gm.getMemberName());
                     // oif += onc.compute (new Instance(gm.getName()), new Instance(fln));
                     if (isInAGroup(gm.getName(), fln, ob)) {
@@ -115,17 +114,27 @@ public class Grouping {
         for (Iterator<String> iter = ob.listBelongingClasses(i1); iter.hasNext();)
             sc1.add(iter.next());
         sc1.remove(ob.getThingURI());
+        // for (String a : sc1)
+        // System.out.println(a + " ");
+        // System.out.println();
 
         Set<String> sc2 = new HashSet<String>();
         for (Iterator<String> iter = ob.listBelongingClasses(i2); iter.hasNext();)
             sc2.add(iter.next());
         sc2.remove(ob.getThingURI());
+        // for (String a : sc2)
+        // System.out.println(a + " ");
+        // System.out.println();
 
         double sc1size = sc1.size();
         double sc2size = sc2.size();
 
         sc1.retainAll(sc2);
         double intersectionsize = sc1.size();
+        System.out.println("Similarity of " + i1 + " and " + i2);
+        System.out.println(intersectionsize);
+        System.out.println(sc1size);
+        System.out.println(sc2size);
 
         double res = intersectionsize / (Math.sqrt(sc1size) * Math.sqrt(sc2size));
         return res;

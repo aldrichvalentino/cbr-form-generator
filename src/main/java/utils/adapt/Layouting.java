@@ -73,7 +73,7 @@ public class Layouting {
 
         if (sadd.isEmpty())
             return lor; // sadd adalah spec yang ditambahkan
-        System.out.println("Masuk layouting ...");
+        System.out.println("Start layouting ...");
         List<VLMembers> nvlm = new ArrayList<VLMembers>(); // nvlm: new vl
         VLMembers vlm;
 
@@ -82,17 +82,61 @@ public class Layouting {
                 String orderName = omember.getMemberName();
                 String elementNameInLayout = contains(lor.getVLMember(), orderName);
                 if (!elementNameInLayout.equals("")) {
-                    // System.out.println("ga bikin karena " + elementNameInLayout);
                     vlm = new VLMembers(elementNameInLayout);
                 } else {
-                    System.out.println("bikin baru karena layout blm ada: " + orderName);
+                    System.out.println("Create new in layout: " + orderName);
                     vlm = new VLMembers(orderName);
                 }
                 nvlm.add(vlm);
             }
         }
+        fixedGroupsInLayout(nvlm, lsord);
         lor.setVLMember(nvlm);
         return lor;
+    }
+
+    private static void fixedGroupsInLayout(List<VLMembers> layouts, List<Orders> orders) {
+        int startIndex = 0;
+        for (Orders order : orders) {
+            List<OMembers> orderMembers = order.getoMembers();
+            int groupSize = orderMembers.size();
+            // check for open group tag [
+            if (!layouts.get(startIndex).getName().contains(startGroup)) {
+                // opening tag must be in preceeding elements
+                for (int nextElement = startIndex + 1; nextElement < layouts
+                        .size(); nextElement++) {
+                    String elementName = layouts.get(nextElement).getName();
+                    int indexOfStartGroup = elementName.indexOf(startGroup);
+                    if (indexOfStartGroup >= 0) {
+                        String remove = elementName.substring(0, indexOfStartGroup + 1);
+                        elementName = elementName.replace(remove, "");
+                        layouts.get(nextElement).setName(elementName);
+                        layouts.get(startIndex).setName(remove + layouts.get(startIndex).getName());
+                        break;
+                    }
+                }
+            }
+
+            int lastGroupIndex = startIndex + groupSize - 1;
+            // check for close group tag ]
+            if (!layouts.get(lastGroupIndex).getName().contains(endGroup)) {
+                // closing tag must be in previous elements
+                for (int prevElement = lastGroupIndex - 1; prevElement >= 0; prevElement--) {
+                    String elementName = layouts.get(prevElement).getName();
+                    int indexOfEndGroup = elementName.indexOf(endGroup);
+                    if (indexOfEndGroup >= 0) {
+                        String remove =
+                                elementName.substring(indexOfEndGroup, elementName.length());
+                        elementName = elementName.replace(remove, "");
+                        layouts.get(prevElement).setName(elementName);
+                        layouts.get(lastGroupIndex)
+                                .setName(layouts.get(lastGroupIndex).getName() + remove);
+                        break;
+                    }
+                }
+            }
+            startIndex += groupSize;
+        }
     }
 
     private static String contains(List<VLMembers> layouts, String elementName) {

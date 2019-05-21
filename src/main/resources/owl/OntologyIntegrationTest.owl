@@ -978,7 +978,30 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Address"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
-        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#zip_code"/>
+        <isLeftOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#zip_code"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#age -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#age">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Ages"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#gender_rd"/>
+        <isLeftOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#gender_rd"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#birthday -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#birthday">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Date"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tdate"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#education_dd"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#education_dd"/>
     </owl:NamedIndividual>
     
 
@@ -992,12 +1015,31 @@
     
 
 
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#date -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#date">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#toutput"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#education_dd -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#education_dd">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Degree"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tdropdown"/>
-        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#gender_rd"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#email -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#email">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Email"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#temail"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
     </owl:NamedIndividual>
     
 
@@ -1006,41 +1048,33 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#First_Name"/>
-        <owl:sameAs rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#firstname"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
         <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name"/>
-        <placeholder rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Your first name</placeholder>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#middle_name"/>
+        <isLeftOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#middle_name"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#firstname -->
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formD -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#firstname">
-        <hasNorName rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formA -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formA">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formD">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formB -->
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formE -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formB">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formE">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formC -->
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formF -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formC">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#formF">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FormNames"/>
     </owl:NamedIndividual>
     
@@ -1051,16 +1085,16 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#gender_rd">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Sex"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tradio"/>
-        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#education_dd"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#nationality"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hobbies -->
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#greetings -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#hobbies">
-        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Activity"/>
-        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tcheckbox"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#greetings">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#OutputFields"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#toutput"/>
     </owl:NamedIndividual>
     
 
@@ -1070,27 +1104,28 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Last_Name"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
-        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
-        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password -->
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#middle_name -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password">
-        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password"/>
-        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tpassword"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#middle_name">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Middle_Name"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name"/>
+        <isLeftOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone -->
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#nationality -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone">
-        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Phone"/>
-        <hasNorName rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
-        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber"/>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#nationality">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Nationality"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#age"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#age"/>
     </owl:NamedIndividual>
     
 
@@ -1099,17 +1134,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Phone"/>
-        <owl:sameAs rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phonenumber"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber"/>
-        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phonenumber -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phonenumber">
-        <hasNorName rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#phone_number"/>
     </owl:NamedIndividual>
     
 
@@ -1119,8 +1144,8 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#submit">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#SubmitButton"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tsubmit"/>
-        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel"/>
         <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel"/>
+        <isPredecessorOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#cancel"/>
     </owl:NamedIndividual>
     
 
@@ -1128,6 +1153,14 @@
     <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tcheckbox -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tcheckbox">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tdate -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tdate">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
     </owl:NamedIndividual>
     
@@ -1141,9 +1174,25 @@
     
 
 
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#temail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#temail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#toutput -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#toutput">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#FieldTypes"/>
     </owl:NamedIndividual>
     
@@ -1194,10 +1243,17 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#user_name">
         <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#User_Name"/>
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
-        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#address"/>
-        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#last_name"/>
-        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password"/>
-        <isLeftOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password"/>
+        <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
+        <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#zip_code -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#zip_code">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Zip_Code"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tnumber"/>
     </owl:NamedIndividual>
 </rdf:RDF>
 

@@ -75,7 +75,7 @@ public class HTMLBuilder {
         String type = getType(elementName);
         switch (type) {
             case "select":
-                return div(label(labelName),
+                return div(label(elementName),
                         select(option("default 1"), option("default 2"), option("default 3"))
                                 .withClass("form-control").withName(elementName))
                                         .withClass("form-group");
@@ -93,6 +93,8 @@ public class HTMLBuilder {
                 return div(button(labelName).withClass("btn btn-primary"));
             case "reset":
                 return div(button(labelName).withClass("btn btn-danger"));
+            case "output":
+                return h2(labelName);
             default:
                 return div(label(labelName),
                         input().withType(type).withName(elementName).withClass("form-control"))
@@ -159,6 +161,9 @@ public class HTMLBuilder {
                 break;
             case "ttel":
                 type = "tel";
+                break;
+            case "toutput":
+                type = "output";
                 break;
             default:
                 type = "text";
