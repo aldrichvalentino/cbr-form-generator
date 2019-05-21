@@ -73,6 +73,10 @@ public class DatabaseConnector implements Connector {
         return connector;
     }
 
+    public SessionFactory getSession() {
+        return sessionFactory;
+    }
+
     @Override
     public void initFromXMLfile(URL file) throws InitializingException {
         // do nothing

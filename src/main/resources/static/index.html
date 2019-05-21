@@ -1,13 +1,63 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Getting Started: Serving Web Content</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CBR Form</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/vendor/bootstrap-4.css">
+  <link rel="stylesheet" href="/css/custom.css">
 </head>
 
 <body>
-  <p>Click here to make a query: <a href="/query">query</a></p>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-8">
+        <h1>
+          Welcome to CBR Form Generator!
+        </h1>
+        <p class="lead">Generate form application from previous cases.</p>
+        <hr />
+        <a class="btn btn-primary" href="/query">Click here to start</a>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-6">
+        <strong>Repopulate Cases to Database</strong>
+        <p>Empty the case base and repopulate it with initial cases.</p>
+        <button id="rebuild-db" class="btn btn-danger btn-sm">Erase</button>
+        <br />
+        <img src="/img/spinner.gif" id="loading" width="100" style="display: none" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/vendor/jquery.js"></script>
+  <script src="/js/vendor/popper.js"></script>
+  <script src="/js/vendor/bootstrap.js"></script>
+  <script>
+    $(document).ready(() => {
+      $("#rebuild-db").click(() => {
+        if (confirm("Are you sure to proceed with this action?")) {
+          $("#loading").css("display", "block");
+          $("#rebuild-db").addClass("disabled");
+          $.get("/erase", data => {
+            $("#loading").css("display", "none");
+            $("#rebuild-db").removeClass("disabled");
+          });
+        }
+      })
+    })
+  </script>
 </body>
 
 </html>

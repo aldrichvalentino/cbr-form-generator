@@ -22,6 +22,7 @@ DB_USERNAME=admin
 DB_PASSWORD=password
 OWL_FILENAME=OntologyTesting.owl
 OWL_URL=http://www.semanticweb.org/hp/ontologies/2015/2/OntologyTesting.owl
+SEED_FILE=integration_test.csv
 ```
 4. Run `./gradlew bootRun` to run the application.
 
