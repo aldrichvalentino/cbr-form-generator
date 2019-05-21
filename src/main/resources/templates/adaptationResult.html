@@ -22,58 +22,57 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container my-5">
         <div class="row">
-            <div class="col-xs-4">
-                <h2>Form Desc</h2>
-                <p th:text="${result.description.formName}"></p>
-                <h2>Input field</h2>
-                <div th:each="input : ${result.description.inputFields}">
-                    <p th:text="${input.name}"></p>
-                </div>
-                <h2>Output field</h2>
-                <div th:each="input : ${result.description.outputFields}">
-                    <p th:text="${input.name}"></p>
-                </div>
-                <h2>Control button</h2>
-                <div th:each="input : ${result.description.controlButtons}">
-                    <p th:text="${input.name}"></p>
-                </div>
-                <h2>Label</h2>
-                <div th:each="label : ${result.solution.getlabel()}">
-                    <p th:text="${label.key}"></p>
-                    <p th:text="${label.value.label}"></p>
-                </div>
-                <h1>Design Solution</h1>
-                <h2>Group</h2>
-                <div th:each="grouping : ${result.solution.group}">
-                    <div th:each="group : ${grouping}">
-                        <div>Id group</div>
-                        <!-- <div th:text="${group.id}"></div> -->
-                        <div th:each="gMember : ${group.gMembers}">
-                            <p th:text="${gMember.name}"></p>
-                        </div>
-                    </div>
-                </div>
-                <h2>Order</h2>
-                <div th:each="ordering : ${result.solution.order}">
-                    <div th:each="order : ${ordering}">
-                        <div>Id order</div>
-                        <!-- <div th:text="${order.id}"></div> -->
-                        <div th:each="oMember : ${order.oMembers}">
-                            <p th:text="${oMember.memberName}"></p>
-                        </div>
-                    </div>
-                </div>
-                <h2>Layout</h2>
+            <div class="col-4 mr-3">
+                <h2 th:inline="text">
+                    Form description of [[${result.description.formName}]]
+                </h2>
+                <p class="lead">Input field:</p>
+                <ol>
+                    <li th:each="input : ${result.description.inputFields}">
+                        <span th:text="${input.name}"></span>
+                    </li>
+                </ol>
+                <p class="lead">Output field:</p>
+                <ol>
+                    <li th:each="input : ${result.description.outputFields}">
+                        <span th:text="${input.name}"></span>
+                    </li>
+                </ol>
+                <p class="lead">Control button:</p>
+                <ol>
+                    <li th:each="input : ${result.description.controlButtons}">
+                        <span th:text="${input.name}"></span>
+                    </li>
+                </ol>
+                <hr />
+                <p class="lead">Labels</p>
+                <ul>
+                    <li th:each="label : ${result.solution.getlabel()}">
+                        <b th:text="${label.key}"></b>:
+                        <span th:text="${label.value.label}"></span>
+                    </li>
+                </ul>
+                <p class="lead">Group and member's ordering</p>
+                <ol>
+                    <li th:each="order : ${result.solution.order}">
+                        <ul class="mb-2">
+                            <li th:each="oMember : ${order.oMembers}">
+                                <span th:text="${oMember.memberName}"></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+                <p class="lead">Layout</p>
                 <div th:text="${result.solution.vltoString()}"></div>
                 <div th:text="${result.solution.hltoString()}"></div>
             </div>
-            <div class="col-xs-8">
+            <div class="col">
                 <div id="preview-section">
                     <div class="empty-text">No form to see.</div>
                 </div>
-                <div>
+                <div class="text-center">
                     <p class="lead">What do you want to do with proposed solution?</p>
                     <button type="button" class="btn btn-success" id="preview-button">Refresh</button>
                     <a class="btn btn-secondary" href="/revise">Revise Solution</a>

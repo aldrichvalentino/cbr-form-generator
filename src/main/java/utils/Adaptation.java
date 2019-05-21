@@ -348,12 +348,16 @@ public class Adaptation {
     public String makeLabel(String st) {
         StringBuffer res = new StringBuffer();
         String[] strArr = st.split("_");
-        for (String str : strArr) {
-            char[] stringArray = str.trim().toCharArray();
-            stringArray[0] = Character.toUpperCase(stringArray[0]);
-            str = new String(stringArray);
-
-            res.append(str).append(" ");
+        if (st.contains("_rd") || st.contains("_dd") || st.contains("_cb")) {
+            // set default label for radio, select dropdown, and checkbox
+            res.append("xnDefault Label,Op 1,Op2,Op3");
+        } else {
+            for (String str : strArr) {
+                char[] stringArray = str.trim().toCharArray();
+                stringArray[0] = Character.toUpperCase(stringArray[0]);
+                str = new String(stringArray);
+                res.append(str).append(" ");
+            }
         }
         return res.toString().trim();
     }

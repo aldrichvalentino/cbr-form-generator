@@ -26,27 +26,27 @@
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
-            <input class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            <input required class="form-control" type="text" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
             {{else}}
-            <input class="form-control" type="text" name="${field.name}" id="${field.name}">
+            <input required class="form-control" type="text" name="${field.name}" id="${field.name}">
             {{/if}}
         </div>
 <#elseif field.type=="email">
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
-            <input class="form-control" type="email" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            <input required class="form-control" type="email" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
             {{else}}
-            <input class="form-control" type="email" name="${field.name}" id="${field.name}">
+            <input required class="form-control" type="email" name="${field.name}" id="${field.name}">
             {{/if}}
         </div>
 <#elseif field.type=="password">
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
-            <input class="form-control" type="password" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            <input required class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
             {{else}}
-            <input class="form-control" type="password" name="${field.name}" id="${field.name}">
+            <input required class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="${field.name}" id="${field.name}">
             {{/if}}
         </div>
 <#elseif field.type=="checkbox">
@@ -74,7 +74,7 @@
 <#elseif field.type=="select">
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
-            <select class="form-control" name="${field.name}" id="${field.name}">
+            <select required class="form-control" name="${field.name}" id="${field.name}">
                 {{#each ${field.name}}}
                 <option value="{{@key}}" {{#if this}} selected {{/if}}>{{@key}}</option>
                 {{/each}}
@@ -84,27 +84,27 @@
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
-            <input class="form-control" type="file" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            <input required class="form-control" type="file" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
             {{else}}
-            <input class="form-control" type="file" name="${field.name}" id="${field.name}">
+            <input required class="form-control" type="file" name="${field.name}" id="${field.name}">
             {{/if}}
         </div>
 <#elseif field.type=="number">
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
-            <input class="form-control" type="number" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            <input required class="form-control" type="number" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
             {{else}}
-            <input class="form-control" type="number" name="${field.name}" id="${field.name}">
+            <input required class="form-control" type="number" name="${field.name}" id="${field.name}">
             {{/if}}
         </div>
 <#elseif field.type=="date">
         <div class="form-group custom-content">
             <label for="${field.name}">${field.label}</label>
             {{#if ${field.name}}}
-            <input class="form-control" type="date" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
+            <input required class="form-control" type="date" name="${field.name}" id="${field.name}" value="{{${field.name}}}">
             {{else}}
-            <input class="form-control" type="date" name="${field.name}" id="${field.name}">
+            <input required class="form-control" type="date" name="${field.name}" id="${field.name}">
             {{/if}}
         </div>
 <#elseif field.type=="button">
@@ -122,6 +122,12 @@
 <#elseif field.type=="output">
         <div class="form-group custom-content">
             <h2>${field.label}</h2>
+            <#if field.name=="date">
+            <span id="today-date"></span>
+            <script>
+                document.getElementById("today-date").innerHTML = (new Date()).toDateString();
+            </script>
+            </#if>
         </div>
 <#else>
         <div class="form-group custom-content">
