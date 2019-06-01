@@ -1090,6 +1090,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#given_name -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#given_name">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#First_Name"/>
+        <hasNorName rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#first_name"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#greetings -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#greetings">
@@ -1126,6 +1135,15 @@
         <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#ttext"/>
         <isAboveOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#age"/>
         <isInAGroupWith rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#age"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#password">
+        <rdf:type rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#Password"/>
+        <isATypeOf rdf:resource="http://www.semanticweb.org/hp/ontologies/2015/2/FormOnto#tpassword"/>
     </owl:NamedIndividual>
     
 

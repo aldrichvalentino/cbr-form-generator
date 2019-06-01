@@ -46,28 +46,23 @@
                     <h1>Solution</h1>
                     <div class="form-group">
                         <label>Label</label>
-                        <textarea minlength="35" th:field="*{labels}"
-                            th:text="${adaptedCase.solution.ltoString()}"></textarea>
+                        <textarea th:field="*{labels}" th:text="${adaptedCase.solution.ltoString()}"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Group</label>
-                        <textarea minlength="35" th:field="*{groups}"
-                            th:text="${adaptedCase.solution.gtoString()}"></textarea>
+                        <textarea th:field="*{groups}" th:text="${adaptedCase.solution.gtoString()}"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Order</label>
-                        <textarea minlength="35" th:field="*{orders}"
-                            th:text="${adaptedCase.solution.otoString()}"></textarea>
+                        <textarea th:field="*{orders}" th:text="${adaptedCase.solution.otoString()}"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Layout Vertical</label>
-                        <textarea minlength="35" th:field="*{vLayouts}"
-                            th:text="${adaptedCase.solution.vltoString()}"></textarea>
+                        <textarea th:field="*{vLayouts}" th:text="${adaptedCase.solution.vltoString()}"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Layout Horizontal</label>
-                        <textarea minlength="35" th:field="*{hLayouts}"
-                            th:text="${adaptedCase.solution.hltoString()}"></textarea>
+                        <textarea th:field="*{hLayouts}" th:text="${adaptedCase.solution.hltoString()}"></textarea>
                     </div>
                 </div>
             </div>
