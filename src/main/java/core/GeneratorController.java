@@ -136,7 +136,7 @@ public class GeneratorController {
             // Step 4 Zip form and SQL with the rest of the web files and return the zip file
             logger.info("Step 4: Zipping Files");
             String sourceFile =
-                    System.getProperty("user.dir") + "\\src\\main\\resources\\templates\\web";
+                    System.getProperty("user.dir") + "/src/main/resources/templates/web";
             ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
             File fileToZip = new File(sourceFile);
 
