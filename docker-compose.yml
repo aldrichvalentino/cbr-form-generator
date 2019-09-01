@@ -6,6 +6,8 @@ services:
     restart: always
     volumes:
       - db:/var/lib/mysql
+    ports:
+      - 3306:3306
     environment:
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=password
@@ -15,7 +17,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 1234:8080
 
 volumes:
   db:
