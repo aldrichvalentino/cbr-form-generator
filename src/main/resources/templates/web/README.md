@@ -37,11 +37,11 @@ npm install
 ```
 2. Make an environment file named `.env` on the root project directory. Here is an example of a `.env` file.
 ```
-MODE=development
-DB_HOST=localhost
+MODE=production
+DB_HOST=db
 DB_USER=admin
 DB_PASSWORD=password
-DB_DATABASE=test
+DB_DATABASE=application
 ```
 3. Start the application
 ```sh
