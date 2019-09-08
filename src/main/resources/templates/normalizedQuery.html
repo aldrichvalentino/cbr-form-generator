@@ -7,11 +7,6 @@
 
   <head th:replace="fragments/header :: common-header" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/slider.css}">
-  <style>
-    .custom-alert {
-      border-radius: 0;
-    }
-  </style>
 </head>
 
 <body>
@@ -23,7 +18,7 @@
     <body th:replace="fragments/sidebar :: common-sidebar" />
 
     <div class="container-content">
-      <div class="alert alert-danger custom-alert" role="alert" th:unless="${errorFields.size() == 0}">
+      <div class="alert alert-danger" role="alert" th:unless="${errorFields.size() == 0}">
         <span class="font-weight-bold" th:each="element : ${errorFields}" th:text="${element} + ' '"></span>
         is not found in our field dictionary.
       </div>
