@@ -2,78 +2,86 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Retrieval Result</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Retrieval Result</title>
 
-    <head th:replace="fragments/header :: common-header" />
+  <head th:replace="fragments/header :: common-header" />
 
-    <style>
-        #preview-section {
-            min-height: 80px;
-            max-height: 450px;
-            overflow-y: scroll;
-            border: 1px solid #495057;
-            padding-top: 25px;
-        }
+  <style>
+    #preview-section {
+      min-height: 80px;
+      max-height: 450px;
+      overflow-y: scroll;
+      border: 1px solid #495057;
+      padding-top: 25px;
+    }
 
-        .empty-text {
-            height: 100%;
-            text-align: center;
-        }
-    </style>
-    <link rel="stylesheet" href="/css/custom.css">
+    .empty-text {
+      height: 100%;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container my-4">
-        <div class="col-xs-12">
-            <h1>Base Solution</h1>
-            <hr>
-        </div>
 
-        <div class="row my-3">
-            <div class="col-xs-12 col-sm-6">
-                <h3>Retrieved Solution</h3>
-                <p class="lead">Select a case as a solution base.</p>
-                <form action="#" th:action="@{/adapt}" th:object="${submitCaseId}" method="post">
-                    <div class="form-check" th:each="case,iter : ${cases}">
-                        <input class="form-check-input" type="radio" name="caseId" th:id="${case.description.id}"
-                            th:value="${case.description.id}" />
-                        <label class="form-check-label" th:for="${case.description.id}">
-                            <span th:text="'(' + ${case.description.id} + ') '"></span>
-                            <span th:text="${case.description.getFormName()}"></span>
-                            <p class="lead" th:text="'Score: ' + ${evalScores[iter.index]}"></p>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Reuse case</button>
-                    <button type="button" class="btn btn-success" id="preview-button">Preview</button>
-                </form>
+  <body th:replace="fragments/nav :: common-nav" />
+
+  <div class="d-flex container-body">
+
+    <body th:replace="fragments/sidebar :: common-sidebar" />
+
+    <div class="container container-content">
+      <div class="col-xs-12">
+        <h1 class="mt-5">Base Solution</h1>
+        <hr>
+      </div>
+
+      <div class="row my-3">
+        <div class="col-xs-12 col-sm-6">
+          <h3>Retrieved Solution</h3>
+          <p class="lead">Select a case as a solution base.</p>
+          <form action="#" th:action="@{/adapt}" th:object="${submitCaseId}" method="post">
+            <div class="form-check" th:each="case,iter : ${cases}">
+              <input class="form-check-input" type="radio" name="caseId" th:id="${case.description.id}"
+                th:value="${case.description.id}" />
+              <label class="form-check-label" th:for="${case.description.id}">
+                <span th:text="'(' + ${case.description.id} + ') '"></span>
+                <span th:text="${case.description.getFormName()}"></span>
+                <p class="lead" th:text="'Score: ' + ${evalScores[iter.index]}"></p>
+              </label>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                <h3>Preview Section</h3>
-                <p class="lead">Choose a case on the left and click preview to see the form.</p>
-                <div id="preview-section">
-                    <div class="empty-text">No form to see.</div>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-primary">Reuse case</button>
+            <button type="button" class="btn btn-success" id="preview-button">Preview</button>
+          </form>
         </div>
+        <div class="col-xs-12 col-sm-6">
+          <h3>Preview Section</h3>
+          <p class="lead">Choose a case on the left and click preview to see the form.</p>
+          <div id="preview-section">
+            <div class="empty-text">No form to see.</div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <body th:replace="fragments/script :: common-script" />
-    <script>
-        $(document).ready(() => {
-            $("#preview-button").click(() => {
-                var value = $("input[name='caseId']:checked").val();
-                if (value) {
-                    $("#preview-section").load(`/generate?caseId=${value}&isRetrievedCase=true`);
-                } else {
-                    alert("Please select a case.");
-                }
-            })
-        })
-    </script>
+  <body th:replace="fragments/script :: common-script" />
+  <script>
+    $(document).ready(() => {
+      $("#preview-button").click(() => {
+        var value = $("input[name='caseId']:checked").val();
+        if (value) {
+          $("#preview-section").load(`/generate?caseId=${value}&isRetrievedCase=true`);
+        } else {
+          alert("Please select a case.");
+        }
+      })
+    })
+  </script>
+  <script src="/js/sidebar.js"></script>
 </body>
 
 </html>

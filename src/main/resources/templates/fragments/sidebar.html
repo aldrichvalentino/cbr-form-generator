@@ -1,0 +1,46 @@
+<body th:fragment="common-sidebar">
+  <div class="list-group list-group-flush sidebar-custom w-25" id="sidebar-menu">
+    <a href="/" id="menu-" class="list-group-item list-group-item-action list-item-custom">
+      Getting Started
+    </a>
+    <a href="/query" id="menu-query" class="list-group-item list-group-item-action list-item-custom">
+      Query
+    </a>
+    <a href="/retrieval" id="menu-retrieval" class="list-group-item list-group-item-action list-item-custom">
+      <small class="ml-2">Retrieval</small>
+    </a>
+    <a href="/adapt" id="menu-adapt" class="list-group-item list-group-item-action list-item-custom">
+      <small class="ml-2">Adapt</small>
+    </a>
+    <a href="/revise" id="menu-revise" class="list-group-item list-group-item-action list-item-custom">
+      <small class="ml-2">Revise</small>
+    </a>
+    <a href="/retain" id="menu-retain" class="list-group-item list-group-item-action list-item-custom">
+      <small class="ml-2">Retain</small>
+    </a>
+    <!-- TODO: make form preview page -->
+    <a href="/form-preview" id="menu-retain" class="list-group-item list-group-item-action list-item-custom">
+      Form Preview
+    </a>
+    <!-- TODO: erase all data page, seed page -->
+    <a href="/clear" id="menu-retain" class="list-group-item list-group-item-action list-item-custom">
+      Clear Data
+    </a>
+    <!-- TODO: make about page -->
+    <a href="/about" id="menu-retain" class="list-group-item list-group-item-action list-item-custom">
+      About
+    </a>
+  </div>
+
+  <style>
+    .sidebar-custom {
+      padding: 1rem;
+      border-right: 1px solid #D9DADB;
+      height: calc(100vh - 56px);
+      background-color: #e7e8ee;
+    }
+
+    .list-item-custom {
+      background-color: #e7e8ee;
+    }
+  </style>

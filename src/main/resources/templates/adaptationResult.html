@@ -2,94 +2,102 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Proposed solution</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Proposed solution</title>
 
-    <head th:replace="fragments/header :: common-header" />
-    <style>
-        #preview-section {
-            padding-top: 25px;
-        }
+  <head th:replace="fragments/header :: common-header" />
+  <style>
+    #preview-section {
+      padding-top: 25px;
+    }
 
-        .empty-text {
-            height: 100%;
-            text-align: center;
-        }
-    </style>
-    <link rel="stylesheet" href="/css/custom.css">
+    .empty-text {
+      height: 100%;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-4 mr-3">
-                <h2 th:inline="text">
-                    Form description of [[${result.description.formName}]]
-                </h2>
-                <p class="lead">Input field:</p>
-                <ol>
-                    <li th:each="input : ${result.description.inputFields}">
-                        <span th:text="${input.name}"></span>
-                    </li>
-                </ol>
-                <p class="lead">Output field:</p>
-                <ol>
-                    <li th:each="input : ${result.description.outputFields}">
-                        <span th:text="${input.name}"></span>
-                    </li>
-                </ol>
-                <p class="lead">Control button:</p>
-                <ol>
-                    <li th:each="input : ${result.description.controlButtons}">
-                        <span th:text="${input.name}"></span>
-                    </li>
-                </ol>
-                <hr />
-                <p class="lead">Labels</p>
-                <ul>
-                    <li th:each="label : ${result.solution.getlabel()}">
-                        <b th:text="${label.key}"></b>:
-                        <span th:text="${label.value.label}"></span>
-                    </li>
-                </ul>
-                <p class="lead">Group and member's ordering</p>
-                <ol>
-                    <li th:each="order : ${result.solution.order}">
-                        <ul class="mb-2">
-                            <li th:each="oMember : ${order.oMembers}">
-                                <span th:text="${oMember.memberName}"></span>
-                            </li>
-                        </ul>
-                    </li>
-                </ol>
-                <p class="lead">Layout</p>
-                <div th:text="${result.solution.vltoString()}"></div>
-                <div th:text="${result.solution.hltoString()}"></div>
-            </div>
-            <div class="col">
-                <div id="preview-section">
-                    <div class="empty-text">No form to see.</div>
-                </div>
-                <div class="text-center">
-                    <p class="lead">What do you want to do with proposed solution?</p>
-                    <button type="button" class="btn btn-success" id="preview-button">Refresh</button>
-                    <a class="btn btn-secondary" href="/revise">Revise Solution</a>
-                    <a class="btn btn-primary" href="/retain">No revision needed!</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <body th:replace="fragments/script :: common-script" />
-    <script>
-        $(document).ready(() => {
-            $("#preview-button").click(() => {
-                $("#preview-section").load(`/generate?caseId=0&isRetrievedCase=false`);
-            })
-        })
-    </script>
+  <body th:replace="fragments/nav :: common-nav" />
+
+  <div class="d-flex container-body">
+
+    <body th:replace="fragments/sidebar :: common-sidebar" />
+
+    <div class="container container-content">
+      <div class="row">
+        <div class="col-4 mr-3">
+          <h2 th:inline="text" class="mt-5">
+            Form description of [[${result.description.formName}]]
+          </h2>
+          <p class="lead">Input field:</p>
+          <ol>
+            <li th:each="input : ${result.description.inputFields}">
+              <span th:text="${input.name}"></span>
+            </li>
+          </ol>
+          <p class="lead">Output field:</p>
+          <ol>
+            <li th:each="input : ${result.description.outputFields}">
+              <span th:text="${input.name}"></span>
+            </li>
+          </ol>
+          <p class="lead">Control button:</p>
+          <ol>
+            <li th:each="input : ${result.description.controlButtons}">
+              <span th:text="${input.name}"></span>
+            </li>
+          </ol>
+          <hr />
+          <p class="lead">Labels</p>
+          <ul>
+            <li th:each="label : ${result.solution.getlabel()}">
+              <b th:text="${label.key}"></b>:
+              <span th:text="${label.value.label}"></span>
+            </li>
+          </ul>
+          <p class="lead">Group and member's ordering</p>
+          <ol>
+            <li th:each="order : ${result.solution.order}">
+              <ul class="mb-2">
+                <li th:each="oMember : ${order.oMembers}">
+                  <span th:text="${oMember.memberName}"></span>
+                </li>
+              </ul>
+            </li>
+          </ol>
+          <p class="lead">Layout</p>
+          <div th:text="${result.solution.vltoString()}"></div>
+          <div th:text="${result.solution.hltoString()}"></div>
+        </div>
+        <div class="col">
+          <div id="preview-section">
+            <div class="empty-text">No form to see.</div>
+          </div>
+          <div class="text-center">
+            <p class="lead">What do you want to do with proposed solution?</p>
+            <button type="button" class="btn btn-success" id="preview-button">Refresh</button>
+            <a class="btn btn-secondary" href="/revise">Revise Solution</a>
+            <a class="btn btn-primary" href="/retain">No revision needed!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <body th:replace="fragments/script :: common-script" />
+  <script>
+    $(document).ready(() => {
+      $("#preview-button").click(() => {
+        $("#preview-section").load(`/generate?caseId=0&isRetrievedCase=false`);
+      })
+    })
+  </script>
+  <script src="/js/sidebar.js"></script>
 </body>
 
 </html>

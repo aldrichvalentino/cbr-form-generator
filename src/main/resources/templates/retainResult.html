@@ -2,28 +2,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Retain</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Retain</title>
 
-    <head th:replace="fragments/header :: common-header" />
+  <head th:replace="fragments/header :: common-header" />
 </head>
 
 <body>
-    <div class="container my-4">
-        <h1>Thank you for using CBR Form Generator.</h1>
-        <p class="lead">
-            Your solution is stored in our Case Database so
-            other people can reuse your form layout.
-        </p>
-        <div class="col text-center">
-            <a class="btn btn-info" href="/zip" role="button">Download here</a>
-            <a class="btn btn-secondary" href="/query" role="button">Query again</a>
-        </div>
-    </div>
 
-    <body th:replace="fragments/script :: common-script" />
+  <body th:replace="fragments/nav :: common-nav" />
+
+  <div class="d-flex container-body">
+
+    <body th:replace="fragments/sidebar :: common-sidebar" />
+
+    <div class="container my-5">
+      <h1>Thank you for using CBR Form Generator.</h1>
+      <p class="lead">
+        Your solution is stored in our Case Database so
+        other people can reuse your form layout.
+      </p>
+      <div class="col text-center">
+        <a class="btn btn-info" href="/zip" role="button">Download here</a>
+        <a class="btn btn-secondary" href="/query" role="button">Query again</a>
+      </div>
+    </div>
+  </div>
+
+  <body th:replace="fragments/script :: common-script" />
+  <script src="/js/sidebar.js"></script>
 </body>
 
 </html>

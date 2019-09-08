@@ -2,79 +2,87 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Revise Form</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Revise Form</title>
 
-    <head th:replace="fragments/header :: common-header" />
-    <style>
-        textarea {
-            resize: auto;
-        }
-    </style>
+  <head th:replace="fragments/header :: common-header" />
+  <style>
+    textarea {
+      resize: auto;
+    }
+  </style>
 </head>
 
 <body>
-    <form action="#" th:action="@{/revise}" th:object="${revisedModel}" method="post">
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col">
-                    <h1>Description</h1>
-                    <div class="form-group">
-                        <label>Form Name</label>
-                        <input class="form-control" type="text" name="formName"
-                            th:value="${adaptedCase.description.formName}" />
-                    </div>
-                    <div class="form-group">
-                        <label>Input field</label>
-                        <input class="form-control" type="text" name="inputFields"
-                            th:value="${adaptedCase.description.itoString()}" />
-                    </div>
-                    <div class="form-group">
-                        <label>Output field</label>
-                        <input class="form-control" type="text" name="outputFields"
-                            th:value="${adaptedCase.description.otoString()}" />
-                    </div>
-                    <div class="form-group">
-                        <label>Control button</label>
-                        <input class="form-control" type="text" name="controlButtons"
-                            th:value="${adaptedCase.description.ctoString()}" />
-                    </div>
-                </div>
-                <div class="col">
-                    <h1>Solution</h1>
-                    <div class="form-group">
-                        <label>Label</label>
-                        <textarea th:field="*{labels}" th:text="${adaptedCase.solution.ltoString()}"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Group</label>
-                        <textarea th:field="*{groups}" th:text="${adaptedCase.solution.gtoString()}"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Order</label>
-                        <textarea th:field="*{orders}" th:text="${adaptedCase.solution.otoString()}"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Layout Vertical</label>
-                        <textarea th:field="*{vLayouts}" th:text="${adaptedCase.solution.vltoString()}"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Layout Horizontal</label>
-                        <textarea th:field="*{hLayouts}" th:text="${adaptedCase.solution.hltoString()}"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="form-group">
-                    <input type="submit" value="Revise" class="btn btn-primary" />
-                </div>
-            </div>
-        </div>
-    </form>
 
-    <body th:replace="fragments/script :: common-script" />
+  <body th:replace="fragments/nav :: common-nav" />
+
+  <div class="d-flex container-body">
+
+    <body th:replace="fragments/sidebar :: common-sidebar" />
+
+    <form action="#" th:action="@{/revise}" th:object="${revisedModel}" method="post" class="container-content w-100">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h1 class="mt-4">Description</h1>
+            <div class="form-group">
+              <label>Form Name</label>
+              <input class="form-control" type="text" name="formName" th:value="${adaptedCase.description.formName}" />
+            </div>
+            <div class="form-group">
+              <label>Input field</label>
+              <input class="form-control" type="text" name="inputFields"
+                th:value="${adaptedCase.description.itoString()}" />
+            </div>
+            <div class="form-group">
+              <label>Output field</label>
+              <input class="form-control" type="text" name="outputFields"
+                th:value="${adaptedCase.description.otoString()}" />
+            </div>
+            <div class="form-group">
+              <label>Control button</label>
+              <input class="form-control" type="text" name="controlButtons"
+                th:value="${adaptedCase.description.ctoString()}" />
+            </div>
+          </div>
+          <div class="col">
+            <h1>Solution</h1>
+            <div class="form-group">
+              <label>Label</label>
+              <textarea th:field="*{labels}" th:text="${adaptedCase.solution.ltoString()}"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Group</label>
+              <textarea th:field="*{groups}" th:text="${adaptedCase.solution.gtoString()}"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Order</label>
+              <textarea th:field="*{orders}" th:text="${adaptedCase.solution.otoString()}"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Layout Vertical</label>
+              <textarea th:field="*{vLayouts}" th:text="${adaptedCase.solution.vltoString()}"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Layout Horizontal</label>
+              <textarea th:field="*{hLayouts}" th:text="${adaptedCase.solution.hltoString()}"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="form-group">
+            <input type="submit" value="Revise" class="btn btn-primary" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <body th:replace="fragments/script :: common-script" />
+  <script src="/js/sidebar.js"></script>
 </body>
 
 </html>

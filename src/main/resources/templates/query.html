@@ -9,53 +9,62 @@
 </head>
 
 <body>
-  <div class="container my-4">
-    <div class="col-xs-12">
-      <h1 class="">Form Application Generator - Query</h1>
-      <form action="#" th:action="@{/query}" th:object="${query}" method="post">
-        <div class="form-group">
-          <label for="formName">Form name</label>
-          <input required type="text" th:field="*{formName}" class="form-control" id="formName"
-            aria-describedby="formNameHelp" placeholder="Enter Form Name" />
-          <small id="formNameHelp" class="form-text text-muted">
-            Form names are case sensitive.
-          </small>
-        </div>
 
-        <div class="form-group">
-          <label for="inputFieldsText">Input Fields</label>
-          <input required type="text" th:field="*{inputFieldsText}" class="form-control" id="inputFieldsText"
-            aria-describedby="inputFieldsTextHelp" placeholder="Enter Input Fields" />
-          <small id="inputFieldsTextHelp" class="form-text text-muted">
-            Example: first name, last name, country (seperate fields by comma).
-          </small>
-        </div>
+  <body th:replace="fragments/nav :: common-nav" />
 
-        <div class="form-group">
-          <label for="outputFieldsText">Output Fields</label>
-          <input type="text" th:field="*{outputFieldsText}" class="form-control" id="outputFieldsText"
-            aria-describedby="outputFieldsTextHelp" placeholder="Enter Output Fields" />
-          <small id="outputFieldsTextHelp" class="form-text text-muted">
-            Example: greeting, time (seperate fields by comma).
-          </small>
-        </div>
+  <div class="d-flex container-body">
 
-        <div class="form-group">
-          <label for="controlButtonsText">Control Buttons</label>
-          <input required type="text" th:field="*{controlButtonsText}" class="form-control" id="controlButtonsText"
-            aria-describedby="controlButtonsTextHelp" placeholder="Enter Control Buttons" />
-          <small id="controlButtonsTextHelp" class="form-text text-muted">
-            Example: submit, cancel (seperate fields by comma).
-          </small>
-        </div>
+    <body th:replace="fragments/sidebar :: common-sidebar" />
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="reset" class="btn btn-danger">Reset</button>
-      </form>
+    <div class="container">
+      <div class="col-xs-12">
+        <h1 class="mt-5">Form Application Generator - Query</h1>
+        <form action="#" th:action="@{/query}" th:object="${query}" method="post">
+          <div class="form-group">
+            <label for="formName">Form name</label>
+            <input required type="text" th:field="*{formName}" class="form-control" id="formName"
+              aria-describedby="formNameHelp" placeholder="Enter Form Name" />
+            <small id="formNameHelp" class="form-text text-muted">
+              Form names are case sensitive.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="inputFieldsText">Input Fields</label>
+            <input required type="text" th:field="*{inputFieldsText}" class="form-control" id="inputFieldsText"
+              aria-describedby="inputFieldsTextHelp" placeholder="Enter Input Fields" />
+            <small id="inputFieldsTextHelp" class="form-text text-muted">
+              Example: first name, last name, country (seperate fields by comma).
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="outputFieldsText">Output Fields</label>
+            <input type="text" th:field="*{outputFieldsText}" class="form-control" id="outputFieldsText"
+              aria-describedby="outputFieldsTextHelp" placeholder="Enter Output Fields" />
+            <small id="outputFieldsTextHelp" class="form-text text-muted">
+              Example: greeting, time (seperate fields by comma).
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="controlButtonsText">Control Buttons</label>
+            <input required type="text" th:field="*{controlButtonsText}" class="form-control" id="controlButtonsText"
+              aria-describedby="controlButtonsTextHelp" placeholder="Enter Control Buttons" />
+            <small id="controlButtonsTextHelp" class="form-text text-muted">
+              Example: submit, cancel (seperate fields by comma).
+            </small>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="reset" class="btn btn-danger">Reset</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <body th:replace="fragments/script :: common-script" />
+    <body th:replace="fragments/script :: common-script" />
+    <script src="/js/sidebar.js"></script>
+  </div>
 </body>
 
 </html>
