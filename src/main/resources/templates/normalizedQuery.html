@@ -22,7 +22,7 @@
         <span class="font-weight-bold" th:each="element : ${errorFields}" th:text="${element} + ' '"></span>
         is not found in our field dictionary.
       </div>
-      <div class="container my-5">
+      <div class="my-5">
         <div class="col-xs-12">
           <h1>Normalized Query</h1>
           <p th:text="'Form Name: ' + ${query.getFormName()}"></p>
