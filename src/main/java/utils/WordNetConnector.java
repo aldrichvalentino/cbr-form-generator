@@ -11,9 +11,9 @@ public class WordNetConnector {
         database = WordNetDatabase.getFileInstance();
     }
 
-    public static WordNetConnector getInstance(String wordNetDir) {
+    public static WordNetConnector getInstance() {
         if (connector == null) {
-            connector = new WordNetConnector(wordNetDir);
+            connector = new WordNetConnector("src/main/resources/wordnet/dict");
         }
         return connector;
     }

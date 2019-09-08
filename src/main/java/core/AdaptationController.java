@@ -30,8 +30,7 @@ public class AdaptationController {
         Collection<CBRCase> cases = RetrieveController.retrievedCases;
         CBRQuery query = QueryController.globalQuery;
         CBRCase selectedCase = null;
-        WordNetDatabase database =
-                WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
+        WordNetDatabase database = WordNetConnector.getInstance().getDatabase();
         owlPath =
                 getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
         owlUrl = env.getProperty("OWL_URL");
