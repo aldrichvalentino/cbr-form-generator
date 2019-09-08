@@ -14,7 +14,6 @@ For `vscode` users first:
 2. Run `./gradlew eclipse` to generate the project files. It will trigger gradle to download the dependencies into your local machine.
 3. Create an `application.properties` file in the root directory for configurations. Edit the values to match your system.
 ``` sh
-WORDNET_DIR=C:\\Program Files (x86)\\WordNet\\2.1\\dict
 HIBERNATE_DRIVER=com.mysql.jdbc.Driver
 HIBERNATE_CONNECTION=jdbc:mysql://localhost/travel
 HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect

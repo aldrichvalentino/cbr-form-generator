@@ -50,8 +50,7 @@ public class QueryController {
                 getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
         owlUrl = env.getProperty("OWL_URL");
         try {
-            WordNetDatabase database =
-                    WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
+            WordNetDatabase database = WordNetConnector.getInstance().getDatabase();
             OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
             Connector connector = DatabaseConnector.getInstance(env.getProperty("HIBERNATE_DRIVER"),
                     env.getProperty("HIBERNATE_CONNECTION"), env.getProperty("HIBERNATE_DIALECT"),
@@ -95,8 +94,7 @@ public class QueryController {
     private CBRQuery normalize(CBRQuery query) throws NoSuchMethodException, SecurityException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
-        WordNetDatabase database =
-                WordNetConnector.getInstance(env.getProperty("WORDNET_DIR")).getDatabase();
+        WordNetDatabase database = WordNetConnector.getInstance().getDatabase();
         FormDescription fd = (FormDescription) query.getDescription();
 
         /* Step 1: Form Name normalization */
