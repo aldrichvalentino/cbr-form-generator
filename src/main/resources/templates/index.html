@@ -29,15 +29,6 @@
           <a class="btn btn-primary" href="/query">Click here to start</a>
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-6">
-          <strong>Repopulate Cases to Database</strong>
-          <p>Empty the case base and repopulate it with initial cases.</p>
-          <button id="rebuild-db" class="btn btn-danger btn-sm">Erase</button>
-          <br />
-          <img src="/img/spinner.gif" id="loading" width="100" style="display: none" />
-        </div>
-      </div>
     </div>
   </div>
 
@@ -46,20 +37,6 @@
   <script src="/js/vendor/jquery.js"></script>
   <script src="/js/vendor/popper.js"></script>
   <script src="/js/vendor/bootstrap.js"></script>
-  <script>
-    $(document).ready(() => {
-      $("#rebuild-db").click(() => {
-        if (confirm("Are you sure to proceed with this action?")) {
-          $("#loading").css("display", "block");
-          $("#rebuild-db").addClass("disabled");
-          $.get("/erase", data => {
-            $("#loading").css("display", "none");
-            $("#rebuild-db").removeClass("disabled");
-          });
-        }
-      })
-    })
-  </script>
   <script src="/js/sidebar.js"></script>
 </body>
 

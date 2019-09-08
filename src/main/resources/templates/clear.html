@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Clear Data</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <head th:replace="fragments/header :: common-header" />
+</head>
+
+<body>
+
+  <body th:replace="fragments/nav :: common-nav" />
+
+  <div class="d-flex container-body">
+
+    <body th:replace="fragments/sidebar :: common-sidebar" />
+
+    <div class="container-content">
+      <div class="row">
+        <div class="col">
+          <h1>Repopulate Cases to Database</h1>
+          <p>Empty the case base and repopulate it with initial cases.</p>
+          <hr />
+          <strong>Caution</strong>
+          <p>
+            This action cannot be undone, so make sure you know what
+            you are doing. Erasing the case base is useful for deleting
+            unusable forms.
+          </p>
+          <hr />
+          <div class="text-center">
+            <button id="rebuild-db" class="btn btn-danger btn-block">
+              Rebuild Case Base
+            </button>
+            <img src="/img/spinner.gif" id="loading" width="100" style="display: none" />
+          </div>
+          <br />
+        </div>
+      </div>
+    </div>
+
+    <body th:replace="fragments/script :: common-script" />
+    <script>
+      $(document).ready(() => {
+        $("#rebuild-db").click(() => {
+          if (confirm("Are you sure to proceed with this action?")) {
+            $("#loading").css("display", "block");
+            $("#rebuild-db").addClass("disabled");
+            $.post("/erase", data => {
+              $("#loading").css("display", "none");
+              $("#rebuild-db").removeClass("disabled");
+            });
+          }
+        })
+      })
+    </script>
+    <script src="/js/sidebar.js"></script>
+  </div>
+</body>
+
+</html>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,10 +42,15 @@ public class MigrationController {
     private Environment env;
     Logger logger = LoggerFactory.getLogger(QueryController.class);
 
-    @RequestMapping(value = "/erase", method = RequestMethod.GET,
+    @GetMapping("/clear")
+    public String handleGet() {
+        return "clear";
+    }
+
+    @RequestMapping(value = "/erase", method = RequestMethod.POST,
             produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
-    public String handleGet() {
+    public String handlePost() {
         Transaction transaction = null;
         try {
             DatabaseConnector database = DatabaseConnector.getInstance(
