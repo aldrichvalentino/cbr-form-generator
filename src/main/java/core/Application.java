@@ -12,31 +12,31 @@ import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
 @SpringBootApplication
 public class Application implements StandardCBRApplication {
 
-    Logger logger = LoggerFactory.getLogger(Application.class);
+  Logger logger = LoggerFactory.getLogger(Application.class);
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
 
-    @Override
-    public void configure() throws ExecutionException {
-        // not used
-    }
+  @Override
+  public void configure() throws ExecutionException {
+    // not used
+  }
 
-    @Override
-    public CBRCaseBase preCycle() throws ExecutionException {
-        // not used
-        return null;
-    }
+  @Override
+  public CBRCaseBase preCycle() throws ExecutionException {
+    // not used
+    return null;
+  }
 
-    @Override
-    public void cycle(CBRQuery query) throws ExecutionException {
-        // not used
-    }
+  @Override
+  public void cycle(CBRQuery query) throws ExecutionException {
+    // not used
+  }
 
-    @Override
-    public void postCycle() throws ExecutionException {
-        // not used
-    }
+  @Override
+  public void postCycle() throws ExecutionException {
+    // not used
+  }
 
 }

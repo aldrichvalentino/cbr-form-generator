@@ -36,117 +36,106 @@ import utils.builder.TemplateBuilder;
 
 @Controller
 public class GeneratorController {
-    @Autowired
-    private Environment env;
-    private String owlPath;
-    private String owlUrl;
-    private Logger logger = LoggerFactory.getLogger(GeneratorController.class);
+  @Autowired
+  private Environment env;
+  private String owlPath;
+  private String owlUrl;
+  private Logger logger = LoggerFactory.getLogger(GeneratorController.class);
 
-    @RequestMapping(value = "/generate", method = RequestMethod.GET,
-            produces = MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String handleGet(@RequestParam("isRetrievedCase") boolean isRetrievedCase,
-            @RequestParam("caseId") String caseId, HttpServletResponse response) {
-        owlPath =
-                getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
-        owlUrl = env.getProperty("OWL_URL");
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        HTMLBuilder builder = new HTMLBuilder(owlPath, owlUrl);
-        if (isRetrievedCase) {
-            String result = null;
-            Iterator<CBRCase> caseIterator = RetrieveController.retrievedCases.iterator();
-            while (caseIterator.hasNext()) {
-                CBRCase _case = (CBRCase) caseIterator.next();
-                if (((FormDescription) _case.getDescription()).getId() == Integer
-                        .parseInt(caseId)) {
-                    FormSolution solution = (FormSolution) _case.getSolution();
-                    result = builder.generateHTML(solution.getvlMember(), solution.getlabel());
-                }
-            }
-            return result;
-        } else {
-            // build HTML from adaptedCase
-            FormSolution solution = (FormSolution) AdaptationController.adaptedCase.getSolution();
-            return builder.generateHTML(solution.getvlMember(), solution.getlabel());
+  @RequestMapping(value = "/generate", method = RequestMethod.GET,
+      produces = MediaType.TEXT_HTML_VALUE)
+  @ResponseBody
+  public String handleGet(@RequestParam("isRetrievedCase") boolean isRetrievedCase,
+      @RequestParam("caseId") String caseId, HttpServletResponse response) {
+    owlPath = getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
+    owlUrl = env.getProperty("OWL_URL");
+    response.setContentType("text/html");
+    response.setCharacterEncoding("UTF-8");
+    HTMLBuilder builder = new HTMLBuilder(owlPath, owlUrl);
+    if (isRetrievedCase) {
+      String result = null;
+      Iterator<CBRCase> caseIterator = RetrieveController.retrievedCases.iterator();
+      while (caseIterator.hasNext()) {
+        CBRCase _case = (CBRCase) caseIterator.next();
+        if (((FormDescription) _case.getDescription()).getId() == Integer.parseInt(caseId)) {
+          FormSolution solution = (FormSolution) _case.getSolution();
+          result = builder.generateHTML(solution.getvlMember(), solution.getlabel());
         }
+      }
+      return result;
+    } else {
+      // build HTML from adaptedCase
+      FormSolution solution = (FormSolution) AdaptationController.adaptedCase.getSolution();
+      return builder.generateHTML(solution.getvlMember(), solution.getlabel());
     }
+  }
 
-    @RequestMapping(value = "/zip", produces = "application/zip")
-    public void zipFiles(HttpServletResponse response) throws IOException {
-        try {
-            owlPath = getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME"))
-                    .toExternalForm();
-            owlUrl = env.getProperty("OWL_URL");
+  @RequestMapping(value = "/zip", produces = "application/zip")
+  public void zipFiles(HttpServletResponse response) throws IOException {
+    try {
+      owlPath = getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
+      owlUrl = env.getProperty("OWL_URL");
 
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.addHeader("Content-Disposition",
-                    "attachment; filename=\"form_application.zip\"");
+      response.setStatus(HttpServletResponse.SC_OK);
+      response.addHeader("Content-Disposition", "attachment; filename=\"form_application.zip\"");
 
-            TemplateBuilder templateBuilder = TemplateBuilder.getInstance();
-            FormDescription formDescription =
-                    (FormDescription) AdaptationController.adaptedCase.getDescription();
-            FormSolution formSolution =
-                    (FormSolution) AdaptationController.adaptedCase.getSolution();
-            Set<InputFields> inputFields = formDescription.getInputFields();
-            Map<String, XLabel> formLabels = formSolution.getlabel();
-            List<VLMembers> formLayouts = formSolution.getvlMember();
+      TemplateBuilder templateBuilder = TemplateBuilder.getInstance();
+      FormDescription formDescription =
+          (FormDescription) AdaptationController.adaptedCase.getDescription();
+      FormSolution formSolution = (FormSolution) AdaptationController.adaptedCase.getSolution();
+      Set<InputFields> inputFields = formDescription.getInputFields();
+      Map<String, XLabel> formLabels = formSolution.getlabel();
+      List<VLMembers> formLayouts = formSolution.getvlMember();
 
-            // Step 1 Generate Form
-            logger.info("Step 1: Generate Form");
-            Map<Object, Object> formContent = new HashMap<Object, Object>();
-            ArrayList<FormFieldTemplate> fieldGroupTemplates =
-                    LayoutBuilder.buildLayout(formLayouts, formLabels, owlPath, owlUrl);
-            formContent.put("fields", fieldGroupTemplates);
-            templateBuilder.generateTemplate(formContent, true, "form.template.hbs",
-                    System.getProperty("user.dir") + "/src/main/resources/templates/web/views",
-                    "form.hbs");
+      // Step 1 Generate Form
+      logger.info("Step 1: Generate Form");
+      Map<Object, Object> formContent = new HashMap<Object, Object>();
+      ArrayList<FormFieldTemplate> fieldGroupTemplates =
+          LayoutBuilder.buildLayout(formLayouts, formLabels, owlPath, owlUrl);
+      formContent.put("fields", fieldGroupTemplates);
+      templateBuilder.generateTemplate(formContent, true, "form.template.hbs",
+          System.getProperty("user.dir") + "/src/main/resources/templates/web/views", "form.hbs");
 
-            ArrayList<FormFieldTemplate> getAllTemplates = new ArrayList<FormFieldTemplate>();
-            for (InputFields field : inputFields) {
-                getAllTemplates.add(new FormFieldTemplate(field, owlPath, owlUrl));
-            }
-            formContent.put("fields", getAllTemplates);
-            templateBuilder.generateTemplate(formContent, true, "getAll.template.hbs",
-                    System.getProperty("user.dir") + "/src/main/resources/templates/web/views",
-                    "getAll.hbs");
+      ArrayList<FormFieldTemplate> getAllTemplates = new ArrayList<FormFieldTemplate>();
+      for (InputFields field : inputFields) {
+        getAllTemplates.add(new FormFieldTemplate(field, owlPath, owlUrl));
+      }
+      formContent.put("fields", getAllTemplates);
+      templateBuilder.generateTemplate(formContent, true, "getAll.template.hbs",
+          System.getProperty("user.dir") + "/src/main/resources/templates/web/views", "getAll.hbs");
 
-            // Step 2 Generate SQL
-            logger.info("Step 2: Generate SQL");
-            Map<String, String> sqlContent = new HashMap<String, String>();
-            SQLBuilder sqlBuilder = new SQLBuilder(owlPath, owlUrl);
-            sqlContent.put("content", sqlBuilder.buildSQL(inputFields));
-            templateBuilder.generateTemplate(sqlContent, false, "database.template.sql",
-                    System.getProperty("user.dir") + "/src/main/resources/templates/web",
-                    "database.sql");
+      // Step 2 Generate SQL
+      logger.info("Step 2: Generate SQL");
+      Map<String, String> sqlContent = new HashMap<String, String>();
+      SQLBuilder sqlBuilder = new SQLBuilder(owlPath, owlUrl);
+      sqlContent.put("content", sqlBuilder.buildSQL(inputFields));
+      templateBuilder.generateTemplate(sqlContent, false, "database.template.sql",
+          System.getProperty("user.dir") + "/src/main/resources/templates/web", "database.sql");
 
-            // Step 3 Generate backend files
-            logger.info("Step 3: Generate Backend Files");
-            Map<String, Object> serverContent = new HashMap<String, Object>();
-            ArrayList<ServerTemplate> serverData = new ArrayList<ServerTemplate>();
-            for (InputFields field : inputFields) {
-                serverData.add(new ServerTemplate(field, formLabels.get(field.getName()), owlPath,
-                        owlUrl));
-            }
-            serverContent.put("content", serverData);
-            templateBuilder.generateTemplate(serverContent, false, "entity.js.tpl",
-                    System.getProperty("user.dir") + "/src/main/resources/templates/web/routes",
-                    "entity.js");
+      // Step 3 Generate backend files
+      logger.info("Step 3: Generate Backend Files");
+      Map<String, Object> serverContent = new HashMap<String, Object>();
+      ArrayList<ServerTemplate> serverData = new ArrayList<ServerTemplate>();
+      for (InputFields field : inputFields) {
+        serverData.add(new ServerTemplate(field, formLabels.get(field.getName()), owlPath, owlUrl));
+      }
+      serverContent.put("content", serverData);
+      templateBuilder.generateTemplate(serverContent, false, "entity.js.tpl",
+          System.getProperty("user.dir") + "/src/main/resources/templates/web/routes", "entity.js");
 
-            // Step 4 Zip form and SQL with the rest of the web files and return the zip file
-            logger.info("Step 4: Zipping Files");
-            String sourceFile =
-                    System.getProperty("user.dir") + "/src/main/resources/templates/web";
-            ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
-            File fileToZip = new File(sourceFile);
+      // Step 4 Zip form and SQL with the rest of the web files and return the zip file
+      logger.info("Step 4: Zipping Files");
+      String sourceFile = System.getProperty("user.dir") + "/src/main/resources/templates/web";
+      ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
+      File fileToZip = new File(sourceFile);
 
-            Zipper zipper = new Zipper();
-            zipper.zipFile(fileToZip, fileToZip.getName(), zipOutputStream);
+      Zipper zipper = new Zipper();
+      zipper.zipFile(fileToZip, fileToZip.getName(), zipOutputStream);
 
-            zipOutputStream.close();
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            e.printStackTrace();
-        }
+      zipOutputStream.close();
+    } catch (Exception e) {
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      e.printStackTrace();
     }
+  }
 }
