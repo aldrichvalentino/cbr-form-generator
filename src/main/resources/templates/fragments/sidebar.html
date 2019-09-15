@@ -6,16 +6,20 @@
     <a href="/query" id="menu-query" class="list-group-item list-group-item-action list-item-custom">
       Generate Form
     </a>
-    <a href="/retrieval" id="menu-retrieval" class="list-group-item list-group-item-action list-item-custom">
+    <a href="/retrieval" id="menu-retrieval" aria-disabled="true" tabindex="-1"
+      class="list-group-item list-group-item-action list-item-custom disabled-custom">
       <small class="ml-2">Retrieval</small>
     </a>
-    <a href="/adapt" id="menu-adapt" class="list-group-item list-group-item-action list-item-custom">
+    <a href="/adapt" id="menu-adapt" aria-disabled="true" tabindex="-1"
+      class="list-group-item list-group-item-action list-item-custom disabled-custom">
       <small class="ml-2">Adapt</small>
     </a>
-    <a href="/revise" id="menu-revise" class="list-group-item list-group-item-action list-item-custom">
+    <a href="/revise" id="menu-revise" aria-disabled="true" tabindex="-1"
+      class="list-group-item list-group-item-action list-item-custom disabled-custom">
       <small class="ml-2">Revise</small>
     </a>
-    <a href="/retain" id="menu-retain" class="list-group-item list-group-item-action list-item-custom">
+    <a href="/retain" id="menu-retain" aria-disabled="true" tabindex="-1"
+      class="list-group-item list-group-item-action list-item-custom disabled-custom">
       <small class="ml-2">Retain</small>
     </a>
     <!-- TODO: make form preview page -->
@@ -41,5 +45,9 @@
 
     .list-item-custom {
       background-color: #e7e8ee;
+    }
+
+    .disabled-custom {
+      pointer-events: none;
     }
   </style>
