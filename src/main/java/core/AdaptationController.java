@@ -18,57 +18,56 @@ import utils.WordNetConnector;
 @Controller
 public class AdaptationController {
 
-    @Autowired
-    private Environment env;
-    private String owlPath;
-    private String owlUrl;
-    public static CBRCase adaptedCase = null;
+  @Autowired
+  private Environment env;
+  private String owlPath;
+  private String owlUrl;
+  public static CBRCase adaptedCase = null;
 
-    @PostMapping("/adapt")
-    public String handlePost(@ModelAttribute SubmitCaseId submitCaseId, Model model) {
-        int id = submitCaseId.getCaseId();
-        Collection<CBRCase> cases = RetrieveController.retrievedCases;
-        CBRQuery query = QueryController.globalQuery;
-        CBRCase selectedCase = null;
-        WordNetDatabase database = WordNetConnector.getInstance().getDatabase();
-        owlPath =
-                getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
-        owlUrl = env.getProperty("OWL_URL");
-        OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
+  @PostMapping("/adapt")
+  public String handlePost(@ModelAttribute SubmitCaseId submitCaseId, Model model) {
+    int id = submitCaseId.getCaseId();
+    Collection<CBRCase> cases = RetrieveController.retrievedCases;
+    CBRQuery query = QueryController.globalQuery;
+    CBRCase selectedCase = null;
+    WordNetDatabase database = WordNetConnector.getInstance().getDatabase();
+    owlPath = getClass().getResource("/owl/" + env.getProperty("OWL_FILENAME")).toExternalForm();
+    owlUrl = env.getProperty("OWL_URL");
+    OntoBridge ontoBridge = OntologyConnector.getInstance(owlUrl, owlPath).getOntoBridge();
 
-        for (CBRCase c : cases) {
-            if (id == (int) c.getID()) {
-                selectedCase = c;
-                break;
-            }
-        }
-
-        // Adaptation
-        try {
-            Adaptation adaptation = new Adaptation(database, ontoBridge);
-            adaptedCase = adaptation.adapt(query, selectedCase);
-            // System.out.println(adaptedCase);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        model.addAttribute("result", adaptedCase);
-        return "adaptationResult";
+    for (CBRCase c : cases) {
+      if (id == (int) c.getID()) {
+        selectedCase = c;
+        break;
+      }
     }
 
-    private class SubmitCaseId {
-        private int caseId;
-
-        public SubmitCaseId() {
-
-        }
-
-        public int getCaseId() {
-            return caseId;
-        }
-
-        public void setCaseId(int caseId) {
-            this.caseId = caseId;
-        }
+    // Adaptation
+    try {
+      Adaptation adaptation = new Adaptation(database, ontoBridge);
+      adaptedCase = adaptation.adapt(query, selectedCase);
+      // System.out.println(adaptedCase);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+
+    model.addAttribute("result", adaptedCase);
+    return "adaptationResult";
+  }
+
+  private class SubmitCaseId {
+    private int caseId;
+
+    public SubmitCaseId() {
+
+    }
+
+    public int getCaseId() {
+      return caseId;
+    }
+
+    public void setCaseId(int caseId) {
+      this.caseId = caseId;
+    }
+  }
 }

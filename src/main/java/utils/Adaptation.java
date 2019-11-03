@@ -9,13 +9,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.gaia.jcolibri.exception.NoApplicableSimilarityFunctionException;
 import es.ucm.fdi.gaia.jcolibri.exception.OntologyAccessException;
 import es.ucm.fdi.gaia.ontobridge.OntoBridge;
-import gate.util.Out;
 import model.ControlButtons;
 import model.FormDescription;
 import model.FormSolution;
@@ -36,475 +37,444 @@ import utils.adapt.Ordering;
 
 public class Adaptation {
 
-    OntoBridge ob;
-    WordNetDatabase database;
-    String op = "(";
-    String cp = ")";
-    String openCol = "{";
-    String closeCol = "}";
-    String openGroup = "[";
-    String closeGroup = "]";
-    HashMap<String, String> inrowelm;
+  final String op = "(";
+  final String cp = ")";
+  final String openCol = "{";
+  final String closeCol = "}";
+  final String openGroup = "[";
+  final String closeGroup = "]";
 
-    public Adaptation(WordNetDatabase wNetDatabase, OntoBridge ontoBridge) {
-        database = wNetDatabase;
-        ob = ontoBridge;
+  OntoBridge ob;
+  WordNetDatabase database;
+  HashMap<String, String> inrowelm;
+  private Logger logger = LoggerFactory.getLogger(Adaptation.class);
+
+  public Adaptation(WordNetDatabase wNetDatabase, OntoBridge ontoBridge) {
+    database = wNetDatabase;
+    ob = ontoBridge;
+  }
+
+  public CBRCase adapt(CBRQuery query, CBRCase inputCase)
+      throws NoApplicableSimilarityFunctionException, NoSuchMethodException, SecurityException,
+      IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+      OntologyAccessException, InstantiationException {
+
+    CBRCase adaptedCase = new CBRCase();
+    FormDescription queryDesc = (FormDescription) query.getDescription();
+    FormDescription caseDesc = (FormDescription) inputCase.getDescription();
+    FormDescription solutionDesc = new FormDescription();
+
+    // set new form name
+    solutionDesc.setId((int) inputCase.getID());
+    logger.info("Adapted Case ID: " + solutionDesc.getId());
+    logger.info("Spec: " + caseDesc.toString());
+
+    // set new form name
+    String formName = queryDesc.getFormName();
+    solutionDesc.setFormName(formName);
+
+    Set<InputFields> queryInputs = queryDesc.getInputFields();
+    Set<InputFields> caseInput = caseDesc.getInputFields();
+    Set<OutputFields> queryOutputs = queryDesc.getOutputFields();
+    Set<OutputFields> caseOutputs = caseDesc.getOutputFields();
+    Set<ControlButtons> queryButtons = queryDesc.getControlButtons();
+    Set<ControlButtons> caseButtons = caseDesc.getControlButtons();
+
+    // specs to be added
+    Set<InputFields> inputsToAdd = buildSpecToAdd(formName, queryInputs, caseInput);
+    Set<OutputFields> outputsToAdd = buildSpecToAdd(formName, queryOutputs, caseOutputs);
+    Set<ControlButtons> buttonsToAdd = buildSpecToAdd(formName, queryButtons, caseButtons);
+
+    logger.info("Added Input Field Spec: " + inputsToAdd.size());
+    for (InputFields ifl : inputsToAdd) {
+      logger.info(ifl.getName());
+    }
+    logger.info("Added Output Field Spec: " + outputsToAdd.size());
+    for (OutputFields ofl : outputsToAdd) {
+      logger.info(ofl.getName());
+    }
+    logger.info("Added Control Field Spec: " + buttonsToAdd.size());
+    for (ControlButtons cb : buttonsToAdd) {
+      logger.info(cb.getName());
     }
 
-    public CBRCase adapt(CBRQuery query, CBRCase icase)
-            throws NoApplicableSimilarityFunctionException, NoSuchMethodException,
-            SecurityException, IllegalAccessException, IllegalArgumentException,
-            InvocationTargetException, OntologyAccessException, InstantiationException {
+    FormSolution formSolution = (FormSolution) inputCase.getSolution();
 
-        CBRCase adaptedCase = new CBRCase();
-        FormDescription fdq = (FormDescription) query.getDescription();
-        FormDescription fdc = (FormDescription) icase.getDescription();
-        FormDescription fdn = new FormDescription();
+    // Fields to be deleted
+    Set<InputFields> inputsToDel = buildSpecToDel(formName, caseInput, queryInputs);
+    Set<OutputFields> outputsToDel = buildSpecToDel(formName, caseOutputs, queryOutputs);
+    Set<ControlButtons> buttonsToDel = buildSpecToDel(formName, caseButtons, queryButtons);
 
-        // set new form name
-        fdn.setId((int) icase.getID());
-        Out.println("Mulai adaptasi ... no kasus " + fdn.getId());
-        Out.println("Spek kasus " + fdc.toString());
-        // set new form name
-        String fname = fdq.getFormName();
-        // String pfname = fname.replaceAll("\\d", "");
-        fdn.setFormName(fname);
-
-        Set<InputFields> infldq = fdq.getInputFields();
-        Set<InputFields> infldc = fdc.getInputFields();
-        Set<OutputFields> outfldq = fdq.getOutputFields();
-        Set<OutputFields> outfldc = fdc.getOutputFields();
-        Set<ControlButtons> cq = fdq.getControlButtons();
-        Set<ControlButtons> cc = fdc.getControlButtons();
-
-        // build spec add
-        Out.println("Mo build spec add");
-        Set<InputFields> specaddi = buildSpecAdd(fname, infldq, infldc);
-        Set<OutputFields> specaddo = buildSpecAdd(fname, outfldq, outfldc);
-        Set<ControlButtons> specaddc = buildSpecAdd(fname, cq, cc);
-
-        Out.print("\nSpec IF yg ditambahkan " + specaddi.size() + " buah");
-        for (InputFields ifl : specaddi) {
-            Out.print(ifl.getName() + " ");
-        }
-        Out.print("\nSpec OF yg ditambahkan ");
-        for (OutputFields ofl : specaddo) {
-            Out.print(ofl.getName() + " ");
-        }
-        Out.print("\nSpec CB yg ditambahkan ");
-        for (ControlButtons cb : specaddc) {
-            Out.print(cb.getName() + " ");
-        }
-
-        FormSolution fsc = (FormSolution) icase.getSolution();
-        // List<VLMembers> nvlo = fsc.getvlMember();
-        // inrowelm = new HashMap<String, String>();
-        // buildInRowElement(nvlo);
-
-        // build spec del
-        Out.println("\nMo build spec del IF");
-        Set<InputFields> specdeli = buildSpecDel(fname, infldc, infldq);
-        // Out.println("Selesai build spec del IF");
-
-        Out.println("Mo build spec del OF");
-        Set<OutputFields> specdelo = buildSpecDel(fname, outfldc, outfldq);
-        Out.println("Mo build spec del CB");
-        Set<ControlButtons> specdelc = buildSpecDel(fname, cc, cq);
-        // end build spec del
-
-        Out.print("\nSpec IF yg dihapus ");
-        for (InputFields ifl : specdeli) {
-            Out.print(ifl.getName() + " ");
-        }
-        Out.print("\nSpec OF yg dihapus ");
-        for (OutputFields ofl : specdelo) {
-            Out.print(ofl.getName() + " ");
-        }
-        Out.print("\nSpec CB yg dihapus ");
-        for (ControlButtons cb : specdelc) {
-            Out.print(cb.getName() + " ");
-        }
-
-        // compose input field
-        // Out.println("\nMo compose IF");
-        fdn.setInputFields(Compose.compose(infldc, specaddi, specdeli));
-
-        // compose output field
-        // Out.println("Mo compose OF");
-        fdn.setOutputFields(Compose.compose(outfldc, specaddo, specdelo));
-
-        // compose control button
-        // Out.println("Mo compose CB");
-        fdn.setControlButtons(Compose.compose(cc, specaddc, specdelc));
-
-        Out.println("\nHasil komposisi " + fdn.toString());
-
-        // Add Label for new entry
-        Map<String, XLabel> lbl = fsc.getlabel();
-        for (InputFields specaddi1 : specaddi)
-            lbl.put(specaddi1.getName(), new XLabel(makeLabel(specaddi1.getName())));
-        for (OutputFields specaddo1 : specaddo)
-            lbl.put(specaddo1.getName(), new XLabel(makeLabel(specaddo1.getName())));
-        for (ControlButtons specaddc1 : specaddc)
-            lbl.put(specaddc1.getName(), new XLabel(makeLabel(specaddc1.getName())));
-
-        // delete label del
-        for (InputFields ifl : specdeli) {
-            if (lbl.containsKey(ifl.getName())) {
-                lbl.remove(ifl.getName());
-            }
-        }
-
-        for (OutputFields ofl : specdelo) {
-            if (lbl.containsKey(ofl.getName())) {
-                lbl.remove(ofl.getName());
-            }
-        }
-
-        for (ControlButtons cb : specdelc) {
-            if (lbl.containsKey(cb.getName())) {
-                lbl.remove(cb.getName());
-            }
-        }
-
-        // update group
-        // ambil himp group
-        List<Groups> nsgrp = fsc.getGroup();
-
-        // del unnec member/group
-        for (InputFields ifl : specdeli) {
-            for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
-                // Groups grp=itg.next();
-                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm
-                        .hasNext();) {
-                    if (itgm.next().getName().equals(ifl.getName())) {
-                        // Remove the current element from the iterator and the list.
-                        itgm.remove();
-                    }
-                }
-                // if (grp.getgMembers().isEmpty()) itg.remove(); //jika group sdh kosong, hapus
-            }
-        }
-
-        for (OutputFields ofl : specdelo) {
-            for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
-                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm
-                        .hasNext();) {
-                    if (itgm.next().getName().equals(ofl.getName())) {
-                        // Remove the current element from the iterator and the list.
-                        itgm.remove();
-                    }
-                }
-            }
-        }
-
-        for (ControlButtons cb : specdelc) {
-            for (Iterator<Groups> itg = nsgrp.iterator(); itg.hasNext();) {
-                for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm
-                        .hasNext();) {
-                    if (itgm.next().getName().equals(cb.getName())) {
-                        // Remove the current element from the iterator and the list.
-                        itgm.remove();
-                    }
-                }
-            }
-        }
-
-        Out.println(" Group lama ");
-        for (Groups grp : nsgrp) {
-            Out.println("Grp id " + grp.getId());
-            for (GMembers gmm : grp.getgMembers())
-                Out.println(" Member " + gmm.getName());
-        }
-
-        Out.println("Mo remove empty group");
-        // remove empty grouping
-        List<Groups> lgrp = new ArrayList<Groups>();
-        lgrp.addAll(nsgrp);
-        for (Groups grp : lgrp) {
-            if (grp.getgMembers().isEmpty()) {
-                nsgrp.remove(grp);
-            }
-        }
-
-        Out.println("Mulai grouping ...");
-        nsgrp = Grouping.grouping(specaddi, nsgrp, ob);
-        nsgrp = Grouping.grouping(specaddo, nsgrp, ob);
-        nsgrp = Grouping.grouping(specaddc, nsgrp, ob);
-
-        Out.println(" Group hasil adaptasi: ");
-        for (Groups grp : nsgrp) {
-            Out.println("Grp id " + grp.getId());
-            for (GMembers gmm : grp.getgMembers())
-                Out.println(" Member " + gmm.getName());
-        }
-
-        // set group
-        fsc.setGroup(nsgrp);
-        Out.println("Selesai setting group");
-
-        // ordering; getOrder();
-        List<Orders> nsord = fsc.getOrder();
-
-        Out.println("Mo delete order IF");
-        // del unnece ord
-        for (InputFields ifl : specdeli) {
-            for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
-                // Orders ord=ito.next();
-                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom
-                        .hasNext();) {
-                    if (itom.next().getMemberName().equals(ifl.getName())) {
-                        // Remove the current element from the iterator and the list.
-                        itom.remove();
-                    }
-                }
-                // if (ord.getoMembers().isEmpty()) ito.remove(); //jika order sdh kosong, hapus
-            }
-        }
-
-        Out.println("Mo delete order OF");
-        for (OutputFields ofl : specdelo) {
-            for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
-                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom
-                        .hasNext();) {
-                    if (itom.next().getMemberName().equals(ofl.getName())) {
-                        // Remove the current element from the iterator and the list.
-                        itom.remove();
-                    }
-                }
-            }
-        }
-
-        Out.println("Mo delete order CB");
-        for (ControlButtons cb : specdelc) {
-            for (Iterator<Orders> ito = nsord.iterator(); ito.hasNext();) {
-                for (Iterator<OMembers> itom = ito.next().getoMembers().iterator(); itom
-                        .hasNext();) {
-                    if (itom.next().getMemberName().equals(cb.getName())) {
-                        // Remove the current element from the iterator and the list.
-                        itom.remove();
-                    }
-                }
-            }
-        }
-
-        // remove empty ordering
-        List<Orders> lorder = new ArrayList<Orders>();
-        lorder.addAll(nsord);
-        for (Orders ord : lorder) {
-            if (ord.getoMembers().isEmpty()) {
-                nsord.remove(ord);
-            }
-        }
-
-        Out.println("Periksa Id group dan order");
-        for (Groups grp : nsgrp) {
-            Out.println("Id group " + grp.getId());
-        }
-        for (Orders ord : nsord) {
-            Out.println("Id order " + ord.getId());
-        }
-
-        Out.println("Mo ordering .. Id kasus " + icase.getID());
-        nsord = Ordering.ordering(specaddi, nsgrp, nsord, ob);
-        nsord = Ordering.ordering(specaddo, nsgrp, nsord, ob);
-        nsord = Ordering.ordering(specaddc, nsgrp, nsord, ob);
-        // set ordering
-        fsc.setOrder(nsord);
-        Out.println("Selesai setting order");
-
-        // layouting
-        List<HLMembers> nhlo = fsc.gethlMember();
-        List<VLMembers> nvlo = fsc.getvlMember();
-        LOResult nlor = new LOResult(nvlo, nhlo); // nlor= new layout result
-
-        // del unnecessary layout
-        nlor = Layouting.deleteLayouting(specdeli, nlor);
-        nlor = Layouting.deleteLayouting(specdelo, nlor);
-        nlor = Layouting.deleteLayouting(specdelc, nlor);
-
-        Out.println("mo layout IF");
-        nlor = Layouting.setLayouting(specaddi, nlor, nsord);
-        Out.println("mo layout OF");
-        nlor = Layouting.setLayouting(specaddo, nlor, nsord);
-        Out.println("mo layout CB");
-        nlor = Layouting.setLayouting(specaddc, nlor, nsord);
-        // set layout
-        fsc.setvlMember(nlor.getVLMember());
-        fsc.sethlMember(nlor.getHLMember());
-        Out.println("Selesai setting layout\n");
-
-        fsc.setId((int) icase.getID());
-
-        // put new solution
-        adaptedCase.setSolution(fsc);
-        adaptedCase.setDescription(fdn);
-        // ncase.add(icase);
-
-        return adaptedCase;
+    logger.info("Unused IF");
+    for (InputFields ifl : inputsToDel) {
+      logger.info(ifl.getName());
+    }
+    logger.info("Unused OF");
+    for (OutputFields ofl : outputsToDel) {
+      logger.info(ofl.getName());
+    }
+    logger.info("Unused CB");
+    for (ControlButtons cb : buttonsToDel) {
+      logger.info(cb.getName());
     }
 
-    // capitalize a first letter of each word
-    public String makeLabel(String st) {
-        StringBuffer res = new StringBuffer();
-        String[] strArr = st.split("_");
-        if (st.contains("_rd") || st.contains("_dd") || st.contains("_cb")) {
-            // set default label for radio, select dropdown, and checkbox
-            res.append("xnDefault Label,Op 1,Op2,Op3");
-        } else {
-            for (String str : strArr) {
-                char[] stringArray = str.trim().toCharArray();
-                stringArray[0] = Character.toUpperCase(stringArray[0]);
-                str = new String(stringArray);
-                res.append(str).append(" ");
-            }
-        }
-        return res.toString().trim();
+    // composing
+    solutionDesc.setInputFields(Compose.compose(caseInput, inputsToAdd, inputsToDel));
+    solutionDesc.setOutputFields(Compose.compose(caseOutputs, outputsToAdd, outputsToDel));
+    solutionDesc.setControlButtons(Compose.compose(caseButtons, buttonsToAdd, buttonsToDel));
+    logger.info("Composition: " + solutionDesc.toString());
+
+    // Add labels for new entry
+    Map<String, XLabel> lbl = formSolution.getlabel();
+    for (InputFields inputAdd : inputsToAdd)
+      lbl.put(inputAdd.getName(), new XLabel(makeLabel(inputAdd.getName())));
+    for (OutputFields outputAdd : outputsToAdd)
+      lbl.put(outputAdd.getName(), new XLabel(makeLabel(outputAdd.getName())));
+    for (ControlButtons buttonAdd : buttonsToAdd)
+      lbl.put(buttonAdd.getName(), new XLabel(makeLabel(buttonAdd.getName())));
+
+    // delete label del
+    for (InputFields ifl : inputsToDel) {
+      if (lbl.containsKey(ifl.getName())) {
+        lbl.remove(ifl.getName());
+      }
     }
 
-    // membuat spec yang ditambahkan - specadd
-    // sprcadd = spec di kueri dikurangi spec di kasus, ditambah spec wajib,
-    // dikurangi yng aneh
-    private <T> Set<T> buildSpecAdd(String fname, Set<T> oq, Set<T> oc)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
-        Set<T> specadd = new HashSet<T>(); // tdk ada oq
-        Set<T> specaddloop = new HashSet<T>(); // tdk ada oq
-        // tambahkan spek di kueri
-        specadd.addAll(oq); // di combine pake oc
-        specaddloop.addAll(specadd);
-
-        Out.println("Mo dikurangi specdel");
-        // kurangi dengan spek di kasus
-        for (T cm : oc) {
-            for (T qm : oq) {
-                Method mq = qm.getClass().getDeclaredMethod("getName");
-                Method mc = cm.getClass().getDeclaredMethod("getName");
-                String nmq = (String) mq.invoke(qm); // metode mq diinvoke dengan param qm
-                String nmc = (String) mc.invoke(cm);
-                // Out.println("Build Specadd Q "+nmq+" C "+nmc);
-                if (nmq.equalsIgnoreCase(nmc) || isWeaker(nmq, nmc)) {
-                    // Out.println("Sama");
-                    specadd.remove(qm);
-                    // Out.println("Stlh remove");
-                }
-            }
-        }
-
-        // tambahkan elemen wajib
-        for (T cm : oc) {
-            Method mc = cm.getClass().getDeclaredMethod("getName");
-            String nmc = (String) mc.invoke(cm);
-            if (isRequired(fname, nmc) && (!berisiset(oc, cm))) {
-                // if (isRequired(fname, nmc) ){
-                Out.println("Tambah elm wajib " + nmc + " yg di kasus ke specadd");
-                specadd.add(cm);
-            }
-        }
-        // kurangi dengan elemen terlarang
-        Set<String> odds = getOddElements(fname);
-        for (String odmem : odds) {
-            for (T qm : specaddloop) {
-                Method mq = qm.getClass().getDeclaredMethod("getName");
-                String nmq = (String) mq.invoke(qm); // metode mq diinvoke dengan param qm
-                if (nmq.trim().equalsIgnoreCase(odmem)) {
-                    specadd.remove(qm);
-                }
-            }
-        }
-        return specadd;
+    for (OutputFields ofl : outputsToDel) {
+      if (lbl.containsKey(ofl.getName())) {
+        lbl.remove(ofl.getName());
+      }
     }
 
-    private boolean isWeaker(String wk, String stg) {
-        if (!ob.existsInstance(wk) || !ob.existsInstance(stg))
-            return false;
-        // Out.println("isRequired "+fname+" or "+fldname+" exist");
-        Iterator<String> it = ob.listPropertyValue(stg, "isPreferredOver"); // it suksesor fln
-        while (it.hasNext()) {
-            String elm = ob.getShortName(it.next());
-            // Out.println(elm+" Required by "+" "+fname);
-            if (elm.equalsIgnoreCase(wk))
-                return true;
-        }
-
-        return false;
+    for (ControlButtons cb : buttonsToDel) {
+      if (lbl.containsKey(cb.getName())) {
+        lbl.remove(cb.getName());
+      }
     }
 
-    // membuat spec yang dihapus - specdel
-    // specdel: spek di kasus, dikurangi spek di kueri, ditambah spek terlarang
-    private <T> Set<T> buildSpecDel(String fname, Set<T> oc, Set<T> oq)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
-        Set<T> specdel = new HashSet<T>();
+    // update group
+    List<Groups> newGroup = formSolution.getGroup();
 
-        // tambahkan spek kasus
-        specdel.addAll(oc);
-
-        // kurangi dengan spec kueri
-        for (T delel : oc) {
-            for (T qelm : oq) {
-                Method metq = qelm.getClass().getDeclaredMethod("getName");
-                Method metd = delel.getClass().getDeclaredMethod("getName");
-                String nmq = (String) metq.invoke(qelm); // metode mq diinvoke dengan param qm
-                String nmd = (String) metd.invoke(delel);
-                // Out.println("Build Specdel Qry " + nmq + " Cs " + nmd);
-                if (nmq.equalsIgnoreCase(nmd)) {
-                    // Out.println("Sama, hrs dihapus ");
-                    specdel.remove(delel);
-                    // Out.println("Stlh remove");
-                }
-            }
+    // delete member/group
+    for (InputFields ifl : inputsToDel) {
+      for (Iterator<Groups> itg = newGroup.iterator(); itg.hasNext();) {
+        for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+          if (itgm.next().getName().equals(ifl.getName())) {
+            // Remove the current element from the iterator and the list.
+            itgm.remove();
+          }
         }
-
-        return specdel;
+      }
     }
 
-    // memeriksa apakah mandatory atau tdk
-    private boolean isRequired(String fname, String fldname) { // fldnmae: fld di kasus
-        if (!ob.existsInstance(fldname) || !ob.existsInstance(fname))
-            return false;
-        // Out.println("isRequired "+fname+" or "+fldname+" exist");
-        // it suksesor fln
-        Iterator<String> it = ob.listPropertyValue(fname, "hasMandatoryElements");
-        while (it.hasNext()) {
-            String elm = ob.getShortName(it.next());
-            // Out.println(elm+" Required by "+" "+fname);
-            if (elm.equalsIgnoreCase(fldname))
-                return true;
+    for (OutputFields ofl : outputsToDel) {
+      for (Iterator<Groups> itg = newGroup.iterator(); itg.hasNext();) {
+        for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+          if (itgm.next().getName().equals(ofl.getName())) {
+            // Remove the current element from the iterator and the list.
+            itgm.remove();
+          }
         }
-        return false;
+      }
     }
 
-    // Meriksa apakah elemen ganjil?
-    private Set<String> getOddElements(String fname) { // fldnmae: fld di kasus
-        Set<String> setOdd = new HashSet<String>();
-        if (!ob.existsInstance(fname))
-            return setOdd;
-        Iterator<String> it = ob.listPropertyValue(fname, "hasOddElements"); // it suksesor fln
-        while (it.hasNext()) {
-            String elm = ob.getShortName(it.next());
-            // Out.println(fname+" has odd elemen "+" "+elm);
-            setOdd.add(elm);
+    for (ControlButtons cb : buttonsToDel) {
+      for (Iterator<Groups> itg = newGroup.iterator(); itg.hasNext();) {
+        for (Iterator<GMembers> itgm = itg.next().getgMembers().iterator(); itgm.hasNext();) {
+          if (itgm.next().getName().equals(cb.getName())) {
+            // Remove the current element from the iterator and the list.
+            itgm.remove();
+          }
         }
-        return setOdd;
+      }
     }
 
-    private <T> boolean berisiset(Set<T> lvlm, T vlm)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
-        for (T lmem : lvlm) {
-            Method m = lmem.getClass().getDeclaredMethod("getName");
-            String fln = (String) m.invoke(lmem); // mengambil nama elemen
-            Method me = vlm.getClass().getDeclaredMethod("getName");
-            String flne = (String) me.invoke(vlm); // mengambil nama elemen
-
-            if (fln.startsWith(op))
-                fln = fln.replace(op, "").replace("{", "").replace("[", "");
-            if (fln.endsWith(cp))
-                fln = fln.replace(cp, "").replace("}", "").replace("]", "");
-            if (fln.equals(flne))
-                return true;
-        }
-        return false;
+    logger.info("Old Group");
+    for (Groups grp : newGroup) {
+      logger.info("Group id " + grp.getId());
+      for (GMembers gmm : grp.getgMembers())
+        logger.info("Members: " + gmm.getName());
     }
+
+    logger.info("Remove empty groups");
+    // remove empty grouping
+    List<Groups> lgrp = new ArrayList<Groups>();
+    lgrp.addAll(newGroup);
+    for (Groups grp : lgrp) {
+      if (grp.getgMembers().isEmpty()) {
+        newGroup.remove(grp);
+      }
+    }
+
+    logger.info("Start grouping");
+    newGroup = Grouping.grouping(inputsToAdd, newGroup, ob);
+    newGroup = Grouping.grouping(outputsToAdd, newGroup, ob);
+    newGroup = Grouping.grouping(buttonsToAdd, newGroup, ob);
+
+    logger.info("Adapted Groups");
+    for (Groups grp : newGroup) {
+      logger.info("Grp id " + grp.getId());
+      for (GMembers gmm : grp.getgMembers())
+        logger.info(" Members: " + gmm.getName());
+    }
+
+    // set group, grouping done
+    formSolution.setGroup(newGroup);
+
+    List<Orders> caseOrders = formSolution.getOrder();
+
+    // delete orders
+    for (InputFields inputFields : inputsToDel) {
+      for (Iterator<Orders> inputIterators = caseOrders.iterator(); inputIterators.hasNext();) {
+        for (Iterator<OMembers> orderMembers =
+            inputIterators.next().getoMembers().iterator(); orderMembers.hasNext();) {
+          if (orderMembers.next().getMemberName().equals(inputFields.getName())) {
+            // Remove the current element from the iterator and the list.
+            orderMembers.remove();
+          }
+        }
+      }
+    }
+
+    for (OutputFields orderFields : outputsToDel) {
+      for (Iterator<Orders> outputIterators = caseOrders.iterator(); outputIterators.hasNext();) {
+        for (Iterator<OMembers> outputMembers =
+            outputIterators.next().getoMembers().iterator(); outputMembers.hasNext();) {
+          if (outputMembers.next().getMemberName().equals(orderFields.getName())) {
+            // Remove the current element from the iterator and the list.
+            outputMembers.remove();
+          }
+        }
+      }
+    }
+
+    for (ControlButtons controlButtons : buttonsToDel) {
+      for (Iterator<Orders> controlIterators = caseOrders.iterator(); controlIterators.hasNext();) {
+        for (Iterator<OMembers> controlMembers =
+            controlIterators.next().getoMembers().iterator(); controlMembers.hasNext();) {
+          if (controlMembers.next().getMemberName().equals(controlButtons.getName())) {
+            // Remove the current element from the iterator and the list.
+            controlMembers.remove();
+          }
+        }
+      }
+    }
+
+    // remove empty orderings
+    List<Orders> orderList = new ArrayList<Orders>();
+    orderList.addAll(caseOrders);
+    for (Orders order : orderList) {
+      if (order.getoMembers().isEmpty()) {
+        caseOrders.remove(order);
+      }
+    }
+
+    caseOrders = Ordering.ordering(inputsToAdd, newGroup, caseOrders, ob);
+    caseOrders = Ordering.ordering(outputsToAdd, newGroup, caseOrders, ob);
+    caseOrders = Ordering.ordering(buttonsToAdd, newGroup, caseOrders, ob);
+
+    // set ordering, ordering done
+    formSolution.setOrder(caseOrders);
+
+    // layouting
+    List<HLMembers> nhlo = formSolution.gethlMember();
+    List<VLMembers> nvlo = formSolution.getvlMember();
+    LOResult layoutingResults = new LOResult(nvlo, nhlo);
+
+    // delete unused layout
+    layoutingResults = Layouting.deleteLayouting(inputsToDel, layoutingResults);
+    layoutingResults = Layouting.deleteLayouting(outputsToDel, layoutingResults);
+    layoutingResults = Layouting.deleteLayouting(buttonsToDel, layoutingResults);
+
+    layoutingResults = Layouting.setLayouting(inputsToAdd, layoutingResults, caseOrders);
+    layoutingResults = Layouting.setLayouting(outputsToAdd, layoutingResults, caseOrders);
+    layoutingResults = Layouting.setLayouting(buttonsToAdd, layoutingResults, caseOrders);
+
+    // set layout, layouting done
+    formSolution.setvlMember(layoutingResults.getVLMember());
+    formSolution.sethlMember(layoutingResults.getHLMember());
+
+    formSolution.setId((int) inputCase.getID());
+
+    // put new solution
+    adaptedCase.setSolution(formSolution);
+    adaptedCase.setDescription(solutionDesc);
+
+    return adaptedCase;
+  }
+
+  /**
+   * Build Specs that are not in the case but present in the query
+   *
+   * @param <T>       a generic field (input, output, buttons)
+   * @param formName
+   * @param query
+   * @param inputCase
+   * @return
+   * @throws NoSuchMethodException
+   * @throws SecurityException
+   * @throws IllegalAccessException
+   * @throws IllegalArgumentException
+   * @throws InvocationTargetException
+   */
+  private <T> Set<T> buildSpecToAdd(String formName, Set<T> query, Set<T> inputCase)
+      throws NoSuchMethodException, SecurityException, IllegalAccessException,
+      IllegalArgumentException, InvocationTargetException {
+    Set<T> specadd = new HashSet<T>();
+    Set<T> specaddloop = new HashSet<T>();
+
+    // add all the fields in query
+    specadd.addAll(query); // combine
+    specaddloop.addAll(specadd);
+
+    for (T cm : inputCase) {
+      for (T qm : query) {
+        Method mq = qm.getClass().getDeclaredMethod("getName");
+        Method mc = cm.getClass().getDeclaredMethod("getName");
+        String nmq = (String) mq.invoke(qm);
+        String nmc = (String) mc.invoke(cm);
+        if (nmq.equalsIgnoreCase(nmc) || isWeaker(nmq, nmc)) {
+          specadd.remove(qm);
+        }
+      }
+    }
+
+    // add mandatory fields
+    for (T cm : inputCase) {
+      Method mc = cm.getClass().getDeclaredMethod("getName");
+      String nmc = (String) mc.invoke(cm);
+      if (isRequired(formName, nmc) && (!containsLayout(inputCase, cm))) {
+        logger.info("Adding mandatory " + nmc + " to spec");
+        specadd.add(cm);
+      }
+    }
+
+    // remove prohibited fields
+    Set<String> odds = getOddElements(formName);
+    for (String odmem : odds) {
+      for (T qm : specaddloop) {
+        Method mq = qm.getClass().getDeclaredMethod("getName");
+        String nmq = (String) mq.invoke(qm);
+        if (nmq.trim().equalsIgnoreCase(odmem)) {
+          specadd.remove(qm);
+        }
+      }
+    }
+
+    return specadd;
+  }
+
+  /**
+   * Remove fields that are not present in the query
+   *
+   * @param <T>       generic fields (input, output, buttons)
+   * @param formName
+   * @param inputCase
+   * @param query
+   * @return
+   * @throws NoSuchMethodException
+   * @throws SecurityException
+   * @throws IllegalAccessException
+   * @throws IllegalArgumentException
+   * @throws InvocationTargetException
+   */
+  private <T> Set<T> buildSpecToDel(String formName, Set<T> inputCase, Set<T> query)
+      throws NoSuchMethodException, SecurityException, IllegalAccessException,
+      IllegalArgumentException, InvocationTargetException {
+    Set<T> specdel = new HashSet<T>();
+
+    // add all case fields
+    specdel.addAll(inputCase);
+
+    for (T delel : inputCase) {
+      for (T qelm : query) {
+        Method metq = qelm.getClass().getDeclaredMethod("getName");
+        Method metd = delel.getClass().getDeclaredMethod("getName");
+        String nmq = (String) metq.invoke(qelm);
+        String nmd = (String) metd.invoke(delel);
+        if (nmq.equalsIgnoreCase(nmd)) {
+          specdel.remove(delel);
+        }
+      }
+    }
+
+    return specdel;
+  }
+
+  public String makeLabel(String input) {
+    StringBuffer result = new StringBuffer();
+    String[] strArr = input.split("_");
+    if (input.contains("_rd") || input.contains("_dd") || input.contains("_cb")) {
+      // set default label for radio, select dropdown, and checkbox
+      result.append("xnDefault Label,Op 1,Op2,Op3");
+    } else {
+      for (String str : strArr) {
+        char[] stringArray = str.trim().toCharArray();
+        stringArray[0] = Character.toUpperCase(stringArray[0]);
+        str = new String(stringArray);
+        result.append(str).append(" ");
+      }
+    }
+    return result.toString().trim();
+  }
+
+  private boolean isWeaker(String wk, String stg) {
+    if (!ob.existsInstance(wk) || !ob.existsInstance(stg))
+      return false;
+
+    Iterator<String> it = ob.listPropertyValue(stg, "isPreferredOver");
+    while (it.hasNext()) {
+      String elm = ob.getShortName(it.next());
+      if (elm.equalsIgnoreCase(wk))
+        return true;
+    }
+
+    return false;
+  }
+
+  private boolean isRequired(String fname, String fldname) {
+    if (!ob.existsInstance(fldname) || !ob.existsInstance(fname))
+      return false;
+    Iterator<String> it = ob.listPropertyValue(fname, "hasMandatoryElements");
+    while (it.hasNext()) {
+      String elm = ob.getShortName(it.next());
+      if (elm.equalsIgnoreCase(fldname))
+        return true;
+    }
+
+    return false;
+  }
+
+  private Set<String> getOddElements(String fname) {
+    Set<String> oddFields = new HashSet<String>();
+    if (!ob.existsInstance(fname))
+      return oddFields;
+    Iterator<String> it = ob.listPropertyValue(fname, "hasOddElements");
+    while (it.hasNext()) {
+      String elm = ob.getShortName(it.next());
+      oddFields.add(elm);
+    }
+
+    return oddFields;
+  }
+
+  private <T> boolean containsLayout(Set<T> lvlm, T vlm)
+      throws NoSuchMethodException, SecurityException, IllegalAccessException,
+      IllegalArgumentException, InvocationTargetException {
+    for (T lmem : lvlm) {
+      Method m = lmem.getClass().getDeclaredMethod("getName");
+      String fln = (String) m.invoke(lmem);
+      Method me = vlm.getClass().getDeclaredMethod("getName");
+      String flne = (String) me.invoke(vlm);
+
+      if (fln.startsWith(op))
+        fln = fln.replace(op, "").replace("{", "").replace("[", "");
+      if (fln.endsWith(cp))
+        fln = fln.replace(cp, "").replace("}", "").replace("]", "");
+      if (fln.equals(flne))
+        return true;
+    }
+
+    return false;
+  }
 }
